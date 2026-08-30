@@ -56,7 +56,10 @@
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   padding-block: var(--liac-space-sm);
   font-size: var(--liac-fs-small);
-  color: var(--liac-neutral-500);
+  /* --liac-neutral-500 is calibrated as a muted text color for LIGHT backgrounds (see
+     tokens.css) — using it here on the dark footer failed AA contrast (same class of bug as
+     the hero eyebrow). A translucent white reads as "muted" against dark without the failure. */
+  color: rgba(255, 255, 255, 0.75);
   text-align: center;
 }
 

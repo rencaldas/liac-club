@@ -74,7 +74,10 @@
   font-weight: 500;
 }
 
-@media (min-width: 768px) {
+/* 1024px (not 768px): 9 nav items need more room than tablet width provides — at 768px this
+   caused real horizontal overflow (measured 784px content in a 768px viewport). Matches the
+   1024px "desktop" breakpoint already used for .liac-grid in tokens.css. */
+@media (min-width: 1024px) {
   .links {
     display: flex;
   }

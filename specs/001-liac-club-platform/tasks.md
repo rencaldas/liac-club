@@ -383,16 +383,24 @@ alternativos).
 
 **Purpose**: Qualidade transversal — não pertence a nenhuma story específica.
 
-- [ ] T071 [P] Escrever `README.md` com instruções de setup, estrutura de pastas e como trocar
+- [x] T071 [P] Escrever `README.md` com instruções de setup, estrutura de pastas e como trocar
       `MockApiClient` pela implementação real quando o backend existir
-- [ ] T072 Rodar `npm run test` completo e corrigir eventuais falhas
-- [ ] T073 [P] Passagem de acessibilidade: validar contraste de todas as combinações de texto
-      sobre `--liac-gradient-mid` (só H1/H2 bold em branco, nunca corpo pequeno — Constitution
-      Princípio II) e rodar um checador de contraste (ex: axe) nas páginas principais
-- [ ] T074 [P] Passagem de responsividade em 360px, 768px e 1920px conforme `quickstart.md`
-      (sem rolagem horizontal, grids de 3 colunas colapsando para 1 em mobile)
-- [ ] T075 Executar manualmente todos os cenários de `quickstart.md`, incluindo o cenário de
-      estado vazio (esvaziar uma fixture temporariamente e confirmar `EmptyState`)
+- [x] T072 Rodar `npm run test` completo e corrigir eventuais falhas (49/49 passando)
+- [x] T073 [P] Passagem de acessibilidade: `@axe-core/playwright` (tags wcag2a/wcag2aa) rodado
+      contra as 13 rotas (9 páginas + 3 detalhes + 404). **Encontrou uma violação real**: o
+      rodapé usava `--liac-neutral-500` (calibrada para fundo claro) sobre o próprio fundo escuro
+      do Footer, falhando AA em toda página do site — corrigido para branco translúcido. Segunda
+      rodada: 0 violações em todas as 13 rotas.
+- [x] T074 [P] Passagem de responsividade em 360px, 768px e 1920px via Playwright (checagem de
+      `scrollWidth` vs `clientWidth`, não só inspeção visual). **Encontrou um bug real**: em
+      768px, os 9 itens da navbar desktop não cabiam (ul overflow) e causavam rolagem horizontal
+      em 100% das páginas testadas — o breakpoint mobile→desktop da navbar estava em 768px, cedo
+      demais para 9 itens; movido para 1024px (mesmo breakpoint já usado por `.liac-grid`).
+      Segunda rodada: 0 falhas nas 3 larguras × 9 páginas.
+- [x] T075 Executar manualmente todos os cenários de `quickstart.md`, incluindo o cenário de
+      estado vazio (fixture `news.json` esvaziada temporariamente, `EmptyState` confirmado em
+      `/novidades` e na Home, depois restaurada e verificada com `git diff` que ficou idêntica ao
+      original)
 
 ---
 
