@@ -113,22 +113,22 @@ chegar ao detalhe; acessar um slug inexistente e ver a página "não encontrado"
 
 ### Tests for User Story 1
 
-- [ ] T020 [P] [US1] Teste de componente para `NewsCard` em
+- [x] T020 [P] [US1] Teste de componente para `NewsCard` em
       `src/components/content/NewsCard.test.tsx`
-- [ ] T021 [P] [US1] Teste de componente para `NewsList` (estados loading/empty/success, ordem
+- [x] T021 [P] [US1] Teste de componente para `NewsList` (estados loading/empty/success, ordem
       cronológica) em `src/pages/News/NewsList.test.tsx`
-- [ ] T022 [P] [US1] Teste de componente para `NewsDetail` (item existente + slug inexistente →
+- [x] T022 [P] [US1] Teste de componente para `NewsDetail` (item existente + slug inexistente →
       not-found) em `src/pages/News/NewsDetail.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T023 [US1] Criar `src/components/content/NewsCard.tsx` (depende de T015)
-- [ ] T024 [US1] Criar `src/pages/News/NewsList.tsx` usando `useAsyncResource` +
+- [x] T023 [US1] Criar `src/components/content/NewsCard.tsx` (depende de T015)
+- [x] T024 [US1] Criar `src/pages/News/NewsList.tsx` usando `useAsyncResource` +
       `ApiClient.getNews` (depende de T013, T023)
-- [ ] T025 [US1] Criar `src/pages/News/NewsDetail.tsx` usando `findBySlug` +
+- [x] T025 [US1] Criar `src/pages/News/NewsDetail.tsx` usando `findBySlug` +
       `ApiClient.getNewsBySlug`, renderizando `NotFound` quando o slug não existir (depende de
       T014, T016)
-- [ ] T026 [US1] Substituir os placeholders de `/novidades` e `/novidades/:slug` em
+- [x] T026 [US1] Substituir os placeholders de `/novidades` e `/novidades/:slug` em
       `src/router.tsx` pelos componentes reais (depende de T018, T024, T025)
 
 **Checkpoint**: Novidades funcional e testável de forma independente.

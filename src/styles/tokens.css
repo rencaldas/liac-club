@@ -120,6 +120,32 @@ a:hover {
   padding-inline: var(--liac-space-md);
 }
 
+.liac-page {
+  padding-block: var(--liac-space-lg) var(--liac-space-xl);
+}
+
+.liac-page-header {
+  margin-bottom: var(--liac-space-lg);
+}
+
+.liac-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--liac-space-md);
+}
+
+@media (min-width: 640px) {
+  .liac-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .liac-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .liac-visually-hidden {
   position: absolute;
   width: 1px;
