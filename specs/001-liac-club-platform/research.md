@@ -25,18 +25,24 @@ in-JS é peso extra desnecessário para uma SPA estática sem theming dinâmico)
 
 ## 2. Roteamento
 
-**Decision**: `react-router-dom` v6 com `createBrowserRouter` e uma rota de layout
-(`PageLayout` com Navbar + Footer) envolvendo as 9 páginas + 3 rotas de detalhe
-(`/novidades/:slug`, `/eventos/:slug`, `/artigos/:slug`), mais uma rota catch-all `*` renderizando
-`NotFound`.
+**Decision**: `react-router-dom` **v7** (`^7.18.3`), usado em "modo biblioteca" — a mesma API de
+`createBrowserRouter` do data router do v6 (v7 é compatível quando não se usa o plugin de build
+`@react-router/dev`/modo framework). Layout de rota (`PageLayout` com Navbar + Footer) envolvendo
+as 9 páginas + 3 rotas de detalhe (`/novidades/:slug`, `/eventos/:slug`, `/artigos/:slug`), mais
+uma rota catch-all `*` renderizando `NotFound`.
 
-**Rationale**: `createBrowserRouter` é o padrão atual do React Router v6 (data router), com
-suporte nativo a `errorElement` por rota — encaixa direto no requisito de página "não encontrado"
-(FR-012) sem lógica manual de fallback.
+**Rationale**: `createBrowserRouter` tem suporte nativo a `errorElement` por rota — encaixa
+direto no requisito de página "não encontrado" (FR-012) sem lógica manual de fallback. A versão
+foi decidida como v7 (não v6, como cogitado inicialmente) porque **toda a linha 6.x até 7.17.0
+tem uma vulnerabilidade conhecida de open-redirect (GHSA-wrjc-x8rr-h8h6)** corrigida só a partir
+de 7.18.0 — não existe um patch 6.x. Como o uso planejado (rotas de dados, `Link`, `useNavigate`,
+`useBlocker` para a feature 002) é exatamente o "modo biblioteca" que o v7 mantém compatível com
+o v6.4+, a migração não introduz risco de API além do já planejado.
 
 **Alternatives considered**: `<BrowserRouter>` + `<Routes>` clássico (rejeitado — mesma
 capacidade, mas sem `errorElement` embutido, exigindo tratamento manual de 404 em cada rota de
-detalhe).
+detalhe); permanecer em `react-router-dom` 6.30.6 (rejeitado — nenhuma versão 6.x corrige o
+GHSA-wrjc-x8rr-h8h6, então ficaria com uma vulnerabilidade moderada conhecida sem necessidade).
 
 ## 3. Camada de dados / hook de busca
 

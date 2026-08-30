@@ -34,17 +34,19 @@ Projeto único (SPA frontend) na raiz do repositório — `src/` e testes coloca
 
 **Purpose**: Inicialização do projeto Vite + React + TypeScript
 
-- [ ] T001 Criar o scaffold Vite + React 18 + TypeScript na raiz do repositório
+- [x] T001 Criar o scaffold Vite + React 18 + TypeScript na raiz do repositório
       (`package.json`, `vite.config.ts`, `tsconfig.json`, `index.html`, `src/main.tsx`,
       `src/App.tsx` mínimos)
-- [ ] T002 Instalar dependências: `react`, `react-dom`, `react-router-dom`, `vitest`,
+- [x] T002 Instalar dependências: `react`, `react-dom`, `react-router-dom`, `vitest`,
       `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`,
-      `jsdom`, `typescript`, `@vitejs/plugin-react`
-- [ ] T003 [P] Configurar ESLint + regras de TypeScript/React em `.eslintrc.cjs` (ou
+      `jsdom`, `typescript`, `@vitejs/plugin-react` (`react-router-dom` instalado em v7.18.3, não
+      v6 — v6.x inteiro tem uma vulnerabilidade de open-redirect sem patch, corrigida só a partir
+      de 7.18.0; ver `research.md` §2)
+- [x] T003 [P] Configurar ESLint + regras de TypeScript/React em `.eslintrc.cjs` (ou
       `eslint.config.js`)
-- [ ] T004 [P] Configurar Vitest em `vite.config.ts` (bloco `test`, ambiente `jsdom`) e criar
+- [x] T004 [P] Configurar Vitest em `vite.config.ts` (bloco `test`, ambiente `jsdom`) e criar
       `src/test/setup.ts` importando `@testing-library/jest-dom`
-- [ ] T005 [P] Adicionar scripts `dev`, `build`, `preview`, `test`, `lint` em `package.json`
+- [x] T005 [P] Adicionar scripts `dev`, `build`, `preview`, `test`, `lint` em `package.json`
 
 ---
 

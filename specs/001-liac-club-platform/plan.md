@@ -22,9 +22,10 @@ nenhum backend, nenhuma autenticação real — consistente com a Constitution v
 
 **Language/Version**: TypeScript 5.x (strict mode) sobre React 18, build via Vite 5.
 
-**Primary Dependencies**: `react-router-dom` v6 (`createBrowserRouter`, rotas aninhadas com
-layout compartilhado), Vitest + `@testing-library/react` + `@testing-library/jest-dom` (testes),
-sem biblioteca de formulário ou de datas externa (ver `research.md`).
+**Primary Dependencies**: `react-router-dom` v7 em modo biblioteca (`createBrowserRouter`, rotas
+aninhadas com layout compartilhado — API idêntica ao data router do v6; versão v7 escolhida por
+correção de segurança, ver `research.md` §2), Vitest + `@testing-library/react` +
+`@testing-library/jest-dom` (testes), sem biblioteca de formulário ou de datas externa.
 
 **Storage**: N/A — dados vêm de fixtures JSON estáticas versionadas em `src/mocks/*.json`, sem
 persistência real; nenhum banco de dados neste repositório (Constitution Princípio I).
