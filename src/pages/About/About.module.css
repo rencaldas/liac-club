@@ -1,0 +1,43 @@
+.content {
+  max-width: 42rem;
+}
+
+.content p {
+  line-height: 1.7;
+}
+
+.affiliation {
+  display: flex;
+  align-items: center;
+  gap: var(--liac-space-sm);
+  margin-top: var(--liac-space-lg);
+  padding: var(--liac-space-md);
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+  background: var(--liac-bg-alt);
+}
+
+.seal {
+  flex-shrink: 0;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--liac-neutral-900);
+  color: var(--liac-white);
+  font-family: var(--liac-font-display);
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.affiliationText p {
+  margin: 0;
+}
+
+.affiliationText p:first-child {
+  font-weight: 600;
+}

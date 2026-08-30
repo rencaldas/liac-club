@@ -327,14 +327,17 @@ card.
 
 ### Tests for User Story 8
 
-- [ ] T062 [P] [US8] Teste de componente para `About` (presença do selo de afiliação UFRJ) em
+- [x] T062 [P] [US8] Teste de componente para `About` (presença do selo de afiliação UFRJ) em
       `src/pages/About/About.test.tsx`
 
 ### Implementation for User Story 8
 
-- [ ] T063 [US8] Criar `src/pages/About/About.tsx` (missão, história, selo de afiliação UFRJ)
+- [x] T063 [US8] Criar `src/pages/About/About.tsx` (missão, história, selo de afiliação UFRJ).
+      Sem asset real do brasão da UFRJ disponível — selo representado como badge de texto
+      discreto (círculo escuro + "UFRJ"), não como cor dominante, conforme seção 1.3 do brief de
+      marca.
       (depende de T015)
-- [ ] T064 [US8] Substituir o placeholder de `/sobre` em `src/router.tsx` (depende de T018, T063)
+- [x] T064 [US8] Substituir o placeholder de `/sobre` em `src/router.tsx` (depende de T018, T063)
 
 **Checkpoint**: US1–US8 funcionam de forma independente.
 

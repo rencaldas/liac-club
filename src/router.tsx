@@ -12,6 +12,7 @@ import { Home } from './pages/Home/Home'
 import { Team } from './pages/Team/Team'
 import { Projects } from './pages/Projects/Projects'
 import { Partners } from './pages/Partners/Partners'
+import { About } from './pages/About/About'
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'sobre', element: <RoutePlaceholder label="Sobre a LIAC" /> },
+      { path: 'sobre', element: <About /> },
       { path: 'equipe', element: <Team /> },
       { path: 'eventos', element: <EventsList /> },
       { path: 'eventos/:slug', element: <EventDetail /> },
