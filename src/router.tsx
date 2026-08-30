@@ -6,6 +6,8 @@ import { NewsList } from './pages/News/NewsList'
 import { NewsDetail } from './pages/News/NewsDetail'
 import { EventsList } from './pages/Events/EventsList'
 import { EventDetail } from './pages/Events/EventDetail'
+import { ArticlesList } from './pages/Articles/ArticlesList'
+import { ArticleDetail } from './pages/Articles/ArticleDetail'
 
 export const router = createBrowserRouter([
   {
@@ -18,8 +20,8 @@ export const router = createBrowserRouter([
       { path: 'equipe', element: <RoutePlaceholder label="Equipe" /> },
       { path: 'eventos', element: <EventsList /> },
       { path: 'eventos/:slug', element: <EventDetail /> },
-      { path: 'artigos', element: <RoutePlaceholder label="Artigos Científicos" /> },
-      { path: 'artigos/:slug', element: <RoutePlaceholder label="Detalhe do Artigo" /> },
+      { path: 'artigos', element: <ArticlesList /> },
+      { path: 'artigos/:slug', element: <ArticleDetail /> },
       { path: 'novidades', element: <NewsList /> },
       { path: 'novidades/:slug', element: <NewsDetail /> },
       { path: 'projetos', element: <RoutePlaceholder label="Projetos de Pesquisa" /> },

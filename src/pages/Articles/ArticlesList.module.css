@@ -1,0 +1,38 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--liac-space-sm);
+  margin-bottom: var(--liac-space-lg);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field label {
+  font-size: var(--liac-fs-small);
+  font-weight: 500;
+  color: var(--liac-text-muted);
+}
+
+.field input {
+  font-family: var(--liac-font-body);
+  font-size: var(--liac-fs-body);
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--liac-border);
+  border-radius: 999px;
+  min-width: 14rem;
+}
+
+.field input:focus-visible {
+  outline: 3px solid var(--liac-accent-pink);
+  outline-offset: 1px;
+}
+
+.actions {
+  display: flex;
+  gap: var(--liac-space-xs);
+}

@@ -1,0 +1,28 @@
+.article {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.authors {
+  color: var(--liac-text-muted);
+  font-size: var(--liac-fs-small);
+  margin: 0.25rem 0 var(--liac-space-sm);
+}
+
+.abstract {
+  line-height: 1.7;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: var(--liac-space-sm);
+}
+
+.externalLink {
+  margin-top: var(--liac-space-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}

@@ -10,17 +10,17 @@ interface CommonProps {
 }
 
 type AsButton = CommonProps &
-  ButtonHTMLAttributes<HTMLButtonElement> & { to?: undefined; href?: undefined }
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & { to?: undefined; href?: undefined }
 type AsInternalLink = CommonProps & Omit<LinkProps, 'className'> & { href?: undefined }
 type AsExternalLink = CommonProps &
-  AnchorHTMLAttributes<HTMLAnchorElement> & { to?: undefined; href: string }
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'className'> & { to?: undefined; href: string }
 
-export type ButtonProps = AsButton | AsInternalLink | AsExternalLink
+export type ButtonProps = (AsButton | AsInternalLink | AsExternalLink) & { className?: string }
 
 /** Renders a <button>, an internal <Link>, or an external <a>, styled identically. */
 export function Button(props: ButtonProps) {
-  const { variant = 'primary', children, ...rest } = props
-  const className = `${styles.button} ${styles[variant]}`
+  const { variant = 'primary', children, className: userClassName, ...rest } = props
+  const className = [styles.button, styles[variant], userClassName].filter(Boolean).join(' ')
 
   if ('to' in rest && rest.to !== undefined) {
     const { to, ...linkRest } = rest as Omit<AsInternalLink, keyof CommonProps>

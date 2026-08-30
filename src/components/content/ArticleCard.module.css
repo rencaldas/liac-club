@@ -1,0 +1,29 @@
+.title {
+  margin: 0.25rem 0;
+}
+
+.title a {
+  color: var(--liac-text);
+  text-decoration: none;
+}
+
+.title a:hover {
+  color: var(--liac-primary);
+}
+
+.authors {
+  font-size: var(--liac-fs-small);
+  color: var(--liac-text-muted);
+  margin: 0;
+}
+
+.abstract {
+  color: var(--liac-text-muted);
+  margin: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}

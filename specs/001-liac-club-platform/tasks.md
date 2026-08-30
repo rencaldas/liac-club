@@ -176,21 +176,23 @@ com múltiplos autores e verificar que todos aparecem, além do link externo.
 
 ### Tests for User Story 3
 
-- [ ] T034 [P] [US3] Teste de componente para `ArticleCard` (múltiplos autores) em
+- [x] T034 [P] [US3] Teste de componente para `ArticleCard` (múltiplos autores) em
       `src/components/content/ArticleCard.test.tsx`
-- [ ] T035 [P] [US3] Teste de componente para `ArticlesList` (filtro por tema e por autor) em
+- [x] T035 [P] [US3] Teste de componente para `ArticlesList` (filtro por tema e por autor) em
       `src/pages/Articles/ArticlesList.test.tsx`
-- [ ] T036 [P] [US3] Teste de componente para `ArticleDetail` (link externo presente) em
+- [x] T036 [P] [US3] Teste de componente para `ArticleDetail` (link externo presente) em
       `src/pages/Articles/ArticleDetail.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T037 [US3] Criar `src/components/content/ArticleCard.tsx` (depende de T015)
-- [ ] T038 [US3] Criar `src/pages/Articles/ArticlesList.tsx` com filtro por tema e autor
+- [x] T037 [US3] Criar `src/components/content/ArticleCard.tsx` (depende de T015)
+- [x] T038 [US3] Criar `src/pages/Articles/ArticlesList.tsx` com filtro por tema e autor
       (depende de T013, T037)
-- [ ] T039 [US3] Criar `src/pages/Articles/ArticleDetail.tsx` com link externo
-      (`rel="noopener noreferrer" target="_blank"`) (depende de T014, T016)
-- [ ] T040 [US3] Substituir os placeholders de `/artigos` e `/artigos/:slug` em
+- [x] T039 [US3] Criar `src/pages/Articles/ArticleDetail.tsx` com link externo
+      (`rel="noopener noreferrer" target="_blank"`) (depende de T014, T016). Corrigido um bug
+      real no `Button` durante esta tarefa: `className` passado pelo chamador sobrescrevia o
+      estilo do botão por causa da ordem do spread — agora os dois são mesclados.
+- [x] T040 [US3] Substituir os placeholders de `/artigos` e `/artigos/:slug` em
       `src/router.tsx` (depende de T018, T038, T039)
 
 **Checkpoint**: Novidades, Eventos e Artigos funcionam de forma independente.
