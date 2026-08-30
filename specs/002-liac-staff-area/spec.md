@@ -32,6 +32,14 @@ repositório separado."
   persiste em `localStorage` do navegador até logout explícito ou expiração simulada — não é
   perdida ao fechar a aba, para não forçar login repetido durante o desenvolvimento e demonstração
   do site.
+- Q: Existem papéis/permissões diferenciados entre membros da equipe? → A: Não — todos os
+  usuários autenticados pertencem à equipe de Marketing e têm acesso total a todas as telas de
+  gestão de conteúdo (sem RBAC nesta fase).
+- Q: Como a Diretora de Marketing mantém controle sobre o que cada pessoa da equipe altera, já
+  que todos têm acesso total? → A: Toda operação de escrita (criar, editar, excluir, destacar)
+  gera uma entrada em um histórico de alterações (autor, data/hora, tipo de ação, item afetado),
+  visível em uma tela dedicada — controle por auditoria/transparência, não por restrição de
+  permissão.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -194,6 +202,34 @@ frequência de mudança.
 
 ---
 
+### User Story 8 - Auditoria de Alterações (Priority: P2)
+
+A Diretora de Marketing (ou qualquer membro autenticado) consulta um histórico cronológico de
+todas as alterações de conteúdo feitas pela equipe — quem fez o quê e quando — para manter
+controle sobre o trabalho do time sem precisar restringir o acesso de ninguém.
+
+**Why this priority**: Como toda a equipe de Marketing tem acesso total (User Story 1), a
+prestação de contas vem da transparência do histórico, não de permissões — isso é o mecanismo de
+controle da Diretora. Não bloqueia o CRUD básico (US2-7), mas é essencial para o caso de uso real
+que motivou a feature.
+
+**Independent Test**: Criar, editar e excluir um item de conteúdo autenticado como usuários
+diferentes (em sessões separadas) e confirmar que cada ação aparece na tela de Histórico com o
+autor, o tipo de ação e o horário corretos, mais recente primeiro.
+
+**Acceptance Scenarios**:
+
+1. **Given** um usuário autenticado realiza qualquer ação de escrita (criar, editar, excluir,
+   destacar/remover destaque) em qualquer tipo de conteúdo, **When** a ação é concluída com
+   sucesso, **Then** uma entrada é adicionada ao histórico contendo autor, data/hora, tipo de
+   ação e o item afetado (tipo + título).
+2. **Given** a tela de Histórico de Alterações, **When** um usuário autenticado a acessa,
+   **Then** vê as entradas em ordem cronológica reversa (mais recente primeiro).
+3. **Given** a tela de Histórico de Alterações, **When** o usuário filtra por autor, **Then** vê
+   apenas as entradas daquele autor.
+
+---
+
 ### Edge Cases
 
 - O que acontece quando o token de sessão mockado "expira" (simulação de expiração)? O sistema
@@ -248,6 +284,15 @@ frequência de mudança.
   inline.
 - **FR-011**: O sistema DEVE avisar o usuário antes de descartar alterações não salvas ao sair de
   uma tela de edição.
+- **FR-012**: Toda operação de escrita bem-sucedida (criar, editar, excluir, destacar/remover
+  destaque, em qualquer tipo de conteúdo) DEVE gerar automaticamente uma entrada de log de
+  auditoria com autor (identidade do usuário autenticado na sessão), data/hora, tipo de ação e o
+  item afetado (tipo de conteúdo + título/identificador).
+- **FR-013**: A área da equipe DEVE oferecer uma tela "Histórico de Alterações" listando as
+  entradas de auditoria em ordem cronológica reversa, com filtro por autor.
+- **FR-014**: Todos os membros autenticados têm o mesmo nível de acesso (sem papéis/permissões
+  diferenciados nesta fase) — o controle sobre o uso da área da equipe vem do histórico de
+  alterações (FR-012/FR-013), não de restrição de acesso.
 
 ### Key Entities
 
@@ -256,6 +301,10 @@ frequência de mudança.
 - **SessionToken**: Token opaco retornado pelo login mockado, guardado em `localStorage`,
   consumido pelo guard de rota. Sem estrutura interpretável pelo frontend (tratado como string
   opaca — decodificação/verificação de assinatura é responsabilidade do backend real).
+- **AuditLogEntry**: Uma entrada do histórico de alterações — autor (identidade do usuário
+  autenticado na sessão, ex: nome/e-mail), data/hora, tipo de ação (`create` | `update` |
+  `delete` | `feature` | `unfeature`), tipo de conteúdo afetado (`news` | `event` | `article` |
+  `project` | `team` | `partner`), e um rótulo do item afetado (ex: título da novidade editada).
 - Todas as demais entidades de conteúdo (`NewsItem`, `Event`, `ScientificArticle`,
   `ResearchProject`, `TeamMember`, `Partner`) já definidas em `specs/001-liac-club-platform/
   data-model.md` ganham, nesta feature, operações de escrita (create/update/delete) e — para
@@ -275,6 +324,9 @@ frequência de mudança.
   explícita do usuário.
 - **SC-005**: Todas as telas da área da equipe atendem os mesmos critérios de contraste AA e
   responsividade (360px–1920px) definidos para o site público (Constitution Princípio V).
+- **SC-006**: 100% das operações de escrita bem-sucedidas (criar, editar, excluir,
+  destacar/remover destaque) aparecem no Histórico de Alterações com o autor correto, sem
+  exceção.
 
 ## Assumptions
 
@@ -286,7 +338,15 @@ frequência de mudança.
   imediatamente), mas não persiste entre reloads de página — cada `F5` reinicia os dados a partir
   das fixtures originais. Isso é aceitável nesta fase por ser um mock, não uma base de dados
   real.
-- Não há diferenciação de papéis/permissões entre membros da equipe nesta fase (Clarifications).
+- Não há diferenciação de papéis/permissões entre membros da equipe nesta fase — todos
+  pertencem à equipe de Marketing e têm acesso total; o controle vem do histórico de alterações,
+  não de restrição de acesso (Clarifications).
+- O histórico de alterações é visível a qualquer membro autenticado (não restrito só à Diretora)
+  nesta fase, já que não há papéis diferenciados para restringir sua visibilidade — reavaliar se
+  a LIAC quiser um papel "Diretoria" com visão exclusiva do histórico no futuro.
+- O identificador de autor gravado no histórico é o que o login mockado retornar associado à
+  sessão (ex: nome ou e-mail informado no login) — o backend real definirá a identidade
+  autoritativa quando existir.
 - Não há limite de itens "em destaque" por tipo de conteúdo (Clarifications) — a ordem de
   exibição no carrossel quando há múltiplos destaques segue a ordem em que foram marcados
   (mais recente primeiro), decisão de implementação de baixo impacto.
