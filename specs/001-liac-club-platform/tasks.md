@@ -246,16 +246,18 @@ em membro sem foto.
 
 ### Tests for User Story 5
 
-- [ ] T047 [P] [US5] Teste de componente para `TeamMemberCard` (fallback de avatar) em
+- [x] T047 [P] [US5] Teste de componente para `TeamMemberCard` (fallback de avatar) em
       `src/components/content/TeamMemberCard.test.tsx`
-- [ ] T048 [P] [US5] Teste de componente para `Team` (agrupamento por área) em
+- [x] T048 [P] [US5] Teste de componente para `Team` (agrupamento por área) em
       `src/pages/Team/Team.test.tsx`
 
 ### Implementation for User Story 5
 
-- [ ] T049 [US5] Criar `src/components/content/TeamMemberCard.tsx` (depende de T015)
-- [ ] T050 [US5] Criar `src/pages/Team/Team.tsx` agrupando por `area` (depende de T013, T049)
-- [ ] T051 [US5] Substituir o placeholder de `/equipe` em `src/router.tsx` (depende de T018,
+- [x] T049 [US5] Criar `src/components/content/TeamMemberCard.tsx` (depende de T015). Avatar
+      placeholder = iniciais do nome sobre o gradiente de marca; foto real usa `alt=""`
+      deliberadamente (decorativa — o nome já é anunciado como texto ao lado).
+- [x] T050 [US5] Criar `src/pages/Team/Team.tsx` agrupando por `area` (depende de T013, T049)
+- [x] T051 [US5] Substituir o placeholder de `/equipe` em `src/router.tsx` (depende de T018,
       T050)
 
 **Checkpoint**: US1–US5 funcionam de forma independente.

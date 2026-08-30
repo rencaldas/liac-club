@@ -1,0 +1,46 @@
+.card {
+  align-items: center;
+  text-align: center;
+}
+
+.photo {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--liac-gradient-brand);
+  color: var(--liac-white);
+  font-family: var(--liac-font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.name {
+  margin: 0.5rem 0 0;
+}
+
+.role {
+  color: var(--liac-text-muted);
+  margin: 0;
+  font-size: var(--liac-fs-small);
+}
+
+.social {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.social a {
+  display: inline-flex;
+  color: var(--liac-primary);
+}

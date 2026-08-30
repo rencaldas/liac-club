@@ -9,6 +9,7 @@ import { EventDetail } from './pages/Events/EventDetail'
 import { ArticlesList } from './pages/Articles/ArticlesList'
 import { ArticleDetail } from './pages/Articles/ArticleDetail'
 import { Home } from './pages/Home/Home'
+import { Team } from './pages/Team/Team'
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'sobre', element: <RoutePlaceholder label="Sobre a LIAC" /> },
-      { path: 'equipe', element: <RoutePlaceholder label="Equipe" /> },
+      { path: 'equipe', element: <Team /> },
       { path: 'eventos', element: <EventsList /> },
       { path: 'eventos/:slug', element: <EventDetail /> },
       { path: 'artigos', element: <ArticlesList /> },
