@@ -1,0 +1,18 @@
+.title {
+  margin: 0.25rem 0;
+}
+
+.summary {
+  color: var(--liac-text-muted);
+  margin: 0;
+}
+
+.members {
+  font-size: var(--liac-fs-small);
+  color: var(--liac-text-muted);
+  margin: 0;
+}
+
+.statusConcluido {
+  color: var(--liac-text-muted);
+}

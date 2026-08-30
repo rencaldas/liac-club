@@ -10,6 +10,7 @@ import { ArticlesList } from './pages/Articles/ArticlesList'
 import { ArticleDetail } from './pages/Articles/ArticleDetail'
 import { Home } from './pages/Home/Home'
 import { Team } from './pages/Team/Team'
+import { Projects } from './pages/Projects/Projects'
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
       { path: 'artigos/:slug', element: <ArticleDetail /> },
       { path: 'novidades', element: <NewsList /> },
       { path: 'novidades/:slug', element: <NewsDetail /> },
-      { path: 'projetos', element: <RoutePlaceholder label="Projetos de Pesquisa" /> },
+      { path: 'projetos', element: <Projects /> },
       { path: 'parceiros', element: <RoutePlaceholder label="Parceiros" /> },
       { path: 'contato', element: <RoutePlaceholder label="Contato" /> },
       { path: '*', element: <NotFound /> },

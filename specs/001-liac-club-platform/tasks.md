@@ -273,15 +273,17 @@ card.
 
 ### Tests for User Story 6
 
-- [ ] T052 [P] [US6] Teste de componente para `ProjectCard` em
+- [x] T052 [P] [US6] Teste de componente para `ProjectCard` em
       `src/components/content/ProjectCard.test.tsx`
-- [ ] T053 [P] [US6] Teste de componente para `Projects` em `src/pages/Projects/Projects.test.tsx`
+- [x] T053 [P] [US6] Teste de componente para `Projects` em `src/pages/Projects/Projects.test.tsx`
 
 ### Implementation for User Story 6
 
-- [ ] T054 [US6] Criar `src/components/content/ProjectCard.tsx` (depende de T015)
-- [ ] T055 [US6] Criar `src/pages/Projects/Projects.tsx` (depende de T013, T054)
-- [ ] T056 [US6] Substituir o placeholder de `/projetos` em `src/router.tsx` (depende de T018,
+- [x] T054 [US6] Criar `src/components/content/ProjectCard.tsx` (depende de T015). `Badge` ganhou
+      um `className` opcional (mesclado como no `Card`) para diferenciar visualmente o status
+      "Concluído" (cinza) do padrão "Ativo" (magenta).
+- [x] T055 [US6] Criar `src/pages/Projects/Projects.tsx` (depende de T013, T054)
+- [x] T056 [US6] Substituir o placeholder de `/projetos` em `src/router.tsx` (depende de T018,
       T055)
 
 **Checkpoint**: US1–US6 funcionam de forma independente.
