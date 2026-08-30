@@ -4,6 +4,8 @@ import { NotFound } from './components/ui/NotFound'
 import { RoutePlaceholder } from './components/ui/RoutePlaceholder'
 import { NewsList } from './pages/News/NewsList'
 import { NewsDetail } from './pages/News/NewsDetail'
+import { EventsList } from './pages/Events/EventsList'
+import { EventDetail } from './pages/Events/EventDetail'
 
 export const router = createBrowserRouter([
   {
@@ -14,8 +16,8 @@ export const router = createBrowserRouter([
       { index: true, element: <RoutePlaceholder label="Home" /> },
       { path: 'sobre', element: <RoutePlaceholder label="Sobre a LIAC" /> },
       { path: 'equipe', element: <RoutePlaceholder label="Equipe" /> },
-      { path: 'eventos', element: <RoutePlaceholder label="Eventos" /> },
-      { path: 'eventos/:slug', element: <RoutePlaceholder label="Detalhe do Evento" /> },
+      { path: 'eventos', element: <EventsList /> },
+      { path: 'eventos/:slug', element: <EventDetail /> },
       { path: 'artigos', element: <RoutePlaceholder label="Artigos Científicos" /> },
       { path: 'artigos/:slug', element: <RoutePlaceholder label="Detalhe do Artigo" /> },
       { path: 'novidades', element: <NewsList /> },

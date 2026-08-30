@@ -1,0 +1,5 @@
+.filters {
+  display: flex;
+  gap: var(--liac-space-xs);
+  margin-bottom: var(--liac-space-lg);
+}

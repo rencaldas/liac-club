@@ -145,21 +145,21 @@ multi-dia e confirmar o intervalo de datas; abrir um evento de um dia e confirma
 
 ### Tests for User Story 2
 
-- [ ] T027 [P] [US2] Teste de componente para `EventCard` (exibição de data única vs intervalo)
+- [x] T027 [P] [US2] Teste de componente para `EventCard` (exibição de data única vs intervalo)
       em `src/components/content/EventCard.test.tsx`
-- [ ] T028 [P] [US2] Teste de componente para `EventsList` (filtro futuro/passado) em
+- [x] T028 [P] [US2] Teste de componente para `EventsList` (filtro futuro/passado) em
       `src/pages/Events/EventsList.test.tsx`
-- [ ] T029 [P] [US2] Teste de componente para `EventDetail` em
+- [x] T029 [P] [US2] Teste de componente para `EventDetail` em
       `src/pages/Events/EventDetail.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T030 [US2] Criar `src/components/content/EventCard.tsx` usando `formatEventDateRange`
+- [x] T030 [US2] Criar `src/components/content/EventCard.tsx` usando `formatEventDateRange`
       (depende de T014, T015)
-- [ ] T031 [US2] Criar `src/pages/Events/EventsList.tsx` com filtro futuro/passado
+- [x] T031 [US2] Criar `src/pages/Events/EventsList.tsx` com filtro futuro/passado
       client-side (depende de T013, T030)
-- [ ] T032 [US2] Criar `src/pages/Events/EventDetail.tsx` (depende de T014, T016)
-- [ ] T033 [US2] Substituir os placeholders de `/eventos` e `/eventos/:slug` em
+- [x] T032 [US2] Criar `src/pages/Events/EventDetail.tsx` (depende de T014, T016)
+- [x] T033 [US2] Substituir os placeholders de `/eventos` e `/eventos/:slug` em
       `src/router.tsx` (depende de T018, T031, T032)
 
 **Checkpoint**: Novidades e Eventos funcionam de forma independente.

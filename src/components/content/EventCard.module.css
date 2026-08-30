@@ -1,0 +1,23 @@
+.title {
+  margin: 0.25rem 0;
+}
+
+.title a {
+  color: var(--liac-text);
+  text-decoration: none;
+}
+
+.title a:hover {
+  color: var(--liac-primary);
+}
+
+.meta {
+  font-size: var(--liac-fs-small);
+  color: var(--liac-text-muted);
+  margin: 0;
+}
+
+.description {
+  color: var(--liac-text-muted);
+  margin: 0;
+}
