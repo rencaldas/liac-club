@@ -1,0 +1,19 @@
+.section {
+  padding-block: var(--liac-space-lg);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--liac-space-sm);
+  margin-bottom: var(--liac-space-md);
+}
+
+.sectionHeader h2 {
+  margin: 0;
+}
+
+.altBg {
+  background: var(--liac-bg-alt);
+}

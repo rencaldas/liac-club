@@ -1,0 +1,31 @@
+.section {
+  padding-block: var(--liac-space-xl);
+  background: var(--liac-neutral-900);
+  color: var(--liac-white);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--liac-space-lg);
+  text-align: center;
+}
+
+.value {
+  font-family: var(--liac-font-display);
+  font-weight: 800;
+  font-size: 2.5rem;
+  color: var(--liac-accent-coral);
+  margin: 0;
+}
+
+.label {
+  margin: 0.25rem 0 0;
+  color: var(--liac-white);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

@@ -211,21 +211,26 @@ conteúdo (cada um levando ao detalhe correspondente), ver a seção de métrica
 
 ### Tests for User Story 4
 
-- [ ] T041 [P] [US4] Teste de componente para o hero + CTA da Home em
+- [x] T041 [P] [US4] Teste de componente para o hero + CTA da Home em
       `src/pages/Home/Home.test.tsx`
-- [ ] T042 [P] [US4] Teste de componente para `HomeHighlights` (3 itens de cada tipo, links para
+- [x] T042 [P] [US4] Teste de componente para `HomeHighlights` (3 itens de cada tipo, links para
       o detalhe correto) em `src/pages/Home/HomeHighlights.test.tsx`
 
 ### Implementation for User Story 4
 
-- [ ] T043 [US4] Criar `src/pages/Home/Home.tsx` (hero + CTA "Fale Conosco" → `/contato`)
-      (depende de T015)
-- [ ] T044 [US4] Criar `src/pages/Home/HomeHighlights.tsx` buscando os 3 itens mais recentes de
+- [x] T043 [US4] Criar `src/pages/Home/Home.tsx` (hero + CTA "Fale Conosco" → `/contato`)
+      (depende de T015). Corrigido um bug real de contraste encontrado na verificação visual: o
+      eyebrow do hero usava a cor muted global (`.liac-eyebrow`), quase ilegível sobre o
+      gradiente escuro — agora tem override para branco sólido nesse contexto. O hero também
+      ganhou um scrim escuro semi-transparente sobre o gradiente para garantir AA (>4.5:1) no
+      texto de corpo branco, não só no H1 grande (Constitution Princípio II).
+- [x] T044 [US4] Criar `src/pages/Home/HomeHighlights.tsx` buscando os 3 itens mais recentes de
       Novidades/Eventos/Artigos e reusando `NewsCard`/`EventCard`/`ArticleCard` (depende de T023,
       T030, T037)
-- [ ] T045 [US4] Criar `src/pages/Home/HomeMetrics.tsx` (métricas de destaque da liga) (depende
+- [x] T045 [US4] Criar `src/pages/Home/HomeMetrics.tsx` (métricas de destaque da liga; números
+      fixos de demonstração — não existe entidade de métricas em `data-model.md`) (depende
       de T015)
-- [ ] T046 [US4] Substituir o placeholder de `/` em `src/router.tsx` compondo `Home`,
+- [x] T046 [US4] Substituir o placeholder de `/` em `src/router.tsx` compondo `Home`,
       `HomeHighlights` e `HomeMetrics` (depende de T018, T043, T044, T045)
 
 **Checkpoint**: Todas as 4 stories P1 funcionam de forma independente — MVP completo.

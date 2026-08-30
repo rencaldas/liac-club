@@ -1,0 +1,43 @@
+.hero {
+  /* A dark scrim over the brand gradient guarantees AA contrast (>=4.5:1) for the white body
+     text below, regardless of which gradient stop shows through — raw white-on-gradient only
+     clears AA for large/bold text (Constitution Princípio II), and the subtitle here is normal
+     weight body text. */
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), var(--liac-gradient-brand);
+  color: var(--liac-white);
+  padding-block: var(--liac-space-xl);
+}
+
+.hero h1 {
+  color: var(--liac-white);
+  max-width: 40rem;
+}
+
+.heroEyebrow {
+  /* .liac-eyebrow's default color is --liac-neutral-500, meant for light backgrounds — nearly
+     invisible on the dark hero scrim. Override to solid white for AA contrast (small text
+     needs 4.5:1, no safety margin to spare). */
+  color: var(--liac-white) !important;
+}
+
+.hero p {
+  max-width: 34rem;
+  font-size: 1.125rem;
+  margin-bottom: var(--liac-space-md);
+}
+
+.heroActions {
+  display: flex;
+  gap: var(--liac-space-sm);
+  flex-wrap: wrap;
+}
+
+.heroSecondary {
+  background: transparent;
+  color: var(--liac-white) !important;
+  border-color: var(--liac-white) !important;
+}
+
+.heroSecondary:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
