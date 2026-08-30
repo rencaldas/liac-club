@@ -20,4 +20,6 @@
 .summary {
   color: var(--liac-text-muted);
   margin: 0;
+  text-align: justify;
+  text-justify: inter-word;
 }

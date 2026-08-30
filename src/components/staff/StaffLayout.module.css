@@ -1,0 +1,81 @@
+.shell {
+  min-height: 100vh;
+  background: var(--liac-bg-alt);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--liac-space-lg);
+  padding: var(--liac-space-sm) var(--liac-space-md);
+  background: var(--liac-white);
+  border-bottom: 1px solid var(--liac-border);
+}
+
+.brand {
+  font-family: var(--liac-font-display);
+  font-weight: 800;
+  color: var(--liac-primary);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  gap: var(--liac-space-sm);
+  flex: 1;
+}
+
+.navLink,
+.navLinkActive {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--liac-text);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+}
+
+.navLinkActive {
+  background: var(--liac-bg-alt);
+  color: var(--liac-primary);
+}
+
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: var(--liac-space-sm);
+  font-size: var(--liac-fs-small);
+  white-space: nowrap;
+}
+
+.roleTag {
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--liac-bg-alt);
+  color: var(--liac-text-muted);
+  font-size: var(--liac-fs-eyebrow);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.userArea button {
+  background: none;
+  border: 1px solid var(--liac-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--liac-primary);
+}
+
+.userArea button:hover {
+  background: var(--liac-bg-alt);
+}
+
+.main {
+  padding: var(--liac-space-lg) var(--liac-space-md);
+  max-width: var(--liac-max-width);
+  margin-inline: auto;
+}

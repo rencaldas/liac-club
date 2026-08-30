@@ -1,0 +1,58 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 18, 22, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--liac-space-md);
+  z-index: 100;
+}
+
+.dialog {
+  background: var(--liac-white);
+  border-radius: var(--liac-radius-lg);
+  box-shadow: 0 24px 60px rgba(31, 18, 22, 0.25);
+  padding: var(--liac-space-lg);
+  max-width: 26rem;
+  width: 100%;
+}
+
+.dialog h2 {
+  margin-top: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--liac-space-sm);
+  margin-top: var(--liac-space-md);
+}
+
+.cancel,
+.destructive {
+  border-radius: 999px;
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.cancel {
+  background: none;
+  border-color: var(--liac-border);
+  color: var(--liac-text);
+}
+
+.cancel:hover {
+  background: var(--liac-bg-alt);
+}
+
+.destructive {
+  background: var(--liac-primary);
+  color: var(--liac-white);
+}
+
+.destructive:hover {
+  background: var(--liac-primary-dark);
+}

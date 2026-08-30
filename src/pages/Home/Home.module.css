@@ -1,9 +1,8 @@
 .hero {
-  /* A dark scrim over the brand gradient guarantees AA contrast (>=4.5:1) for the white body
-     text below, regardless of which gradient stop shows through — raw white-on-gradient only
-     clears AA for large/bold text (Constitution Princípio II), and the subtitle here is normal
-     weight body text. */
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), var(--liac-gradient-brand);
+  /* A light dark scrim over the brand gradient guarantees AA contrast (>=4.5:1) for the white
+     body text below even at the gradient's brightest (orange) stop, while staying thin enough
+     to keep the gradient reading as vivid rather than washed out (Constitution Princípio II). */
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), var(--liac-gradient-brand);
   color: var(--liac-white);
   padding-block: var(--liac-space-xl);
 }
@@ -11,6 +10,18 @@
 .hero h1 {
   color: var(--liac-white);
   max-width: 40rem;
+}
+
+.heroInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--liac-space-xl);
+}
+
+.heroContent {
+  flex: 1;
+  min-width: 0;
 }
 
 .heroEyebrow {
@@ -26,10 +37,41 @@
   margin-bottom: var(--liac-space-md);
 }
 
+.heroText {
+  /* Justified so the paragraph's left and right edges both align cleanly, matching the
+     logo card squared off in the opposite corner. */
+  text-align: justify;
+  text-justify: inter-word;
+}
+
 .heroActions {
   display: flex;
   gap: var(--liac-space-sm);
   flex-wrap: wrap;
+}
+
+.heroLogo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroLogo img {
+  display: block;
+  width: 20rem;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  .heroInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .heroLogo {
+    align-self: center;
+  }
 }
 
 .heroSecondary {

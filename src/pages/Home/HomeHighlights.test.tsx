@@ -58,36 +58,36 @@ function renderHighlights() {
 describe('HomeHighlights', () => {
   beforeEach(() => {
     vi.mocked(apiClient.getNews).mockResolvedValue({
-      items: makeNews(3),
+      items: makeNews(8),
       page: 1,
-      pageSize: 3,
-      total: 3,
+      pageSize: 8,
+      total: 8,
     })
     vi.mocked(apiClient.getEvents).mockResolvedValue({
-      items: makeEvents(3),
+      items: makeEvents(8),
       page: 1,
-      pageSize: 3,
-      total: 3,
+      pageSize: 8,
+      total: 8,
     })
     vi.mocked(apiClient.getArticles).mockResolvedValue({
-      items: makeArticles(3),
+      items: makeArticles(8),
       page: 1,
-      pageSize: 3,
-      total: 3,
+      pageSize: 8,
+      total: 8,
     })
   })
 
-  it('requests exactly 3 items of each content type', async () => {
+  it('requests exactly 8 items of each content type', async () => {
     renderHighlights()
 
     await waitFor(() => {
-      expect(apiClient.getNews).toHaveBeenCalledWith({ pageSize: 3 })
+      expect(apiClient.getNews).toHaveBeenCalledWith({ pageSize: 8 })
     })
-    expect(apiClient.getEvents).toHaveBeenCalledWith({ pageSize: 3 })
-    expect(apiClient.getArticles).toHaveBeenCalledWith({ pageSize: 3 })
+    expect(apiClient.getEvents).toHaveBeenCalledWith({ pageSize: 8 })
+    expect(apiClient.getArticles).toHaveBeenCalledWith({ pageSize: 8 })
   })
 
-  it('renders 3 cards of each type, each linking to its own detail page', async () => {
+  it('renders a carousel of cards for each type, each linking to its own detail page', async () => {
     renderHighlights()
 
     await waitFor(() => {

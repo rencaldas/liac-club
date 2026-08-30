@@ -1,0 +1,39 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: var(--liac-fs-small);
+}
+
+.field input,
+.field select,
+.field textarea {
+  font-family: var(--liac-font-body);
+  font-size: var(--liac-fs-body);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--liac-primary);
+  outline-offset: 1px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--liac-space-sm);
+}
+
+.errorText {
+  color: var(--liac-primary-dark);
+  font-size: var(--liac-fs-small);
+  margin: 0;
+}

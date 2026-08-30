@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--liac-gradient-brand);
+  background: var(--liac-gradient-blob-pink);
   color: var(--liac-white);
   font-family: var(--liac-font-display);
   font-weight: 800;

@@ -1,0 +1,56 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--liac-space-md);
+  max-width: 24rem;
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: var(--liac-fs-small);
+}
+
+.field input {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+  font-size: var(--liac-fs-body);
+  font-family: inherit;
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--liac-primary);
+  outline-offset: 1px;
+}
+
+.errorText {
+  color: var(--liac-primary-dark);
+  margin: 0;
+  font-size: var(--liac-fs-small);
+}
+
+.submit {
+  background: var(--liac-primary);
+  color: var(--liac-white);
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: var(--liac-primary-dark);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
