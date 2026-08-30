@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { PageLayout } from './components/layout/PageLayout'
 import { NotFound } from './components/ui/NotFound'
-import { RoutePlaceholder } from './components/ui/RoutePlaceholder'
 import { NewsList } from './pages/News/NewsList'
 import { NewsDetail } from './pages/News/NewsDetail'
 import { EventsList } from './pages/Events/EventsList'
@@ -13,6 +12,7 @@ import { Team } from './pages/Team/Team'
 import { Projects } from './pages/Projects/Projects'
 import { Partners } from './pages/Partners/Partners'
 import { About } from './pages/About/About'
+import { Contact } from './pages/Contact/Contact'
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
       { path: 'novidades/:slug', element: <NewsDetail /> },
       { path: 'projetos', element: <Projects /> },
       { path: 'parceiros', element: <Partners /> },
-      { path: 'contato', element: <RoutePlaceholder label="Contato" /> },
+      { path: 'contato', element: <Contact /> },
       { path: '*', element: <NotFound /> },
     ],
   },

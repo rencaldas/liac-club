@@ -1,0 +1,58 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--liac-space-md);
+  max-width: 32rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-weight: 500;
+  font-size: var(--liac-fs-small);
+}
+
+.field input,
+.field textarea {
+  font-family: var(--liac-font-body);
+  font-size: var(--liac-fs-body);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--liac-border);
+  border-radius: 0.5rem;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 3px solid var(--liac-accent-pink);
+  outline-offset: 1px;
+}
+
+.fieldInvalid input,
+.fieldInvalid textarea {
+  border-color: var(--liac-primary);
+}
+
+.errorText {
+  color: var(--liac-primary-dark);
+  font-size: var(--liac-fs-small);
+  margin: 0;
+}
+
+.confirmation {
+  margin-top: var(--liac-space-sm);
+  padding: var(--liac-space-md);
+  border-radius: var(--liac-radius);
+  background: var(--liac-neutral-100);
+}
+
+.confirmation p {
+  margin: 0 0 0.5rem;
+}
+
+.confirmation p:last-child {
+  margin-bottom: 0;
+}

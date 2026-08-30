@@ -354,23 +354,26 @@ alternativos).
 
 ### Tests for User Story 9
 
-- [ ] T065 [P] [US9] Testes de componente para `ContactForm` (erros de validação por campo +
+- [x] T065 [P] [US9] Testes de componente para `ContactForm` (erros de validação por campo +
       submissão bem-sucedida com mensagem de confirmação) em
       `src/components/content/ContactForm.test.tsx`
-- [ ] T066 [P] [US9] Teste de componente para `Contact` (informações institucionais, redes
+- [x] T066 [P] [US9] Teste de componente para `Contact` (informações institucionais, redes
       sociais, mapa placeholder) em `src/pages/Contact/Contact.test.tsx`
 
 ### Implementation for User Story 9
 
-- [ ] T067 [US9] Criar `src/utils/validateContactForm.ts` (nome, e-mail, telefone, melhor
+- [x] T067 [US9] Criar `src/utils/validateContactForm.ts` (nome, e-mail, telefone, melhor
       horário, mensagem — todos obrigatórios; e-mail e telefone com validação de formato)
-- [ ] T068 [US9] Criar `src/components/content/ContactForm.tsx` (estado controlado, chama
+- [x] T068 [US9] Criar `src/components/content/ContactForm.tsx` (estado controlado, chama
       `validateContactForm` e `ApiClient.submitContactForm`, exibe a mensagem de confirmação de
-      36h com canais alternativos) (depende de T015, T067)
-- [ ] T069 [US9] Criar `src/pages/Contact/Contact.tsx` (informações institucionais, redes
+      36h com canais alternativos) (depende de T015, T067). Bug real corrigido na verificação
+      visual: a classe `fieldInvalid` substituía `field` em vez de complementá-la, perdendo o
+      `display:flex; flex-direction:column` e quebrando o layout label/input quando havia erro.
+- [x] T069 [US9] Criar `src/pages/Contact/Contact.tsx` (informações institucionais, redes
       sociais, mapa placeholder, incorpora `ContactForm`) (depende de T068)
-- [ ] T070 [US9] Substituir o placeholder de `/contato` em `src/router.tsx` (depende de T018,
-      T069)
+- [x] T070 [US9] Substituir o placeholder de `/contato` em `src/router.tsx` (depende de T018,
+      T069). Todos os 9 placeholders de rota foram substituídos — `RoutePlaceholder.tsx` removido
+      por não ter mais uso.
 
 **Checkpoint**: Todas as 9 user stories funcionam de forma independente.
 
