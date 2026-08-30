@@ -36,3 +36,7 @@
   padrão, agrupamento de parceiros sem nível definido) foram resolvidas como suposições
   documentadas na seção Assumptions do spec.md, por terem defaults razoáveis e não impactarem
   criticamente o escopo.
+- Sessão de clarificação (2026-08-29, `/speckit-clarify`): 4 perguntas de alto impacto
+  levantadas e respondidas (filtro de Novidades, campos do formulário de Contato, esquema de
+  URL de detalhe, multiplicidade de autores/datas). Todas integradas ao spec.md; checklist
+  re-validado — todos os itens continuam passando (16/16), nenhuma regressão.

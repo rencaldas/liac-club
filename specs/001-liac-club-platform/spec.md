@@ -12,6 +12,26 @@ científicos, além de apresentar equipe, projetos e parceiros. Site institucion
 páginas navegáveis: Home, Sobre a LIAC, Equipe/Membros, Eventos, Artigos Científicos,
 Novidades/Notícias, Projetos de Pesquisa, Parceiros/Patrocinadores, Contato."
 
+## Clarifications
+
+### Session 2026-08-29
+
+- Q: A listagem de Novidades precisa de filtro por categoria (como Eventos e Artigos têm), ou
+  basta ordenação cronológica simples? → A: Só cronológico — sem filtro por categoria nesta
+  fase.
+- Q: Quais campos o formulário de Contato deve ter, e ele precisa de um checkbox de
+  consentimento LGPD? → A: Nome, E-mail, Telefone, Melhor horário para contato e um campo livre
+  "Conte-nos sobre sua necessidade", com botão Enviar. Sem checkbox de consentimento LGPD
+  explícito nesta fase. Abaixo do botão, mensagem: "Ao responder o formulário, nossa equipe
+  entrará em contato em até 36h para agendar uma reunião diagnóstico. Caso queira entrar em
+  contato por outras vias: (telefone), (e-mail)".
+- Q: As URLs de detalhe (artigos, eventos, notícias) devem usar slugs legíveis ou ids opacos? →
+  A: Slugs legíveis derivados do título (ex: `/artigos/beneficios-colageno`).
+- Q: Artigos científicos têm múltiplos autores? E eventos como o Simpósio (que costuma durar
+  mais de um dia) precisam de data de início E fim, ou só uma data? → A: Artigos com múltiplos
+  autores (lista); eventos com data de início e data de fim, suportando eventos de um único dia
+  (início = fim) ou multi-dia.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Publicar e consultar Novidades (Priority: P1)
@@ -55,7 +75,8 @@ futuro/passado e abrindo o detalhe de um evento a partir de um card.
 **Acceptance Scenarios**:
 
 1. **Given** a listagem de Eventos, **When** o visitante acessa a página, **Then** vê cards com
-   data, local e tipo do evento (workshop, congresso, palestra).
+   data (início, e fim quando o evento durar mais de um dia), local e tipo do evento (workshop,
+   congresso, palestra).
 2. **Given** a listagem de Eventos, **When** o visitante aplica o filtro "futuro" ou "passado",
    **Then** somente os eventos correspondentes àquele período são exibidos.
 3. **Given** um card de evento, **When** o visitante clica nele, **Then** é levado à página de
@@ -79,7 +100,7 @@ por tema/autor e abrindo o detalhe de um artigo, verificando a presença do link
 **Acceptance Scenarios**:
 
 1. **Given** a listagem de Artigos Científicos, **When** o visitante acessa a página, **Then**
-   vê cards com título, autores, resumo curto e tags temáticas.
+   vê cards com título, um ou mais autores, resumo curto e tags temáticas.
 2. **Given** a listagem de Artigos Científicos, **When** o visitante filtra por tema ou autor,
    **Then** somente os artigos correspondentes ao filtro são exibidos.
 3. **Given** a página de detalhe de um artigo, **When** o visitante a acessa, **Then** vê o
@@ -206,11 +227,15 @@ qualquer chamada de rede real.
 
 **Acceptance Scenarios**:
 
-1. **Given** a página de Contato, **When** o visitante preenche o formulário com dados válidos e
-   envia, **Then** vê uma mensagem de confirmação de envio (simulada pela camada mock).
+1. **Given** a página de Contato, **When** o visitante preenche Nome, E-mail, Telefone, Melhor
+   horário para contato e "Conte-nos sobre sua necessidade" com dados válidos e envia, **Then**
+   vê, abaixo do botão Enviar, a mensagem "Ao responder o formulário, nossa equipe entrará em
+   contato em até 36h para agendar uma reunião diagnóstico. Caso queira entrar em contato por
+   outras vias: (telefone), (e-mail)" (simulada pela camada mock).
 2. **Given** a página de Contato, **When** o visitante tenta enviar o formulário com campos
-   obrigatórios vazios ou inválidos, **Then** vê mensagens de validação indicando o que precisa
-   ser corrigido, sem que a submissão seja processada.
+   obrigatórios vazios ou inválidos (ex: e-mail ou telefone em formato inválido), **Then** vê
+   mensagens de validação indicando o que precisa ser corrigido, sem que a submissão seja
+   processada.
 3. **Given** a página de Contato, **When** o visitante a acessa, **Then** vê informações
    institucionais (endereço/vínculo UFRJ), redes sociais e um mapa/localização placeholder.
 
@@ -233,6 +258,10 @@ qualquer chamada de rede real.
   para grids de 3 colunas e para a navbar?
 - O que acontece se um membro da equipe não tiver foto cadastrada? Deve exibir um placeholder
   consistente (avatar genérico), nunca um ícone quebrado.
+- Quando um evento ocorre em um único dia, a data de início e a data de fim coincidem — a
+  exibição deve mostrar apenas uma data, não uma faixa redundante ("29/08 – 29/08").
+- O que acontece quando dois itens diferentes (ex: dois artigos) gerariam o mesmo slug a partir
+  do título? O sistema deve garantir unicidade do slug (ex: sufixo numérico) na camada de dados.
 
 ## Requirements *(mandatory)*
 
@@ -246,20 +275,26 @@ qualquer chamada de rede real.
   recentes de cada tipo de conteúdo (novidade, evento, artigo) e uma seção de métricas de
   destaque.
 - **FR-003**: As listagens de Eventos e Artigos Científicos DEVEM suportar filtragem (Eventos:
-  futuro/passado; Artigos: tema e/ou autor) sem recarregar a página.
+  futuro/passado; Artigos: tema e/ou autor) sem recarregar a página. A listagem de Novidades NÃO
+  possui filtro nesta fase — exibição estritamente cronológica (mais recente primeiro).
 - **FR-004**: Cada item de Novidade, Evento e Artigo Científico DEVE ter uma página de detalhe
-  acessível a partir do card correspondente e diretamente por URL.
-- **FR-005**: A página de Artigos Científicos (detalhe) DEVE exibir um link externo para o
-  PDF/DOI original do artigo.
+  acessível a partir do card correspondente e diretamente por URL, usando um slug legível
+  derivado do título (ex: `/artigos/beneficios-colageno`) como identificador na rota.
+- **FR-005**: A página de Artigos Científicos (detalhe) DEVE exibir todos os autores do artigo
+  (um ou mais) e um link externo para o PDF/DOI original do artigo.
 - **FR-006**: A página de Equipe DEVE agrupar membros por diretoria/área e exibir foto
   (placeholder), nome, cargo/função e links sociais por membro.
 - **FR-007**: A página de Projetos de Pesquisa DEVE exibir status (ativo/concluído), resumo e
   membros envolvidos por projeto.
 - **FR-008**: A página de Parceiros DEVE exibir logos com link externo para o site de cada
   parceiro, categorizados por nível de parceria quando aplicável.
-- **FR-009**: A página de Contato DEVE apresentar um formulário cuja submissão é tratada
-  exclusivamente pela camada de serviço abstrata (mock), sem qualquer chamada de rede real,
-  exibindo feedback de sucesso ou de validação ao usuário.
+- **FR-009**: A página de Contato DEVE apresentar um formulário com os campos Nome, E-mail,
+  Telefone, Melhor horário para contato e "Conte-nos sobre sua necessidade" (texto livre), cuja
+  submissão é tratada exclusivamente pela camada de serviço abstrata (mock), sem qualquer
+  chamada de rede real. Após o envio bem-sucedido, o sistema DEVE exibir, abaixo do botão
+  Enviar, a mensagem de confirmação com o prazo de retorno (36h) e os canais alternativos de
+  contato (telefone, e-mail). O sistema DEVE também exibir mensagens de validação por campo
+  quando dados obrigatórios estiverem ausentes ou em formato inválido.
 - **FR-010**: Todos os dados de conteúdo (novidades, eventos, artigos, projetos, membros,
   parceiros) DEVEM ser fornecidos por uma camada de abstração de dados substituível, e não
   embutidos diretamente nos componentes de página.
@@ -276,19 +311,21 @@ qualquer chamada de rede real.
 
 ### Key Entities
 
-- **NewsItem**: Uma novidade/notícia publicada pela liga — título, data, categoria, resumo,
-  conteúdo completo, imagem de capa.
-- **Event**: Um evento (workshop, congresso ou palestra) — título, data, local, tipo, descrição,
-  indicação de futuro/passado.
-- **ScientificArticle**: Um artigo científico divulgado pela liga — título, autores, resumo
-  (abstract), tags temáticas, link externo para PDF/DOI.
+- **NewsItem**: Uma novidade/notícia publicada pela liga — slug (identificador legível na URL),
+  título, data, categoria, resumo, conteúdo completo, imagem de capa.
+- **Event**: Um evento (workshop, congresso ou palestra) — slug, título, data de início, data de
+  fim (igual à de início quando o evento dura um único dia), local, tipo, descrição, indicação
+  de futuro/passado.
+- **ScientificArticle**: Um artigo científico divulgado pela liga — slug, título, um ou mais
+  autores, resumo (abstract), tags temáticas, link externo para PDF/DOI.
 - **ResearchProject**: Um projeto de pesquisa conduzido pela liga — título, status
   (ativo/concluído), resumo, membros envolvidos.
 - **TeamMember**: Um membro da liga — nome, cargo/função, diretoria/área, foto, links sociais.
 - **Partner**: Um parceiro ou patrocinador — nome, logo, link externo, nível de parceria
   (opcional).
 - **ContactFormPayload**: Os dados submetidos pelo visitante através do formulário de contato —
-  nome, e-mail, mensagem (e demais campos definidos na fase de planejamento técnico).
+  nome, e-mail, telefone, melhor horário para contato, mensagem ("conte-nos sobre sua
+  necessidade").
 
 ## Success Criteria *(mandatory)*
 
