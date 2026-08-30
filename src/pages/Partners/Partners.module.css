@@ -1,0 +1,19 @@
+.tierSection {
+  margin-bottom: var(--liac-space-lg);
+}
+
+.tierTitle {
+  margin-bottom: var(--liac-space-md);
+}
+
+.logoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--liac-space-md);
+}
+
+@media (min-width: 640px) {
+  .logoGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

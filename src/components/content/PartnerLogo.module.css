@@ -1,0 +1,28 @@
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 6rem;
+  padding: var(--liac-space-sm);
+  background: var(--liac-white);
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+  text-decoration: none;
+  transition: box-shadow 0.15s ease;
+}
+
+.link:hover {
+  box-shadow: var(--liac-shadow);
+}
+
+.logo {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.namePlaceholder {
+  color: var(--liac-text);
+  font-weight: 600;
+  text-align: center;
+}

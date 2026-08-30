@@ -298,17 +298,20 @@ card.
 
 ### Tests for User Story 7
 
-- [ ] T057 [P] [US7] Teste de componente para `PartnerLogo` (link externo em nova aba) em
+- [x] T057 [P] [US7] Teste de componente para `PartnerLogo` (link externo em nova aba) em
       `src/components/content/PartnerLogo.test.tsx`
-- [ ] T058 [P] [US7] Teste de componente para `Partners` (agrupamento por `tier` quando presente)
+- [x] T058 [P] [US7] Teste de componente para `Partners` (agrupamento por `tier` quando presente)
       em `src/pages/Partners/Partners.test.tsx`
 
 ### Implementation for User Story 7
 
-- [ ] T059 [US7] Criar `src/components/content/PartnerLogo.tsx`
-      (`rel="noopener noreferrer" target="_blank"`) (depende de T015)
-- [ ] T060 [US7] Criar `src/pages/Partners/Partners.tsx` (depende de T013, T059)
-- [ ] T061 [US7] Substituir o placeholder de `/parceiros` em `src/router.tsx` (depende de T018,
+- [x] T059 [US7] Criar `src/components/content/PartnerLogo.tsx`
+      (`rel="noopener noreferrer" target="_blank"`) (depende de T015). Sem `logoUrl`, mostra o
+      nome do parceiro como placeholder (mesmo padrão de fallback do avatar da Equipe).
+- [x] T060 [US7] Criar `src/pages/Partners/Partners.tsx` (depende de T013, T059). Parceiros sem
+      `tier` vão para um grupo "Outros Parceiros" (não "Parceiros" — colidiria visualmente e
+      semanticamente com o `<h1>` da própria página).
+- [x] T061 [US7] Substituir o placeholder de `/parceiros` em `src/router.tsx` (depende de T018,
       T060)
 
 **Checkpoint**: US1–US7 funcionam de forma independente.
