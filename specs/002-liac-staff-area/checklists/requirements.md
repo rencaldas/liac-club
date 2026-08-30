@@ -31,11 +31,12 @@
 
 ## Notes
 
-- 6 pontos de ambiguidade foram resolvidos na seção `## Clarifications` — os 4 primeiros com
-  defaults razoáveis de baixo impacto (2FA, limite de destaques, persistência de sessão); os 2
-  últimos (modelo de papéis e mecanismo de controle da Diretora) resolvidos interativamente com
-  o usuário: sem RBAC, controle via histórico de alterações (User Story 8, FR-012/013/014).
-  Nenhum marcador [NEEDS CLARIFICATION] restante.
+- 7 pontos de ambiguidade foram resolvidos na seção `## Clarifications` — os 4 primeiros com
+  defaults razoáveis de baixo impacto (2FA, limite de destaques, persistência de sessão); os 3
+  últimos resolvidos interativamente com o usuário: sem RBAC para escrita de conteúdo, controle
+  via histórico de alterações (User Story 8), e visibilidade do histórico restrita ao papel
+  `director` — a única distinção de papel em toda a feature (FR-012/013/014). Nenhum marcador
+  [NEEDS CLARIFICATION] restante.
 - Dependência explícita da feature 001 (`specs/001-liac-club-platform/`): esta feature adiciona
   operações de escrita e um campo `featured` às entidades já definidas lá, e altera o
   comportamento de `HomeHighlights` (fallback cronológico quando não há destaques).

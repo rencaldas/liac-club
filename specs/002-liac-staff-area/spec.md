@@ -40,6 +40,11 @@ repositório separado."
   gera uma entrada em um histórico de alterações (autor, data/hora, tipo de ação, item afetado),
   visível em uma tela dedicada — controle por auditoria/transparência, não por restrição de
   permissão.
+- Q: A tela de Histórico de Alterações fica visível a qualquer membro autenticado, ou só à
+  Diretora? → A: Só à Diretora — o login mockado retorna um indicador de papel (`director` |
+  `member`) junto do token de sessão; qualquer credencial não-diretora tem acesso de escrita
+  igual a todos (US2-7), mas não vê nem acessa a tela de Histórico. É a única distinção de papel
+  nesta feature.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -204,29 +209,35 @@ frequência de mudança.
 
 ### User Story 8 - Auditoria de Alterações (Priority: P2)
 
-A Diretora de Marketing (ou qualquer membro autenticado) consulta um histórico cronológico de
-todas as alterações de conteúdo feitas pela equipe — quem fez o quê e quando — para manter
-controle sobre o trabalho do time sem precisar restringir o acesso de ninguém.
+A Diretora de Marketing consulta um histórico cronológico de todas as alterações de conteúdo
+feitas pela equipe — quem fez o quê e quando — para manter controle sobre o trabalho do time sem
+precisar restringir o acesso de escrita de ninguém. É a única tela da área da equipe visível
+exclusivamente a quem loga com credencial de Diretora.
 
-**Why this priority**: Como toda a equipe de Marketing tem acesso total (User Story 1), a
-prestação de contas vem da transparência do histórico, não de permissões — isso é o mecanismo de
-controle da Diretora. Não bloqueia o CRUD básico (US2-7), mas é essencial para o caso de uso real
-que motivou a feature.
+**Why this priority**: Como toda a equipe de Marketing tem acesso de escrita total (User Story
+1), a prestação de contas vem da transparência do histórico — restrita à Diretora — não de
+permissões sobre o conteúdo em si. Não bloqueia o CRUD básico (US2-7), mas é essencial para o
+caso de uso real que motivou a feature.
 
 **Independent Test**: Criar, editar e excluir um item de conteúdo autenticado como usuários
-diferentes (em sessões separadas) e confirmar que cada ação aparece na tela de Histórico com o
-autor, o tipo de ação e o horário corretos, mais recente primeiro.
+diferentes (em sessões separadas) e confirmar que cada ação aparece na tela de Histórico — visível
+ao logar como Diretora, mas inacessível ao logar como membro comum — com o autor, o tipo de ação
+e o horário corretos, mais recente primeiro.
 
 **Acceptance Scenarios**:
 
-1. **Given** um usuário autenticado realiza qualquer ação de escrita (criar, editar, excluir,
-   destacar/remover destaque) em qualquer tipo de conteúdo, **When** a ação é concluída com
-   sucesso, **Then** uma entrada é adicionada ao histórico contendo autor, data/hora, tipo de
-   ação e o item afetado (tipo + título).
-2. **Given** a tela de Histórico de Alterações, **When** um usuário autenticado a acessa,
-   **Then** vê as entradas em ordem cronológica reversa (mais recente primeiro).
-3. **Given** a tela de Histórico de Alterações, **When** o usuário filtra por autor, **Then** vê
-   apenas as entradas daquele autor.
+1. **Given** um usuário autenticado (Diretora ou membro comum) realiza qualquer ação de escrita
+   (criar, editar, excluir, destacar/remover destaque) em qualquer tipo de conteúdo, **When** a
+   ação é concluída com sucesso, **Then** uma entrada é adicionada ao histórico contendo autor,
+   data/hora, tipo de ação e o item afetado (tipo + título) — independentemente de quem fez a
+   ação ter ou não acesso à tela de Histórico.
+2. **Given** um usuário autenticado como Diretora, **When** acessa a tela de Histórico de
+   Alterações, **Then** vê as entradas em ordem cronológica reversa (mais recente primeiro) e
+   pode filtrar por autor.
+3. **Given** um usuário autenticado como membro comum (não-Diretora), **When** tenta acessar a
+   tela de Histórico (pelo menu ou digitando a URL diretamente), **Then** é bloqueado/redirecionado
+   e não vê o conteúdo do histórico; o item de menu para essa tela também não aparece para esse
+   usuário.
 
 ---
 
@@ -242,6 +253,10 @@ autor, o tipo de ação e o horário corretos, mais recente primeiro.
 - Como o formulário de criação/edição se comporta com campos obrigatórios vazios ou inválidos
   (ex: URL externa malformada em Artigo/Parceiro, data de fim anterior à data de início em
   Evento)? Deve exibir validação inline e impedir o salvamento até corrigido.
+- O que acontece se um membro comum (não-Diretora) acessar `/portal-liac/historico` diretamente
+  pela URL? Deve ser bloqueado/redirecionado da mesma forma que um usuário não-autenticado seria
+  bloqueado de qualquer rota protegida — a diferença é que aqui a checagem é por papel
+  (`role !== 'director'`), não por ausência de sessão.
 - O que acontece se duas abas do navegador editarem o mesmo item ao mesmo tempo? Fora de escopo
   nesta fase (mock em memória por sessão de página) — não é necessário resolver conflito de
   edição concorrente; ver Assumptions.
@@ -289,18 +304,22 @@ autor, o tipo de ação e o horário corretos, mais recente primeiro.
   auditoria com autor (identidade do usuário autenticado na sessão), data/hora, tipo de ação e o
   item afetado (tipo de conteúdo + título/identificador).
 - **FR-013**: A área da equipe DEVE oferecer uma tela "Histórico de Alterações" listando as
-  entradas de auditoria em ordem cronológica reversa, com filtro por autor.
-- **FR-014**: Todos os membros autenticados têm o mesmo nível de acesso (sem papéis/permissões
-  diferenciados nesta fase) — o controle sobre o uso da área da equipe vem do histórico de
-  alterações (FR-012/FR-013), não de restrição de acesso.
+  entradas de auditoria em ordem cronológica reversa, com filtro por autor, **visível e
+  acessível somente a sessões com papel `director`**; um membro comum não deve ver o item de
+  menu nem conseguir acessar a rota diretamente pela URL.
+- **FR-014**: Para todas as demais telas (US2-7), todos os membros autenticados têm o mesmo
+  nível de acesso de escrita, independentemente do papel — a distinção `director`/`member`
+  aplica-se exclusivamente à visibilidade da tela de Histórico (FR-013).
 
 ### Key Entities
 
 - **StaffCredentials**: Dados enviados no login — usuário/e-mail e senha. Nunca persistidos além
   do envio via `ApiClient.login()`.
 - **SessionToken**: Token opaco retornado pelo login mockado, guardado em `localStorage`,
-  consumido pelo guard de rota. Sem estrutura interpretável pelo frontend (tratado como string
-  opaca — decodificação/verificação de assinatura é responsabilidade do backend real).
+  consumido pelo guard de rota. Sem estrutura interpretável pelo frontend além de um campo de
+  papel explícito (`role: "director" | "member"`) retornado junto pelo mock — usado apenas para
+  decidir a visibilidade da tela de Histórico (FR-013); o restante do token é tratado como string
+  opaca (decodificação/verificação de assinatura é responsabilidade do backend real).
 - **AuditLogEntry**: Uma entrada do histórico de alterações — autor (identidade do usuário
   autenticado na sessão, ex: nome/e-mail), data/hora, tipo de ação (`create` | `update` |
   `delete` | `feature` | `unfeature`), tipo de conteúdo afetado (`news` | `event` | `article` |
@@ -341,12 +360,14 @@ autor, o tipo de ação e o horário corretos, mais recente primeiro.
 - Não há diferenciação de papéis/permissões entre membros da equipe nesta fase — todos
   pertencem à equipe de Marketing e têm acesso total; o controle vem do histórico de alterações,
   não de restrição de acesso (Clarifications).
-- O histórico de alterações é visível a qualquer membro autenticado (não restrito só à Diretora)
-  nesta fase, já que não há papéis diferenciados para restringir sua visibilidade — reavaliar se
-  a LIAC quiser um papel "Diretoria" com visão exclusiva do histórico no futuro.
+- O histórico de alterações é visível somente a sessões com papel `director` — a única distinção
+  de papel nesta feature; todas as demais telas de gestão de conteúdo permanecem acessíveis
+  igualmente a qualquer membro autenticado.
 - O identificador de autor gravado no histórico é o que o login mockado retornar associado à
   sessão (ex: nome ou e-mail informado no login) — o backend real definirá a identidade
   autoritativa quando existir.
+- As fixtures de credenciais mockadas devem incluir ao menos uma credencial com `role: "director"`
+  e uma com `role: "member"`, para permitir testar os dois caminhos (FR-013).
 - Não há limite de itens "em destaque" por tipo de conteúdo (Clarifications) — a ordem de
   exibição no carrossel quando há múltiplos destaques segue a ordem em que foram marcados
   (mais recente primeiro), decisão de implementação de baixo impacto.
