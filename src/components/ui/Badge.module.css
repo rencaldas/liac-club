@@ -1,0 +1,14 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--liac-font-body);
+  text-transform: uppercase;
+  letter-spacing: var(--liac-eyebrow-tracking);
+  font-size: var(--liac-fs-eyebrow);
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: var(--liac-neutral-100);
+  color: var(--liac-primary-dark);
+  width: fit-content;
+}

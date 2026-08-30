@@ -1,0 +1,36 @@
+[
+  {
+    "id": "member-mariana-vp",
+    "name": "Mariana Costa",
+    "role": "Vice-Presidente",
+    "area": "Diretoria Executiva",
+    "photoUrl": "",
+    "socialLinks": [{ "platform": "instagram", "url": "https://instagram.com/liac.ufrj" }]
+  },
+  {
+    "id": "member-julia-marketing",
+    "name": "Júlia Ferreira",
+    "role": "Diretora de Marketing",
+    "area": "Marketing",
+    "photoUrl": "",
+    "socialLinks": [
+      { "platform": "instagram", "url": "https://instagram.com/liac.ufrj" },
+      { "platform": "linkedin", "url": "https://linkedin.com/company/liac-ufrj" }
+    ]
+  },
+  {
+    "id": "member-ana-beatriz-pesquisa",
+    "name": "Ana Beatriz Ramos",
+    "role": "Diretora de Pesquisa",
+    "area": "Pesquisa",
+    "photoUrl": "",
+    "socialLinks": [{ "platform": "linkedin", "url": "https://linkedin.com/company/liac-ufrj" }]
+  },
+  {
+    "id": "member-carla-pesquisa",
+    "name": "Carla Menezes",
+    "role": "Membra de Pesquisa",
+    "area": "Pesquisa",
+    "socialLinks": []
+  }
+]

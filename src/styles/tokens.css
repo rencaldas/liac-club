@@ -1,0 +1,133 @@
+:root {
+  /* Brand colors */
+  --liac-primary: #c2004b;
+  --liac-primary-dark: #8e0037;
+
+  --liac-gradient-start: #fc2973;
+  --liac-gradient-mid: #ed2835;
+  --liac-gradient-end: #ff6b4a;
+  --liac-gradient-brand: linear-gradient(135deg, #fc2973 0%, #ed2835 55%, #ff6b4a 100%);
+
+  --liac-accent-coral: #ff6964;
+  --liac-accent-pink: #ff2e86;
+
+  --liac-white: #ffffff;
+  --liac-neutral-900: #1f1216;
+  --liac-neutral-500: #6b5a5f;
+  --liac-neutral-100: #fff8f9;
+
+  /* Semantic aliases used throughout components */
+  --liac-bg: var(--liac-white);
+  --liac-bg-alt: var(--liac-neutral-100);
+  --liac-text: var(--liac-neutral-900);
+  --liac-text-muted: var(--liac-neutral-500);
+  --liac-border: #f0dde1;
+
+  /* Typography */
+  --liac-font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --liac-font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --liac-fs-h1: clamp(2.25rem, 1.8rem + 1.8vw, 3.5rem);
+  --liac-fs-h2: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+  --liac-fs-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.75rem);
+  --liac-fs-body: 1rem;
+  --liac-fs-small: 0.875rem;
+  --liac-fs-eyebrow: 0.75rem;
+
+  --liac-eyebrow-tracking: 0.12em;
+
+  /* Spacing scale */
+  --liac-space-xs: 0.5rem;
+  --liac-space-sm: 1rem;
+  --liac-space-md: 1.5rem;
+  --liac-space-lg: 2.5rem;
+  --liac-space-xl: 4rem;
+
+  /* Layout */
+  --liac-radius: 0.75rem;
+  --liac-radius-lg: 1.5rem;
+  --liac-shadow: 0 4px 20px rgba(31, 18, 22, 0.08);
+  --liac-max-width: 1200px;
+
+  /* Breakpoints (referenced in comments; CSS custom properties can't be used in media queries) */
+  /* mobile: <640px · tablet: 640-1024px · desktop: >1024px */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--liac-bg);
+  color: var(--liac-text);
+  font-family: var(--liac-font-body);
+  font-size: var(--liac-fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--liac-font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 var(--liac-space-sm);
+  color: var(--liac-text);
+}
+
+h1 {
+  font-size: var(--liac-fs-h1);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: var(--liac-fs-h2);
+}
+
+h3 {
+  font-size: var(--liac-fs-h3);
+}
+
+p {
+  margin: 0 0 var(--liac-space-sm);
+}
+
+a {
+  color: var(--liac-primary);
+}
+
+a:hover {
+  color: var(--liac-primary-dark);
+}
+
+.liac-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: var(--liac-eyebrow-tracking);
+  font-weight: 400;
+  font-size: var(--liac-fs-eyebrow);
+  color: var(--liac-text-muted);
+}
+
+.liac-container {
+  width: 100%;
+  max-width: var(--liac-max-width);
+  margin-inline: auto;
+  padding-inline: var(--liac-space-md);
+}
+
+.liac-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

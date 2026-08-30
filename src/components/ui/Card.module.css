@@ -1,0 +1,11 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--liac-white);
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+  padding: var(--liac-space-md);
+  box-shadow: var(--liac-shadow);
+  height: 100%;
+}

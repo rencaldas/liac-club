@@ -57,41 +57,48 @@ camada de serviço mockada, layout base e roteamento.
 
 **⚠️ CRÍTICO**: Nenhuma user story pode começar antes desta fase estar completa.
 
-- [ ] T006 Criar `src/styles/tokens.css` com a paleta e a tipografia da Constitution
+- [x] T006 Criar `src/styles/tokens.css` com a paleta e a tipografia da Constitution
       (`--liac-primary`, `--liac-gradient-*`, `--liac-accent-*`, `--liac-neutral-*`, escala
       tipográfica Playfair Display / Poppins)
-- [ ] T007 [P] Adicionar Playfair Display e Poppins via `<link>` do Google Fonts em `index.html`
-- [ ] T008 [P] Criar `src/types/entities.ts` com as 7 interfaces de `data-model.md`: `NewsItem`,
+- [x] T007 [P] Adicionar Playfair Display e Poppins via `<link>` do Google Fonts em `index.html`
+- [x] T008 [P] Criar `src/types/entities.ts` com as 7 interfaces de `data-model.md`: `NewsItem`,
       `Event`, `ScientificArticle`, `ResearchProject`, `TeamMember`, `Partner`,
       `ContactFormPayload`
-- [ ] T009 Criar a interface `ApiClient` em `src/services/ApiClient.ts` cobrindo todos os
+- [x] T009 Criar a interface `ApiClient` em `src/services/ApiClient.ts` cobrindo todos os
       endpoints de `specs/contracts/api-contract.md` (`getNews`, `getNewsBySlug`, `getEvents`,
       `getEventBySlug`, `getArticles`, `getArticleBySlug`, `getProjects`, `getTeam`,
       `getPartners`, `submitContactForm`) (depende de T008)
-- [ ] T010 [P] Criar `src/services/mock/delay.ts` (latência simulada) e
+- [x] T010 [P] Criar `src/services/mock/delay.ts` (latência simulada) e
       `src/services/mock/paginate.ts` (paginação simulada, espelhando os query params do
       contrato)
-- [ ] T011 [P] Criar as fixtures `src/mocks/news.json`, `events.json`, `articles.json`,
+- [x] T011 [P] Criar as fixtures `src/mocks/news.json`, `events.json`, `articles.json`,
       `projects.json`, `team.json`, `partners.json` com dados de exemplo plausíveis — incluir ao
       menos: 1 evento multi-dia (`startDate` ≠ `endDate`) e 1 de dia único, 1 artigo com múltiplos
-      autores, 1 membro de equipe sem `photoUrl` (depende de T008)
-- [ ] T012 Criar `src/services/mock/MockApiClient.ts` implementando `ApiClient` a partir das
+      autores, 1 membro de equipe sem `photoUrl` (depende de T008). Todos os nomes de
+      pessoas/parceiros nas fixtures são fictícios — nenhum dado real da LIAC foi usado.
+- [x] T012 Criar `src/services/mock/MockApiClient.ts` implementando `ApiClient` a partir das
       fixtures + `delay`/`paginate` (depende de T009, T010, T011)
-- [ ] T013 [P] Criar o hook genérico `src/hooks/useAsyncResource.ts`
+- [x] T013 [P] Criar o hook genérico `src/hooks/useAsyncResource.ts`
       (`idle`/`loading`/`success`/`empty`/`error`)
-- [ ] T014 [P] Criar `src/utils/slug.ts` (`findBySlug`) e `src/utils/date.ts`
+- [x] T014 [P] Criar `src/utils/slug.ts` (`findBySlug`) e `src/utils/date.ts`
       (`formatEventDateRange`, retorna data única quando `startDate === endDate`)
-- [ ] T015 [P] Criar componentes base `src/components/ui/Button.tsx`, `Card.tsx`, `Badge.tsx`
+- [x] T015 [P] Criar componentes base `src/components/ui/Button.tsx`, `Card.tsx`, `Badge.tsx`
       usando os tokens de T006
-- [ ] T016 [P] Criar `src/components/ui/LoadingState.tsx`, `EmptyState.tsx`, `NotFound.tsx`
-- [ ] T017 Criar `src/components/layout/Navbar.tsx` (menu responsivo com as 9 páginas),
-      `Footer.tsx` e `PageLayout.tsx` (depende de T006, T015)
-- [ ] T018 Criar `src/router.tsx` com `createBrowserRouter`: rota de layout (`PageLayout`),
+- [x] T016 [P] Criar `src/components/ui/LoadingState.tsx`, `EmptyState.tsx`, `NotFound.tsx`
+- [x] T017 Criar `src/components/layout/Navbar.tsx` (menu responsivo com as 9 páginas),
+      `Footer.tsx` e `PageLayout.tsx` (depende de T006, T015). Logo da marca: por ora só o
+      wordmark "LIAC Club" em Playfair Display (o ícone do pote é asset a ser substituído
+      depois, conforme seção 1.3 do brief original — e além disso o PNG oficial tem baixo
+      contraste sobre fundo branco).
+- [x] T018 Criar `src/router.tsx` com `createBrowserRouter`: rota de layout (`PageLayout`),
       placeholders das 9 páginas + 3 rotas de detalhe (`/novidades/:slug`, `/eventos/:slug`,
       `/artigos/:slug`) e rota catch-all `*` → `NotFound` (depende de T016, T017)
-- [ ] T019 Atualizar `src/main.tsx`/`src/App.tsx` para instanciar um único `MockApiClient` e
-      prover `RouterProvider` (ponto único de troca futura pela implementação real — Constitution
-      Princípio I) (depende de T012, T018)
+- [x] T019 Criar `src/services/client.ts` instanciando um único `MockApiClient` (nome
+      deliberadamente diferente de `ApiClient.ts` — em filesystem case-insensitive/Windows,
+      `apiClient.ts` e `ApiClient.ts` são o mesmo arquivo e um sobrescreveria o outro; isso
+      realmente aconteceu e foi corrigido durante a implementação) e atualizar `src/App.tsx`
+      para prover `RouterProvider` (ponto único de troca futura pela implementação real —
+      Constitution Princípio I) (depende de T012, T018)
 
 **Checkpoint**: Fundação pronta — as user stories podem começar.
 

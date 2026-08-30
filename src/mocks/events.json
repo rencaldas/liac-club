@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "simposio-de-cosmetologia-2026",
+    "title": "Simpósio de Cosmetologia 2026",
+    "startDate": "2026-08-18",
+    "endDate": "2026-08-20",
+    "location": "Centro de Convenções UFRJ, Cidade Universitária",
+    "type": "congresso",
+    "description": "O tradicional evento anual da LIAC, com mesas-redondas, pôsteres científicos e oficinas práticas de formulação cosmética, reunindo estudantes, pesquisadores e profissionais do mercado."
+  },
+  {
+    "slug": "workshop-de-formulacao-de-protetor-solar",
+    "title": "Workshop de Formulação de Protetor Solar",
+    "startDate": "2026-09-12",
+    "endDate": "2026-09-12",
+    "location": "Laboratório de Cosmetologia, Faculdade de Farmácia UFRJ",
+    "type": "workshop",
+    "description": "Oficina prática sobre os fundamentos da formulação de fotoprotetores, com discussão sobre filtros físicos e químicos e critérios de eficácia."
+  },
+  {
+    "slug": "palestra-cosmeticos-artesanais-e-anvisa",
+    "title": "Palestra: Cosméticos Artesanais e Regularização na ANVISA",
+    "startDate": "2026-07-15",
+    "endDate": "2026-07-15",
+    "location": "Auditório da Faculdade de Farmácia UFRJ",
+    "type": "palestra",
+    "description": "Discussão sobre os requisitos regulatórios para comercialização de cosméticos artesanais, com convidados da área de assuntos regulatórios."
+  }
+]

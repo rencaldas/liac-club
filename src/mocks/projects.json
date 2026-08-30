@@ -1,0 +1,23 @@
+[
+  {
+    "id": "proj-formulacao-verde",
+    "title": "Formulação Verde: cosméticos sólidos de baixo impacto ambiental",
+    "status": "ativo",
+    "summary": "Projeto de pesquisa dedicado ao desenvolvimento de formulações sólidas (xampus, sabonetes) com redução de embalagem plástica e ingredientes de menor impacto ambiental.",
+    "members": ["Ana Beatriz Ramos", "Carla Menezes", "Prof. Dra. Renata Duarte (orientadora)"]
+  },
+  {
+    "id": "proj-colageno-aplicado",
+    "title": "Colágeno Aplicado: da revisão de literatura ao protótipo de formulação",
+    "status": "ativo",
+    "summary": "Continuação da revisão bibliográfica sobre colágeno na cosmetologia, agora com testes preliminares de formulação em laboratório.",
+    "members": ["Ana Beatriz Ramos"]
+  },
+  {
+    "id": "proj-mapeamento-regulatorio",
+    "title": "Mapeamento Regulatório de Cosméticos Artesanais no Rio de Janeiro",
+    "status": "concluído",
+    "summary": "Levantamento das exigências regulatórias enfrentadas por pequenos produtores de cosméticos artesanais na região metropolitana do Rio de Janeiro.",
+    "members": ["Júlia Ferreira", "Mariana Costa"]
+  }
+]
