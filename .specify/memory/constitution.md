@@ -1,5 +1,24 @@
 <!--
 Sync Impact Report
+- Version change: 1.0.0 → 1.1.0
+- Modified principles: I. Fronteira Frontend-Only (clarified — client-side auth UI vs
+  server-side auth logic boundary made explicit)
+- Modified sections: Não-Objetivos Explícitos (auth bullet refined, same rationale)
+- Added sections: none
+- Removed sections: none
+- Rationale for amendment: the project now includes an "Área da Equipe LIAC" feature (staff
+  login + protected content-management UI). This is UI-only (route guarding on session-token
+  presence, forms that call the same mocked ApiClient) — it does not violate Principle I, but
+  the original wording ("protótipo visual sem lógica de sessão real") was ambiguous about
+  whether client-side route guarding counts as "lógica de sessão". This amendment resolves that
+  ambiguity without changing the underlying rule: real credential validation, hashing, token
+  issuance/verification, and persistence remain exclusively backend concerns.
+- Templates requiring updates: none (no template placeholders depend on this wording)
+- Follow-up TODOs: none
+-->
+
+<!--
+Sync Impact Report (historical — v1.0.0)
 - Version change: [template] → 1.0.0 (initial ratification)
 - Modified principles: n/a (first version)
 - Added sections: Core Principles (I-VI), Não-Objetivos Explícitos, Stack e Qualidade, Governance
@@ -18,14 +37,23 @@ Sync Impact Report
 
 Este repositório contém exclusivamente código de frontend (React 18 + Vite + TypeScript),
 responsável apenas por visualização e renderização. Nenhuma lógica de servidor — requisições
-HTTP reais, banco de dados, ORM, autenticação/autorização real, upload de arquivos, envio real
-de formulário ou e-mail — pode existir neste repositório. Toda leitura de dados passa por uma
-camada de abstração (`ApiClient`); a única implementação presente neste repo é mockada, lendo
-fixtures JSON locais e simulando latência/paginação. Nenhuma chamada `fetch`/`axios` para um
-servidor externo real é permitida em componentes ou serviços. Trocar o mock pela implementação
-real DEVE ser possível substituindo apenas a implementação injetada, sem alterar componentes.
-Racional: o backend é construído em repositório separado; misturar as responsabilidades cria
-acoplamento prematuro e abre espaço para lógica "provisória" que nunca é removida.
+HTTP reais, banco de dados, ORM, upload de arquivos, envio real de formulário ou e-mail — pode
+existir neste repositório. Toda leitura e escrita de dados passa por uma camada de abstração
+(`ApiClient`); a única implementação presente neste repo é mockada, lendo/mutando fixtures em
+memória e simulando latência/paginação. Nenhuma chamada `fetch`/`axios` para um servidor externo
+real é permitida em componentes ou serviços. Trocar o mock pela implementação real DEVE ser
+possível substituindo apenas a implementação injetada, sem alterar componentes. Racional: o
+backend é construído em repositório separado; misturar as responsabilidades cria acoplamento
+prematuro e abre espaço para lógica "provisória" que nunca é removida.
+
+Isso inclui autenticação: este repositório PODE conter a interface de login da equipe LIAC e
+rotas protegidas no lado do cliente (um guard de rota que verifica a presença de um token de
+sessão obtido via `ApiClient.login()`, hoje mockado), mas NUNCA implementa a lógica de
+autenticação em si — validação de credencial, hashing de senha, emissão/verificação criptográfica
+de token e controle de acesso a dados reais são responsabilidade exclusiva do backend futuro.
+Um usuário mal-intencionado que inspecione o bundle deste frontend não deve encontrar nenhuma
+credencial, segredo, ou lógica cuja leitura comprometa a segurança real do sistema — a proteção
+de verdade vive no backend, nunca aqui.
 
 ### II. Fidelidade à Identidade Visual LIAC
 
@@ -78,8 +106,10 @@ nem de forma "provisória":
 
 - Servidor Node/Express ou de qualquer outra stack de backend.
 - Banco de dados ou ORM.
-- Autenticação/autorização real (uma "área de membro" na UI, se existir, é protótipo visual sem
-  lógica de sessão real).
+- Autenticação/autorização do lado do servidor (validação de credencial, hashing de senha,
+  emissão/verificação real de token, controle de acesso a dados). O login e as rotas protegidas
+  da "Área da Equipe LIAC" são UI + guard de rota client-side consumindo `ApiClient` (mockado
+  nesta fase) — nunca a lógica de autenticação em si.
 - Envio real de formulário ou e-mail.
 - Configuração de deploy além de notas básicas de hospedagem estática (Vercel/Netlify) no
   README.
@@ -103,4 +133,4 @@ princípio ou seção materialmente nova, PATCH para esclarecimentos e correçõ
 revisão de código/PR DEVE verificar conformidade com os princípios I-VI acima; complexidade que
 os viole deve ser justificada explicitamente ou rejeitada.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-29 | **Last Amended**: 2026-08-29
+**Version**: 1.1.0 | **Ratified**: 2026-08-29 | **Last Amended**: 2026-08-29
