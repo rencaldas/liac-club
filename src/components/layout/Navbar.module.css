@@ -1,85 +1,263 @@
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 40;
-  background: var(--liac-white);
-  border-bottom: 1px solid var(--liac-border);
+  z-index: 50;
+  padding: var(--liac-space-sm) clamp(1rem, 4vw, 2rem) 0;
 }
 
 .inner {
-  display: flex;
+  max-width: 1180px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding-block: var(--liac-space-xs);
   gap: var(--liac-space-md);
+  padding: 0.65rem var(--liac-space-md);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(31, 18, 22, 0.06);
+  transition: box-shadow 0.35s ease, background-color 0.35s ease;
+}
+
+.scrolled .inner {
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 12px 32px rgba(31, 18, 22, 0.14);
 }
 
 .brand {
-  display: flex;
+  justify-self: start;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--liac-font-display);
-  font-weight: 800;
-  font-size: 1.5rem;
-  color: var(--liac-primary);
   text-decoration: none;
+  transition: transform 0.25s ease;
+}
+
+.brand:hover {
+  transform: scale(1.04);
 }
 
 .brand img {
-  height: 2.25rem;
+  height: 2.5rem;
   width: auto;
 }
 
-.links {
+.navList {
+  position: relative;
   display: none;
+  justify-self: center;
+}
+
+.links {
+  position: relative;
+  z-index: 1;
+  display: flex;
   align-items: center;
-  gap: var(--liac-space-md);
+  gap: 0.15rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.links a {
+.links a,
+.links button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  background: none;
+  border: none;
   color: var(--liac-text);
   text-decoration: none;
+  font-family: inherit;
   font-weight: 500;
-  font-size: var(--liac-fs-small);
+  font-size: var(--liac-fs-body);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .links a:hover,
+.links a:focus-visible,
+.links button:hover,
+.links button:focus-visible {
+  color: var(--liac-primary-dark);
+  transform: translateY(-1px);
+}
+
 .linkActive {
   color: var(--liac-primary) !important;
+  font-weight: 600;
+}
+
+.linkActive::after {
+  content: '';
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.15rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--liac-gradient-brand);
+}
+
+.navGroup {
+  position: relative;
+}
+
+.groupArrow {
+  margin-left: 0.35rem;
+  color: #000;
+  transition: transform 0.2s ease;
+}
+
+.navGroup:hover .groupArrow,
+.navGroup:focus-within .groupArrow {
+  transform: translateY(1px) rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 4px);
+  z-index: 2;
+  min-width: 11rem;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+  box-shadow: 0 16px 32px rgba(31, 18, 22, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.navGroup:hover .dropdown,
+.navGroup:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.dropdown a {
+  display: block;
+  padding: 0.55rem 0.75rem;
+  border-radius: calc(var(--liac-radius) - 0.25rem);
+  white-space: nowrap;
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0.15rem;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--liac-gradient-brand);
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .toggle {
+  justify-self: end;
   display: inline-flex;
   background: none;
   border: none;
   color: var(--liac-primary);
   cursor: pointer;
   padding: 0.5rem;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.toggle:hover {
+  background: var(--liac-bg-alt);
 }
 
 .mobileMenu {
   display: flex;
   flex-direction: column;
-  gap: var(--liac-space-sm);
-  padding: var(--liac-space-md);
-  border-top: 1px solid var(--liac-border);
+  gap: 0.25rem;
+  margin: 0.5rem clamp(1rem, 4vw, 2rem) 0;
+  padding: var(--liac-space-sm);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius-lg);
+  box-shadow: 0 16px 40px rgba(31, 18, 22, 0.14);
 }
 
 .mobileMenu a {
+  position: relative;
   color: var(--liac-text);
   text-decoration: none;
   font-weight: 500;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--liac-radius);
+  animation: navItemIn 0.35s ease backwards;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.mobileMenu a:hover {
+  background: var(--liac-bg-alt);
+  color: var(--liac-primary-dark);
+  transform: translateX(4px);
+}
+
+.mobileMenu .linkActive {
+  background: var(--liac-bg-alt);
+}
+
+.mobileMenu .linkActive::after {
+  display: none;
+}
+
+@keyframes navItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inner,
+  .brand,
+  .links a,
+  .links button,
+  .groupArrow,
+  .dropdown,
+  .indicator,
+  .toggle,
+  .mobileMenu a {
+    transition: none;
+    animation: none;
+  }
 }
 
 /* 1024px (not 768px): 9 nav items need more room than tablet width provides — at 768px this
    caused real horizontal overflow (measured 784px content in a 768px viewport). Matches the
    1024px "desktop" breakpoint already used for .liac-grid in tokens.css. */
 @media (min-width: 1024px) {
-  .links {
-    display: flex;
+  .navList {
+    display: block;
   }
 
   .toggle {

@@ -7,6 +7,18 @@
 **Note**: Assim como na feature 001, todo o trabalho permanece em `master` (sem git hook de
 branching configurado).
 
+> **Nota (2026-08-30)**: a fatia US1-US4 (login + Novidades/Eventos/Artigos) desta feature foi
+> implementada com um backend real (`liac-backend`, Supabase Edge Functions), não com o
+> `MockApiClient` em memória descrito abaixo — decisão tomada com o usuário para que o conteúdo
+> criado pela equipe realmente persista. O restante do documento fica como registro do desenho
+> original; ver `README.md` deste repositório e `liac-backend/README.md` para o estado real.
+> US5-7 (CRUD de Projetos/Equipe pública/Parceiros) continuam não implementadas. US8 (Histórico de
+> Auditoria) **foi implementada em 2026-08-30**, mas com um desenho diferente do original: em vez
+> do papel binário `director`/`member`, são 5 cargos nomeados da LIAC (Diretor de Marketing,
+> Presidente, Vice-Presidente, Coordenador, Diretor de Eventos) — os 3 primeiros veem o histórico
+> e gerenciam a equipe (convite por e-mail real via Supabase Auth, troca de cargo, revogação), os
+> outros 2 não. Ver `README.md` deste repositório e `liac-backend/README.md`.
+
 ## Summary
 
 Adicionar, sobre a base já implantada pela feature 001, uma área protegida

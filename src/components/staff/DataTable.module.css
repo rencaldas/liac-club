@@ -1,0 +1,37 @@
+.wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+  background: var(--liac-white);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--liac-fs-small);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 0.75rem var(--liac-space-sm);
+  border-bottom: 1px solid var(--liac-border);
+  white-space: nowrap;
+}
+
+.table th {
+  color: var(--liac-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--liac-fs-eyebrow);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.actionsCell {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -7,9 +7,16 @@ import { ArticleCard } from '../../components/content/ArticleCard'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { EmptyState } from '../../components/ui/EmptyState'
 import { Button } from '../../components/ui/Button'
+import { Carousel } from '../../components/ui/Carousel'
 import styles from './HomeHighlights.module.css'
 
-const HIGHLIGHT_COUNT = 3
+const HIGHLIGHT_COUNT = 8
+
+/** Prefers items marked `featured`; falls back to the full (chronological) list when none are. */
+function pickFeatured<T extends { featured?: boolean }>(items: T[]): T[] {
+  const featured = items.filter((item) => item.featured)
+  return featured.length > 0 ? featured : items
+}
 
 function NewsHighlights() {
   const fetchNews = useCallback(() => apiClient.getNews({ pageSize: HIGHLIGHT_COUNT }), [])
@@ -27,11 +34,11 @@ function NewsHighlights() {
         {status === 'loading' && <LoadingState label="Carregando novidades…" />}
         {status === 'empty' && <EmptyState title="Ainda não há novidades publicadas." />}
         {status === 'success' && data && (
-          <div className="liac-grid">
-            {data.items.map((item) => (
+          <Carousel ariaLabel="Últimas novidades">
+            {pickFeatured(data.items).map((item) => (
               <NewsCard key={item.slug} item={item} />
             ))}
-          </div>
+          </Carousel>
         )}
       </div>
     </section>
@@ -54,11 +61,11 @@ function EventHighlights() {
         {status === 'loading' && <LoadingState label="Carregando eventos…" />}
         {status === 'empty' && <EmptyState title="Nenhum evento cadastrado no momento." />}
         {status === 'success' && data && (
-          <div className="liac-grid">
-            {data.items.map((event) => (
+          <Carousel ariaLabel="Próximos eventos">
+            {pickFeatured(data.items).map((event) => (
               <EventCard key={event.slug} event={event} />
             ))}
-          </div>
+          </Carousel>
         )}
       </div>
     </section>
@@ -84,11 +91,11 @@ function ArticleHighlights() {
         {status === 'loading' && <LoadingState label="Carregando artigos…" />}
         {status === 'empty' && <EmptyState title="Ainda não há artigos publicados." />}
         {status === 'success' && data && (
-          <div className="liac-grid">
-            {data.items.map((article) => (
+          <Carousel ariaLabel="Artigos científicos em destaque">
+            {pickFeatured(data.items).map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}
-          </div>
+          </Carousel>
         )}
       </div>
     </section>

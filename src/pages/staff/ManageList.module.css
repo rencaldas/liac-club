@@ -1,0 +1,35 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--liac-space-md);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--liac-space-sm);
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.newButton {
+  background: var(--liac-primary);
+  color: var(--liac-white);
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.newButton:hover {
+  background: var(--liac-primary-dark);
+}
+
+.deleteError {
+  color: var(--liac-primary-dark);
+  margin: 0;
+}

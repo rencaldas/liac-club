@@ -1,15 +1,40 @@
 :root {
-  /* Brand colors */
-  --liac-primary: #c2004b;
-  --liac-primary-dark: #8e0037;
+  /* Brand palette — extraída da capa da LIAC por k-means (ver liac-palette.md) */
+  --liac-rosa-claro: #f5b3c5;
+  --liac-coral-claro: #fd775c;
+  --liac-rosa-coral: #fd5371;
+  --liac-laranja: #f35149;
+  --liac-vermelho-rosa: #fc3f57;
+  --liac-magenta: #fb3080;
+  --liac-pink: #f82c69;
+  --liac-vermelho-rosa-principal: #f72a59;
+  --liac-vermelho-profundo: #e92948;
+  --liac-bordo: #c2004a;
+  --liac-bordo-dark: #8e0037;
 
-  --liac-gradient-start: #fc2973;
-  --liac-gradient-mid: #ed2835;
-  --liac-gradient-end: #ff6b4a;
-  --liac-gradient-brand: linear-gradient(135deg, #fc2973 0%, #ed2835 55%, #ff6b4a 100%);
+  /* Brand colors (semantic aliases) */
+  --liac-primary: var(--liac-bordo);
+  --liac-primary-dark: var(--liac-bordo-dark);
 
-  --liac-accent-coral: #ff6964;
-  --liac-accent-pink: #ff2e86;
+  --liac-gradient-start: var(--liac-vermelho-rosa-principal);
+  --liac-gradient-mid: var(--liac-pink);
+  --liac-gradient-end: var(--liac-coral-claro);
+  /* fundo diagonal, aproximação da arte da capa */
+  --liac-gradient-brand: linear-gradient(
+    135deg,
+    var(--liac-vermelho-rosa-principal) 0%,
+    var(--liac-vermelho-rosa) 30%,
+    var(--liac-pink) 55%,
+    var(--liac-magenta) 75%,
+    var(--liac-vermelho-profundo) 100%
+  );
+
+  /* blobs decorativos, para uso em hero/destaques */
+  --liac-gradient-blob-orange: radial-gradient(circle at 30% 70%, var(--liac-coral-claro) 0%, var(--liac-laranja) 55%, var(--liac-vermelho-profundo) 100%);
+  --liac-gradient-blob-pink: radial-gradient(circle at 70% 30%, var(--liac-rosa-claro) 0%, var(--liac-magenta) 55%, var(--liac-pink) 100%);
+
+  --liac-accent-coral: var(--liac-coral-claro);
+  --liac-accent-pink: var(--liac-magenta);
 
   --liac-white: #ffffff;
   --liac-neutral-900: #1f1216;
@@ -95,6 +120,10 @@ h3 {
 
 p {
   margin: 0 0 var(--liac-space-sm);
+  text-align: justify;
+  text-justify: inter-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 a {

@@ -1,0 +1,76 @@
+.inviteForm {
+  background: var(--liac-white);
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+  padding: var(--liac-space-md);
+}
+
+.inviteForm h2 {
+  margin-top: 0;
+  font-size: var(--liac-fs-h3);
+}
+
+.inviteFields {
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.5fr auto;
+  gap: var(--liac-space-sm);
+  align-items: end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: var(--liac-fs-small);
+}
+
+.field input,
+.field select {
+  font-family: var(--liac-font-body);
+  font-size: var(--liac-fs-body);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+}
+
+.inviteButton {
+  background: var(--liac-primary);
+  color: var(--liac-white);
+  border: none;
+  border-radius: 999px;
+  padding: 0.65rem 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.inviteButton:hover {
+  background: var(--liac-primary-dark);
+}
+
+.inviteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: var(--liac-primary-dark);
+  margin: var(--liac-space-sm) 0 0;
+  font-size: var(--liac-fs-small);
+}
+
+.successText {
+  color: #1f7a3d;
+  margin: var(--liac-space-sm) 0 0;
+  font-size: var(--liac-fs-small);
+}
+
+@media (max-width: 800px) {
+  .inviteFields {
+    grid-template-columns: 1fr;
+  }
+}

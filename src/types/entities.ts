@@ -6,6 +6,7 @@ export interface NewsItem {
   summary: string
   content: string
   coverImageUrl?: string
+  featured?: boolean
 }
 
 export type EventType = 'workshop' | 'congresso' | 'palestra'
@@ -18,6 +19,7 @@ export interface Event {
   location: string
   type: EventType
   description: string
+  featured?: boolean
 }
 
 export interface ScientificArticle {
@@ -27,6 +29,7 @@ export interface ScientificArticle {
   abstract: string
   tags: string[]
   externalUrl: string
+  featured?: boolean
 }
 
 export type ResearchProjectStatus = 'ativo' | 'concluído'
@@ -61,6 +64,45 @@ export interface Partner {
   logoUrl: string
   externalUrl: string
   tier?: string
+}
+
+export interface StaffCredentials {
+  email: string
+  password: string
+}
+
+export type StaffRole = 'diretor_marketing' | 'presidente' | 'vice_presidente' | 'coordenador' | 'diretor_eventos'
+
+export interface AuthSession {
+  token: string
+  role: StaffRole
+  displayName: string
+}
+
+export interface StaffMember {
+  id: string
+  displayName: string
+  role: StaffRole
+  email: string
+}
+
+export interface InvitePayload {
+  email: string
+  displayName: string
+  role: StaffRole
+  redirectTo: string
+}
+
+export type AuditAction = 'create' | 'update' | 'delete' | 'feature' | 'unfeature'
+export type AuditEntityType = 'news' | 'event' | 'article'
+
+export interface AuditLogEntry {
+  id: string
+  author: string
+  timestamp: string
+  action: AuditAction
+  entityType: AuditEntityType
+  entityLabel: string
 }
 
 export interface ContactFormPayload {

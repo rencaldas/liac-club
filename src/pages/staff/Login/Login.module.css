@@ -1,0 +1,22 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--liac-bg-alt);
+  padding: var(--liac-space-md);
+}
+
+.card {
+  background: var(--liac-white);
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius-lg);
+  box-shadow: var(--liac-shadow);
+  padding: var(--liac-space-lg);
+  max-width: 26rem;
+  width: 100%;
+}
+
+.card h1 {
+  margin-top: 0.25rem;
+}
