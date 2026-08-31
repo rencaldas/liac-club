@@ -9,6 +9,7 @@ import type {
   ResearchProject,
   ScientificArticle,
   SymposiumEdition,
+  Testimonial,
 } from '../../types/entities'
 
 vi.mock('../../services/client', () => ({
@@ -18,6 +19,7 @@ vi.mock('../../services/client', () => ({
     getArticles: vi.fn(),
     getSymposiumEditions: vi.fn(),
     getProjects: vi.fn(),
+    getTestimonials: vi.fn(),
   },
 }))
 
@@ -77,6 +79,14 @@ function makeProjects(n: number): ResearchProject[] {
   }))
 }
 
+function makeTestimonials(n: number): Testimonial[] {
+  return Array.from({ length: n }, (_, i) => ({
+    id: `depoimento-${i}`,
+    name: `Ligante ${i}`,
+    text: 'Depoimento',
+  }))
+}
+
 function renderHighlights() {
   return render(
     <MemoryRouter>
@@ -117,6 +127,7 @@ describe('HomeHighlights', () => {
       pageSize: 8,
       total: 8,
     })
+    vi.mocked(apiClient.getTestimonials).mockResolvedValue(makeTestimonials(8))
   })
 
   it('requests exactly 8 items of each content type', async () => {
@@ -129,6 +140,7 @@ describe('HomeHighlights', () => {
     expect(apiClient.getArticles).toHaveBeenCalledWith({ pageSize: 8 })
     expect(apiClient.getSymposiumEditions).toHaveBeenCalledWith({ pageSize: 8 })
     expect(apiClient.getProjects).toHaveBeenCalledWith({ pageSize: 8 })
+    expect(apiClient.getTestimonials).toHaveBeenCalled()
   })
 
   it('renders a carousel of cards for each type, each linking to its own detail page', async () => {
@@ -154,6 +166,15 @@ describe('HomeHighlights', () => {
       '/edicoes-anteriores/edicao-0',
     )
     expect(screen.getByText('Projeto 0')).toBeInTheDocument()
+    expect(screen.getByText('Ligante 0')).toBeInTheDocument()
+  })
+
+  it('renders the testimonials carousel as the last section on the page', async () => {
+    renderHighlights()
+
+    await waitFor(() => expect(screen.getByText('Ligante 0')).toBeInTheDocument())
+
+    expect(screen.getByRole('heading', { name: 'Depoimentos de ligantes' })).toBeInTheDocument()
   })
 
   it('links each "Ver todas/todos" to the corresponding listing page', async () => {

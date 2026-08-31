@@ -14,6 +14,7 @@ import {
   ProjectIcon,
   SymposiumIcon,
   TeamIcon,
+  TestimonialIcon,
 } from '../ui/icons/StaffIcons'
 import { MenuIcon, CloseIcon } from '../ui/icons/MenuIcon'
 import liacLogo from '../../../docs/brand/liac-logo-2.png'
@@ -32,6 +33,7 @@ const CONTENT_NAV_ITEMS: NavItem[] = [
   { to: '/portal-liac/artigos', label: 'Artigos', icon: ArticleIcon, access: () => true },
   { to: '/portal-liac/edicoes-anteriores', label: 'Edições Anteriores', icon: SymposiumIcon, access: () => true },
   { to: '/portal-liac/projetos', label: 'Projetos', icon: ProjectIcon, access: () => true },
+  { to: '/portal-liac/depoimentos', label: 'Depoimentos', icon: TestimonialIcon, access: () => true },
 ]
 
 const MANAGEMENT_NAV_ITEMS: NavItem[] = [

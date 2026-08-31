@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiClient } from '../../../services/client'
+import { deleteImage } from '../../../services/storage'
 import { useAuth } from '../../../auth/AuthContext'
 import { useAsyncResource } from '../../../hooks/useAsyncResource'
 import { LoadingState } from '../../../components/ui/LoadingState'
@@ -26,6 +27,7 @@ export function NewsManageList() {
     setDeleteError(null)
     try {
       await apiClient.deleteNews(pendingDelete.slug, session.token)
+      if (pendingDelete.coverImageUrl) void deleteImage(pendingDelete.coverImageUrl, session.token)
       setPendingDelete(null)
       setRefreshKey((key) => key + 1)
     } catch {

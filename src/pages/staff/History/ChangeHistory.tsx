@@ -22,6 +22,7 @@ const ENTITY_LABELS: Record<AuditLogEntry['entityType'], string> = {
   news: 'Novidade',
   event: 'Evento',
   article: 'Artigo',
+  partner: 'Parceiro',
 }
 
 function formatTimestamp(iso: string): string {

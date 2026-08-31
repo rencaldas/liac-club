@@ -17,7 +17,7 @@ const EMPTY_PAYLOAD: ContactFormPayload = {
   message: '',
 }
 
-type Status = 'idle' | 'submitting' | 'success'
+type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 interface FieldConfig {
   name: keyof ContactFormPayload
@@ -53,8 +53,12 @@ export function ContactForm() {
     }
 
     setStatus('submitting')
-    await apiClient.submitContactForm(payload)
-    setStatus('success')
+    try {
+      await apiClient.submitContactForm(payload)
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -113,6 +117,12 @@ export function ContactForm() {
             Caso queira entrar em contato por outras vias: {ALTERNATE_PHONE}, {ALTERNATE_EMAIL}
           </p>
         </div>
+      )}
+
+      {status === 'error' && (
+        <p className={styles.errorText} role="alert">
+          Não foi possível enviar sua mensagem. Tente novamente em instantes.
+        </p>
       )}
     </form>
   )

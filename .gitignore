@@ -36,3 +36,6 @@ coverage/
 
 # Claude Code agent folder (may contain local credentials/session data)
 .claude/settings.local.json
+
+.vercel
+.env*

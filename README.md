@@ -7,26 +7,25 @@ Novidades/Eventos/Artigos, convite de colaboradores por e-mail e histórico de a
 
 **Este repositório continua 100% frontend** (Constitution Princípio I): nenhum código de
 servidor, nenhuma lógica de autenticação real e nenhum acesso a banco de dados vivem aqui — tudo
-passa pela abstração `ApiClient`. A diferença é que agora existe uma implementação real dessa
-interface: `HybridApiClient` delega Novidades/Eventos/Artigos/autenticação/Equipe para o backend
-real (repositório separado, [`liac-backend`](../liac-backend), rodando como Supabase Edge
-Functions) e mantém Projetos/Parceiros/formulário de contato no `MockApiClient` local, lendo
-fixtures JSON. Veja `.specify/memory/constitution.md` para os princípios completos e
-`specs/002-liac-staff-area/` para o spec da área de equipe.
+passa pela abstração `ApiClient`. A implementação injetada é `RestApiClient`, que fala HTTP com o
+backend real (repositório separado, [`liac-backend`](../liac-backend), rodando como Supabase Edge
+Functions) — não há mais fixtures locais nem dados fictícios de seed; todo conteúdo é criado de
+verdade pela equipe via `/portal-liac`. Veja `.specify/memory/constitution.md` para os princípios
+completos e `specs/002-liac-staff-area/` para o spec da área de equipe.
 
 ## Setup
 
 Requer Node.js 20+.
 
 ```bash
-cp .env.example .env   # já aponta para o backend de demonstração implantado
+cp .env.example .env   # preencha com a URL e a anon key do seu backend liac-backend
 npm install
 npm run dev             # inicia o servidor de desenvolvimento em http://localhost:5173
 ```
 
 `.env` precisa de `VITE_API_BASE_URL` (URL base das Edge Functions do `liac-backend`) — sem ela,
-Novidades/Eventos/Artigos, o login da equipe e a página `/equipe` não funcionam (Projetos/Parceiros
-continuam funcionando normalmente, pois são mock local).
+nada funciona: todo o conteúdo (Novidades/Eventos/Artigos/Projetos/Edições do Simpósio/
+Depoimentos/Parceiros), o login da equipe e o formulário de contato dependem do backend real.
 
 Outros scripts:
 
@@ -40,13 +39,8 @@ npm run lint         # ESLint
 
 ## Área da Equipe (`/portal-liac`)
 
-Login em `/portal-liac/login`, não linkado em nenhum menu público. Credenciais de demonstração
-(claramente fictícias — ver `liac-backend/README.md` para detalhes):
-
-| Cargo | E-mail | Senha |
-|---|---|---|
-| Diretor de Marketing | `diretora.demo@liac.club` | `LiacDemo!Director2026` |
-| Coordenador | `equipe.demo@liac.club` | `LiacDemo!Member2026` |
+Login em `/portal-liac/login`, não linkado em nenhum menu público. Acesso é só por convite (ver
+`liac-backend/README.md` para como provisionar a primeira conta).
 
 6 cargos nomeados (Diretor de Marketing, Presidente, Vice-Presidente, Coordenador, Diretor de
 Eventos, Desenvolvedor) com CRUD idêntico em Novidades/Eventos/Artigos — a única distinção é que
@@ -60,8 +54,9 @@ qualquer um deles como "destaque" — o carrossel da Home passa a priorizar os i
 caindo de volta para os mais recentes quando nenhum estiver marcado. A página pública `/equipe`
 lista os mesmos colaboradores que aparecem em **Equipe** no portal (via `GET /team`, leitura
 pública de `staff_profiles` no backend real — sem e-mail), mas ainda não tem tela de gestão própria
-(quem edita a equipe é sempre a tela **Equipe** do portal). Projetos e Parceiros continuam
-só-leitura via fixtures.
+(quem edita a equipe é sempre a tela **Equipe** do portal). A equipe também pode criar/editar/
+excluir Parceiros, Projetos, Edições do Simpósio e Depoimentos — via `/parceiros`, `/projetos`,
+`/edicoes-anteriores` e `/depoimentos` no portal, todos persistidos no backend real.
 
 ## Estrutura de pastas
 
@@ -74,11 +69,9 @@ src/
 ├── auth/                        # AuthContext, roles.ts (cargos/ROLE_LABELS), RequireAuth/RequireRole (guards)
 ├── services/
 │   ├── ApiClient.ts             # interface abstrata consumida pelas páginas
-│   ├── client.ts                 # instância única injetada (HybridApiClient — ver acima)
-│   ├── HybridApiClient.ts        # compõe MockApiClient + RestApiClient
+│   ├── client.ts                 # instância única injetada (RestApiClient — ver acima)
 │   ├── rest/                     # RestApiClient (fetch contra o backend real) + ApiError
-│   └── mock/                     # MockApiClient (Projetos/Equipe/Parceiros/contato) + fixtures
-├── mocks/*.json                  # dados de exemplo dos tipos ainda só-mock (ver nota abaixo)
+│   └── storage.ts                # upload de imagem pro Supabase Storage (bucket post-images)
 ├── hooks/                        # useAsyncResource, useUnsavedChangesGuard
 ├── utils/                        # datas, formatação de autores, validação de contato
 ├── components/
@@ -88,10 +81,12 @@ src/
 │   └── staff/                      # ConfirmDialog, DataTable, EntityFormLayout, FeaturedToggle,
 │                                    # StaffLayout, LoginForm — reusados pelas telas de gestão
 └── pages/
-    ├── Home, About, Team, Events, Articles, News, Projects, Partners, Contact/  # páginas públicas
+    ├── Home, About, Team, Events, Articles, News, Projects, SymposiumEditions, Partners, Contact/
+    │                                # páginas públicas
     ├── SetPassword/                 # /definir-senha — pública, define senha após clicar o convite
-    └── staff/                      # Login, Team (Equipe), History (Histórico), News/Events/Articles
-                                      # (ManageList + Form cada um)
+    └── staff/                      # Login, Team (Equipe), History (Histórico), Profile e
+                                      # News/Events/Articles/Projects/SymposiumEditions/Testimonials/
+                                      # Partners (ManageList + Form cada um)
 ```
 
 Cada componente de conteúdo/página tem seu teste colocado ao lado (`Component.test.tsx`), não em
@@ -104,10 +99,10 @@ um diretório `tests/` separado.
 
 ## Dados de exemplo
 
-O conteúdo em `src/mocks/*.json` (projetos, membros da equipe, parceiros) é **fictício**, criado
-para fins de demonstração — o mesmo vale para as Novidades/Eventos/Artigos e as contas de
-demonstração seedadas no backend real (`liac-backend`). Nenhum nome de pessoa, parceiro ou dado
-de contato em qualquer um dos dois repositórios é real.
+Não há mais fixtures locais nem dados de seed fictícios em nenhuma entidade — todo o conteúdo
+(Novidades, Eventos, Artigos, Projetos, Edições do Simpósio, Depoimentos, Parceiros) é criado de
+verdade pela equipe via `/portal-liac`, persistido no backend real (`liac-backend`), e não há mais
+contas de demonstração seedadas (ver `liac-backend/README.md` para como provisionar acesso).
 
 ## Débito técnico conhecido
 
@@ -117,8 +112,6 @@ de contato em qualquer um dos dois repositórios é real.
   com uma CVE conhecida (CORS no servidor de desenvolvimento, GHSA-67mh-4wv8-2f99). Afeta só
   `npm run dev`, nunca o build de produção. Corrigir exigiria pular para Vite 6+, uma migração
   maior — aceito como risco conhecido por ora.
-- **Projetos/Parceiros** ainda não têm CRUD nem backend real (US5-7 de
-  `specs/002-liac-staff-area/spec.md`, não implementadas nesta entrega).
 - **Equipe (página pública)** lê de verdade (`GET /team`, backend real), mas não tem CRUD próprio
   — ela reaproveita `staff_profiles` (a tabela de contas de acesso ao portal) só para leitura, então
   hoje só existe um jeito de editar quem aparece lá: a tela **Equipe** do portal (convidar/trocar
@@ -134,4 +127,21 @@ Build estático (`npm run build` gera `dist/`), compatível com qualquer hospeda
 (Vercel, Netlify, GitHub Pages) — configure `VITE_API_BASE_URL` como variável de ambiente de
 build na hospedagem escolhida (mesmo valor de `.env.example`, ou a URL do seu próprio backend caso
 tenha implantado uma cópia de `liac-backend`). O backend (`liac-backend`) é implantado
-separadamente via Supabase (`supabase functions deploy`) — ver o README daquele repositório.
+separadamente via Supabase (`supabase functions deploy`) — ver o README daquele repositório; o
+Vercel **não hospeda** esse backend, ele só serve este frontend estático que conversa com o
+projeto Supabase já publicado.
+
+No Vercel especificamente:
+
+1. Importe o repositório — o preset "Vite" é detectado automaticamente (`npm run build`, saída em
+   `dist/`).
+2. Em Settings → Environment Variables, adicione `VITE_API_BASE_URL` e `VITE_SUPABASE_ANON_KEY`
+   com os valores de `.env.example` — sem a segunda, o upload de imagem de capa/avatar falha em
+   produção (a chamada à Storage do Supabase vai sem `apikey`).
+3. `vercel.json` na raiz já faz o rewrite de toda rota pra `/index.html`, necessário porque o
+   roteamento (`createBrowserRouter`) é 100% client-side — sem isso, recarregar a página em
+   qualquer rota que não seja `/` (ex: `/portal-liac/login`) dá 404.
+4. Depois do primeiro deploy, adicione a URL de produção do Vercel (`https://.../definir-senha`)
+   em Authentication → URL Configuration → Redirect URLs no Supabase Dashboard do `liac-backend` —
+   sem isso os fluxos de convite e "esqueci minha senha" quebram em produção (mesma configuração
+   manual já necessária em dev, ver `liac-backend/README.md`).

@@ -1,34 +1,43 @@
 import type {
+  ApiClient,
   ArticleListParams,
   AuditLogListParams,
   EventListParams,
   PaginatedResult,
   PaginationParams,
+  PartnerListParams,
+  ProjectListParams,
+  SymposiumEditionListParams,
   TeamListParams,
 } from '../ApiClient'
 import type {
   AuditLogEntry,
   AuthSession,
+  ContactFormPayload,
   Event,
   InvitePayload,
   NewsItem,
+  Partner,
+  ResearchProject,
   ScientificArticle,
   StaffCredentials,
   StaffMember,
   StaffRole,
+  SymposiumEdition,
   TeamMember,
+  Testimonial,
   UpdateProfilePayload,
 } from '../../types/entities'
 import { ApiError } from './ApiError'
 
 /**
  * Talks HTTP to the `liac-backend` repo's Supabase Edge Functions (contract:
- * specs/contracts/api-contract.md). Handles News/Events/Articles reads+writes and staff auth —
- * the entities the staff-area MVP made real. Never imports the Supabase SDK; this is a plain
- * `fetch()` client against our own documented contract (Constitution Princípio I stays intact —
- * the real backend lives in the separate repo, this only calls its HTTP surface).
+ * specs/contracts/api-contract.md) — the full `ApiClient` contract, no local fixtures left. Never
+ * imports the Supabase SDK; this is a plain `fetch()` client against our own documented contract
+ * (Constitution Princípio I stays intact — the real backend lives in the separate repo, this only
+ * calls its HTTP surface).
  */
-export class RestApiClient {
+export class RestApiClient implements ApiClient {
   constructor(private readonly baseUrl: string) {}
 
   private async request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -155,6 +164,33 @@ export class RestApiClient {
     return items
   }
 
+  // Partners
+
+  async getPartners(params?: PartnerListParams): Promise<Partner[]> {
+    const { items } = await this.request<{ items: Partner[] }>(`/partners${this.query({ tier: params?.tier })}`)
+    return items
+  }
+
+  async createPartner(payload: Omit<Partner, 'id'>, token: string): Promise<Partner> {
+    return this.request('/partners', {
+      method: 'POST',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async updatePartner(id: string, payload: Partial<Partner>, token: string): Promise<Partner> {
+    return this.request(`/partners/${id}`, {
+      method: 'PUT',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async deletePartner(id: string, token: string): Promise<void> {
+    await this.request(`/partners/${id}`, { method: 'DELETE', headers: this.authHeader(token) })
+  }
+
   // News
 
   async getNews(params?: PaginationParams): Promise<PaginatedResult<NewsItem>> {
@@ -248,5 +284,106 @@ export class RestApiClient {
 
   async deleteArticle(slug: string, token: string): Promise<void> {
     await this.request(`/articles/${slug}`, { method: 'DELETE', headers: this.authHeader(token) })
+  }
+
+  // Projects
+
+  async getProjects(params?: ProjectListParams): Promise<PaginatedResult<ResearchProject>> {
+    return this.request(
+      `/projects${this.query({ page: params?.page, pageSize: params?.pageSize, status: params?.status })}`,
+    )
+  }
+
+  async createProject(payload: Omit<ResearchProject, 'id'>, token: string): Promise<ResearchProject> {
+    return this.request('/projects', {
+      method: 'POST',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async updateProject(id: string, payload: Partial<ResearchProject>, token: string): Promise<ResearchProject> {
+    return this.request(`/projects/${id}`, {
+      method: 'PUT',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async deleteProject(id: string, token: string): Promise<void> {
+    await this.request(`/projects/${id}`, { method: 'DELETE', headers: this.authHeader(token) })
+  }
+
+  // Symposium Editions
+
+  async getSymposiumEditions(
+    params?: SymposiumEditionListParams,
+  ): Promise<PaginatedResult<SymposiumEdition>> {
+    return this.request(
+      `/symposium-editions${this.query({ page: params?.page, pageSize: params?.pageSize })}`,
+    )
+  }
+
+  async getSymposiumEditionBySlug(slug: string): Promise<SymposiumEdition | null> {
+    return this.getBySlugOrNull(`/symposium-editions/${slug}`)
+  }
+
+  async createSymposiumEdition(
+    payload: Omit<SymposiumEdition, 'slug'>,
+    token: string,
+  ): Promise<SymposiumEdition> {
+    return this.request('/symposium-editions', {
+      method: 'POST',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async updateSymposiumEdition(
+    slug: string,
+    payload: Partial<SymposiumEdition>,
+    token: string,
+  ): Promise<SymposiumEdition> {
+    return this.request(`/symposium-editions/${slug}`, {
+      method: 'PUT',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async deleteSymposiumEdition(slug: string, token: string): Promise<void> {
+    await this.request(`/symposium-editions/${slug}`, { method: 'DELETE', headers: this.authHeader(token) })
+  }
+
+  // Testimonials
+
+  async getTestimonials(): Promise<Testimonial[]> {
+    return this.request('/testimonials')
+  }
+
+  async createTestimonial(payload: Omit<Testimonial, 'id'>, token: string): Promise<Testimonial> {
+    return this.request('/testimonials', {
+      method: 'POST',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async updateTestimonial(id: string, payload: Partial<Testimonial>, token: string): Promise<Testimonial> {
+    return this.request(`/testimonials/${id}`, {
+      method: 'PUT',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
+  async deleteTestimonial(id: string, token: string): Promise<void> {
+    await this.request(`/testimonials/${id}`, { method: 'DELETE', headers: this.authHeader(token) })
+  }
+
+  // Contact
+
+  async submitContactForm(payload: ContactFormPayload): Promise<{ status: 'received' }> {
+    return this.request('/contact', { method: 'POST', body: JSON.stringify(payload) })
   }
 }

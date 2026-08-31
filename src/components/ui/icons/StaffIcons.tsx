@@ -111,6 +111,20 @@ export function PartnerIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function TestimonialIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path
+        d="M5 6.5A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v7A1.5 1.5 0 0 1 17.5 15H12l-3.5 3.5V15H6.5A1.5 1.5 0 0 1 5 13.5v-7Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path d="M8.5 9h7M8.5 11.5h4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 export function HistoryIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>

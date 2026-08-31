@@ -11,6 +11,7 @@ vi.mock('../../services/client', () => ({
     getArticles: vi.fn(),
     getSymposiumEditions: vi.fn(),
     getProjects: vi.fn(),
+    getTestimonials: vi.fn(),
   },
 }))
 
@@ -22,6 +23,7 @@ beforeEach(() => {
   vi.mocked(apiClient.getArticles).mockResolvedValue(emptyPage)
   vi.mocked(apiClient.getSymposiumEditions).mockResolvedValue(emptyPage)
   vi.mocked(apiClient.getProjects).mockResolvedValue(emptyPage)
+  vi.mocked(apiClient.getTestimonials).mockResolvedValue([])
 })
 
 function renderHome() {

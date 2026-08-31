@@ -1,4 +1,5 @@
 import { useRef, useState, type ChangeEvent, type DragEvent } from 'react'
+import { useAuth } from '../../auth/AuthContext'
 import {
   COVER_IMAGE_CONSTRAINTS,
   IMAGE_ALLOWED_TYPES,
@@ -7,6 +8,7 @@ import {
   validateAndProcessImage,
   type ImageConstraints,
 } from '../../utils/image'
+import { deleteImage, StorageUploadError, uploadImage } from '../../services/storage'
 import { ImagePlaceholderIcon, LinkIcon, TrashIcon, UploadCloudIcon } from '../ui/icons/StaffIcons'
 import styles from './ImageUploadField.module.css'
 
@@ -34,25 +36,44 @@ export function ImageUploadField({
   previewAlt = 'Pré-visualização da imagem',
   variant = 'cover',
 }: ImageUploadFieldProps) {
+  const { session } = useAuth()
   const [isDragging, setIsDragging] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showUrlInput, setShowUrlInput] = useState(() => Boolean(value) && !value.startsWith('data:'))
   const inputRef = useRef<HTMLInputElement>(null)
+  // The persisted value when this field mounted. Replacing/removing it must NOT delete it right
+  // away — the surrounding form hasn't saved yet, and the entity in the database still points at
+  // it until the save succeeds. Only images uploaded (and then superseded) within this same
+  // editing session — never persisted anywhere — are safe to delete immediately.
+  const persistedValueRef = useRef(value)
   const errorId = `${id}-error`
   const fileInputId = `${id}-file`
   const urlInputId = `${id}-url`
 
   async function handleFile(file: File | undefined) {
     if (!file) return
+    if (!session) {
+      setError('Sessão expirada. Faça login novamente.')
+      return
+    }
     setError(null)
     setIsProcessing(true)
     try {
-      const { dataUrl } = await validateAndProcessImage(file, constraints)
-      onChange(dataUrl)
+      const { blob } = await validateAndProcessImage(file, constraints)
+      const url = await uploadImage(blob, variant === 'avatar' ? 'avatars' : 'covers', session.token)
+      const previousValue = value
+      onChange(url)
       setShowUrlInput(false)
+      if (previousValue && previousValue !== persistedValueRef.current) {
+        void deleteImage(previousValue, session.token)
+      }
     } catch (err) {
-      setError(err instanceof ImageValidationError ? err.message : 'Não foi possível processar essa imagem.')
+      setError(
+        err instanceof ImageValidationError || err instanceof StorageUploadError
+          ? err.message
+          : 'Não foi possível processar essa imagem.',
+      )
     } finally {
       setIsProcessing(false)
     }
@@ -70,9 +91,13 @@ export function ImageUploadField({
   }
 
   function handleRemove() {
+    const previousValue = value
     onChange('')
     setError(null)
     setShowUrlInput(false)
+    if (session && previousValue && previousValue !== persistedValueRef.current) {
+      void deleteImage(previousValue, session.token)
+    }
   }
 
   const hintText = hint ?? `JPG, PNG ou WEBP · até ${MAX_SIZE_LABEL} · ideal ${constraints.recommendedLabel}`
@@ -115,10 +140,15 @@ export function ImageUploadField({
 
             {value && !showUrlInput && (
               <div className={styles.avatarActions}>
-                <button type="button" onClick={() => inputRef.current?.click()}>
-                  Trocar
+                <button type="button" disabled={isProcessing} onClick={() => inputRef.current?.click()}>
+                  {isProcessing ? 'Enviando…' : 'Trocar'}
                 </button>
-                <button type="button" className={styles.avatarRemove} onClick={handleRemove}>
+                <button
+                  type="button"
+                  className={styles.avatarRemove}
+                  disabled={isProcessing}
+                  onClick={handleRemove}
+                >
                   Remover
                 </button>
               </div>
@@ -181,10 +211,15 @@ export function ImageUploadField({
         <div className={styles.preview}>
           <img src={value} alt={previewAlt} />
           <div className={styles.previewActions}>
-            <button type="button" onClick={() => inputRef.current?.click()}>
-              Trocar imagem
+            <button type="button" disabled={isProcessing} onClick={() => inputRef.current?.click()}>
+              {isProcessing ? 'Enviando imagem…' : 'Trocar imagem'}
             </button>
-            <button type="button" className={styles.removeButton} onClick={handleRemove}>
+            <button
+              type="button"
+              className={styles.removeButton}
+              disabled={isProcessing}
+              onClick={handleRemove}
+            >
               <TrashIcon width={16} height={16} />
               Remover
             </button>
@@ -228,7 +263,7 @@ export function ImageUploadField({
           }}
         >
           {isProcessing ? (
-            <span className={styles.dropzoneLabel}>Processando imagem…</span>
+            <span className={styles.dropzoneLabel}>Enviando imagem…</span>
           ) : (
             <>
               <ImagePlaceholderIcon width={28} height={28} />

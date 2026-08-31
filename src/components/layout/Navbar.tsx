@@ -11,8 +11,6 @@ type NavEntry = NavLeaf | NavGroup
 
 const NAV_ITEMS: NavEntry[] = [
   { type: 'link', to: '/', label: 'Início', end: true },
-  { type: 'link', to: '/sobre', label: 'Sobre' },
-  { type: 'link', to: '/equipe', label: 'Equipe' },
   {
     type: 'group',
     label: 'Conteúdo',
@@ -24,6 +22,8 @@ const NAV_ITEMS: NavEntry[] = [
       { to: '/projetos', label: 'Projetos' },
     ],
   },
+  { type: 'link', to: '/sobre', label: 'Sobre' },
+  { type: 'link', to: '/equipe', label: 'Equipe' },
   { type: 'link', to: '/parceiros', label: 'Parceiros' },
   { type: 'link', to: '/contato', label: 'Contato' },
 ]

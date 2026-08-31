@@ -1,18 +1,40 @@
 .link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+}
+
+/* Doubled selector beats Card.module.css's own `.card { flex-direction: column }` regardless of
+   CSS-module bundling order, without resorting to !important. */
+.card.card {
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+  gap: var(--liac-space-md);
+  height: 100%;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.link:hover .card {
+  box-shadow: var(--liac-shadow-hover, 0 6px 16px rgba(0, 0, 0, 0.12));
+  transform: translateY(-2px);
+}
+
+.media {
+  width: 6.5rem;
+  aspect-ratio: 1;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 6rem;
-  padding: var(--liac-space-sm);
-  background: var(--liac-white);
-  border: 1px solid var(--liac-border);
   border-radius: var(--liac-radius);
-  text-decoration: none;
-  transition: box-shadow 0.15s ease;
+  overflow: hidden;
 }
 
-.link:hover {
-  box-shadow: var(--liac-shadow);
+.mediaPlaceholder {
+  padding: var(--liac-space-xs);
+  background: var(--liac-bg-alt);
 }
 
 .logo {
@@ -21,8 +43,25 @@
   object-fit: contain;
 }
 
-.namePlaceholder {
-  color: var(--liac-text);
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: var(--liac-gradient-blob-pink);
+  color: var(--liac-white);
+  font-family: var(--liac-font-display);
+  font-weight: 800;
+  font-size: 1.375rem;
+  flex-shrink: 0;
+}
+
+.name {
   font-weight: 600;
-  text-align: center;
+  margin: 0;
+  text-align: left;
+  hyphens: none;
+  -webkit-hyphens: none;
 }

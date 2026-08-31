@@ -13,6 +13,7 @@ import type {
   StaffRole,
   SymposiumEdition,
   TeamMember,
+  Testimonial,
   UpdateProfilePayload,
 } from '../types/entities'
 
@@ -56,9 +57,8 @@ export interface AuditLogListParams extends PaginationParams {
 }
 
 /**
- * Abstraction consumed by pages/hooks. The real implementation (`HybridApiClient`) composes
- * `RestApiClient` (News/Events/Articles/staff/auth — real backend, see `liac-backend`) and
- * `MockApiClient` (Projects/Team/Partners/contact form — local fixtures, no backend yet).
+ * Abstraction consumed by pages/hooks. Implemented by `RestApiClient`, which talks HTTP to the
+ * real backend (separate repo, `liac-backend`, Supabase Edge Functions) — no local fixtures left.
  */
 export interface ApiClient {
   getNews(params?: PaginationParams): Promise<PaginatedResult<NewsItem>>
@@ -107,6 +107,11 @@ export interface ApiClient {
   createPartner(payload: Omit<Partner, 'id'>, token: string): Promise<Partner>
   updatePartner(id: string, payload: Partial<Partner>, token: string): Promise<Partner>
   deletePartner(id: string, token: string): Promise<void>
+
+  getTestimonials(): Promise<Testimonial[]>
+  createTestimonial(payload: Omit<Testimonial, 'id'>, token: string): Promise<Testimonial>
+  updateTestimonial(id: string, payload: Partial<Testimonial>, token: string): Promise<Testimonial>
+  deleteTestimonial(id: string, token: string): Promise<void>
 
   submitContactForm(payload: ContactFormPayload): Promise<{ status: 'received' }>
 

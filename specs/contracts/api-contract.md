@@ -1,9 +1,9 @@
-# Contrato de API — LIAC Club (backend futuro)
+# Contrato de API — LIAC Club
 
-Este documento é a especificação que o backend do LIAC Club (construído em repositório separado)
-deve implementar. `MockApiClient` (`src/services/mock/MockApiClient.ts`) implementa o mesmo
-contrato lendo fixtures locais, para que a troca da implementação injetada — sem tocar
-componentes — seja possível assim que o backend existir (Constitution Princípios I e IV).
+Este documento é a especificação implementada pelo backend do LIAC Club (repositório separado,
+`liac-backend`, como Supabase Edge Functions). `RestApiClient`
+(`src/services/rest/RestApiClient.ts`) é o único cliente injetado no frontend e fala HTTP contra
+este mesmo contrato — não há mais fixtures locais (Constitution Princípios I e IV).
 
 Este arquivo vive em `specs/contracts/` (não em `specs/001-liac-club-platform/contracts/`)
 porque é um artefato de projeto, não de uma feature específica — todo novo trabalho no frontend
@@ -91,6 +91,19 @@ featured`
 
 **Response item (ResearchProject)**: `id, title, status, summary, members[]`
 
+### Edições do Simpósio
+
+| Método | Rota | Descrição | Query params / Body |
+|--------|------|-----------|-----------------------|
+| GET | `/symposium-editions` | Lista edições, mais recente primeiro | `page`, `pageSize` |
+| GET | `/symposium-editions/:slug` | Detalhe de uma edição | — |
+| POST | `/symposium-editions` **[autenticado]** | Cria uma edição | Body: `SymposiumEdition` sem `slug` |
+| PUT | `/symposium-editions/:slug` **[autenticado]** | Edita uma edição (inclui `featured`) | Body: `Partial<SymposiumEdition>` |
+| DELETE | `/symposium-editions/:slug` **[autenticado]** | Exclui uma edição | — |
+
+**Response item (SymposiumEdition)**: `slug, title, year, startDate, endDate, location,
+description, coverImageUrl?, externalUrl?, featured`
+
 ### Equipe
 
 | Método | Rota | Descrição | Query params / Body |
@@ -112,6 +125,17 @@ featured`
 | DELETE | `/partners/:id` **[autenticado]** | Exclui um parceiro | — |
 
 **Response item (Partner)**: `id, name, logoUrl, externalUrl, tier?`
+
+### Depoimentos
+
+| Método | Rota | Descrição | Body |
+|--------|------|-----------|------|
+| GET | `/testimonials` | Lista depoimentos | — |
+| POST | `/testimonials` **[autenticado]** | Cria um depoimento | Body: `Testimonial` sem `id` |
+| PUT | `/testimonials/:id` **[autenticado]** | Edita um depoimento | Body: `Partial<Testimonial>` |
+| DELETE | `/testimonials/:id` **[autenticado]** | Exclui um depoimento | — |
+
+**Response item (Testimonial)**: `id, name, text`
 
 ### Perfil (autoatendimento)
 

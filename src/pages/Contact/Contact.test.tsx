@@ -15,11 +15,11 @@ describe('Contact', () => {
     expect(screen.getByText(/faculdade de farmácia/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /instagram/i })).toHaveAttribute(
       'href',
-      'https://instagram.com/liac.ufrj',
+      'https://www.instagram.com/liac_ufrj?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==',
     )
     expect(screen.getByRole('link', { name: /linkedin/i })).toHaveAttribute(
       'href',
-      'https://linkedin.com/company/liac-ufrj',
+      'https://www.linkedin.com/company/liac-ufrj/',
     )
     expect(screen.getByText('Mapa de localização (placeholder)')).toBeInTheDocument()
   })
