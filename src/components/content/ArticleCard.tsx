@@ -7,14 +7,16 @@ import styles from './ArticleCard.module.css'
 
 export function ArticleCard({ article }: { article: ScientificArticle }) {
   return (
-    <Card>
+    <Card className={styles.clickable}>
       <div className={styles.tags}>
         {article.tags.map((tag) => (
           <Badge key={tag}>{tag}</Badge>
         ))}
       </div>
       <h3 className={styles.title}>
-        <Link to={`/artigos/${article.slug}`}>{article.title}</Link>
+        <Link to={`/artigos/${article.slug}`} className={styles.stretchedLink}>
+          {article.title}
+        </Link>
       </h3>
       <p className={styles.authors}>{formatAuthors(article.authors)}</p>
       <p className={styles.abstract}>{article.abstract}</p>

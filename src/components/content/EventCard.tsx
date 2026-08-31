@@ -13,10 +13,12 @@ const EVENT_TYPE_LABELS: Record<Event['type'], string> = {
 
 export function EventCard({ event }: { event: Event }) {
   return (
-    <Card>
+    <Card className={styles.clickable}>
       <Badge>{EVENT_TYPE_LABELS[event.type]}</Badge>
       <h3 className={styles.title}>
-        <Link to={`/eventos/${event.slug}`}>{event.title}</Link>
+        <Link to={`/eventos/${event.slug}`} className={styles.stretchedLink}>
+          {event.title}
+        </Link>
       </h3>
       <p className={styles.meta}>{formatEventDateRange(event.startDate, event.endDate)}</p>
       <p className={styles.meta}>{event.location}</p>
