@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
-import type { AuthSession, StaffCredentials } from '../types/entities'
+import type { AuthSession, StaffCredentials, UpdateProfilePayload } from '../types/entities'
 import { apiClient } from '../services/client'
 
 const STORAGE_KEY = 'liac_staff_session'
@@ -11,6 +11,8 @@ interface AuthContextValue {
   logout(): Promise<void>
   /** Stores an already-issued session directly (e.g. right after /set-password), skipping login. */
   setSession(session: AuthSession): void
+  /** Saves the logged-in collaborator's own profile edits and refreshes the stored session. */
+  updateProfile(payload: UpdateProfilePayload): Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -56,8 +58,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(STORAGE_KEY)
   }
 
+  async function updateProfile(payload: UpdateProfilePayload) {
+    if (!session) return
+    const updated = await apiClient.updateOwnProfile(payload, session.token)
+    persistSession(updated)
+  }
+
   return (
-    <AuthContext.Provider value={{ session, isLoading, login, logout, setSession: persistSession }}>
+    <AuthContext.Provider
+      value={{ session, isLoading, login, logout, setSession: persistSession, updateProfile }}
+    >
       {children}
     </AuthContext.Provider>
   )
