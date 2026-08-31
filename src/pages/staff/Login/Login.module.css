@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--liac-bg-alt);
+  background: var(--liac-gradient-brand);
   padding: var(--liac-space-md);
 }
 
@@ -11,10 +11,16 @@
   background: var(--liac-white);
   border: 1px solid var(--liac-border);
   border-radius: var(--liac-radius-lg);
-  box-shadow: var(--liac-shadow);
+  box-shadow: 0 24px 60px rgba(31, 18, 22, 0.25);
   padding: var(--liac-space-lg);
   max-width: 26rem;
   width: 100%;
+}
+
+.logo {
+  height: 2.5rem;
+  width: auto;
+  margin-bottom: var(--liac-space-sm);
 }
 
 .card h1 {
