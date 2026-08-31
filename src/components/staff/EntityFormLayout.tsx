@@ -8,6 +8,7 @@ interface EntityFormLayoutProps {
   isSubmitting: boolean
   submitLabel?: string
   generalError?: string | null
+  successMessage?: string | null
   children: ReactNode
 }
 
@@ -18,6 +19,7 @@ export function EntityFormLayout({
   isSubmitting,
   submitLabel = 'Salvar',
   generalError,
+  successMessage,
   children,
 }: EntityFormLayoutProps) {
   return (
@@ -27,6 +29,12 @@ export function EntityFormLayout({
       {generalError && (
         <p className={styles.errorBanner} role="alert">
           {generalError}
+        </p>
+      )}
+
+      {successMessage && (
+        <p className={styles.successBanner} role="status">
+          {successMessage}
         </p>
       )}
 
