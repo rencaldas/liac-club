@@ -8,10 +8,10 @@ Novidades/Eventos/Artigos, convite de colaboradores por e-mail e histórico de a
 **Este repositório continua 100% frontend** (Constitution Princípio I): nenhum código de
 servidor, nenhuma lógica de autenticação real e nenhum acesso a banco de dados vivem aqui — tudo
 passa pela abstração `ApiClient`. A diferença é que agora existe uma implementação real dessa
-interface: `HybridApiClient` delega Novidades/Eventos/Artigos/autenticação para o backend real
-(repositório separado, [`liac-backend`](../liac-backend), rodando como Supabase Edge Functions) e
-mantém Projetos/Equipe/Parceiros/formulário de contato no `MockApiClient` local, lendo fixtures
-JSON. Veja `.specify/memory/constitution.md` para os princípios completos e
+interface: `HybridApiClient` delega Novidades/Eventos/Artigos/autenticação/Equipe para o backend
+real (repositório separado, [`liac-backend`](../liac-backend), rodando como Supabase Edge
+Functions) e mantém Projetos/Parceiros/formulário de contato no `MockApiClient` local, lendo
+fixtures JSON. Veja `.specify/memory/constitution.md` para os princípios completos e
 `specs/002-liac-staff-area/` para o spec da área de equipe.
 
 ## Setup
@@ -25,8 +25,8 @@ npm run dev             # inicia o servidor de desenvolvimento em http://localho
 ```
 
 `.env` precisa de `VITE_API_BASE_URL` (URL base das Edge Functions do `liac-backend`) — sem ela,
-Novidades/Eventos/Artigos e o login da equipe não funcionam (Projetos/Equipe/Parceiros continuam
-funcionando normalmente, pois são mock local).
+Novidades/Eventos/Artigos, o login da equipe e a página `/equipe` não funcionam (Projetos/Parceiros
+continuam funcionando normalmente, pois são mock local).
 
 Outros scripts:
 
@@ -48,16 +48,20 @@ Login em `/portal-liac/login`, não linkado em nenhum menu público. Credenciais
 | Diretor de Marketing | `diretora.demo@liac.club` | `LiacDemo!Director2026` |
 | Coordenador | `equipe.demo@liac.club` | `LiacDemo!Member2026` |
 
-5 cargos nomeados (Diretor de Marketing, Presidente, Vice-Presidente, Coordenador, Diretor de
-Eventos) com CRUD idêntico em Novidades/Eventos/Artigos — a única distinção é que os 3 primeiros
-também veem **Equipe** (convidar colaboradores por e-mail, trocar cargo, revogar acesso) e
-**Histórico** (log de auditoria de toda escrita) no menu; os outros 2 não. Convite = e-mail real
-via Supabase Auth — a pessoa convidada define a própria senha em `/definir-senha`.
+6 cargos nomeados (Diretor de Marketing, Presidente, Vice-Presidente, Coordenador, Diretor de
+Eventos, Desenvolvedor) com CRUD idêntico em Novidades/Eventos/Artigos — a única distinção é que
+Diretor de Marketing, Presidente, Vice-Presidente e Desenvolvedor também veem **Equipe** (convidar
+colaboradores por e-mail, trocar cargo, revogar acesso) e **Histórico** (log de auditoria de toda
+escrita) no menu; Coordenador e Diretor de Eventos não. Convite = e-mail real via Supabase Auth —
+a pessoa convidada define a própria senha em `/definir-senha`.
 
 Depois de logar, a equipe pode criar/editar/excluir Novidades, Eventos e Artigos, e marcar
 qualquer um deles como "destaque" — o carrossel da Home passa a priorizar os itens marcados,
-caindo de volta para os mais recentes quando nenhum estiver marcado. Projetos, Equipe (a página
-pública `/equipe`) e Parceiros ainda não têm tela de gestão (continuam só-leitura via fixtures).
+caindo de volta para os mais recentes quando nenhum estiver marcado. A página pública `/equipe`
+lista os mesmos colaboradores que aparecem em **Equipe** no portal (via `GET /team`, leitura
+pública de `staff_profiles` no backend real — sem e-mail), mas ainda não tem tela de gestão própria
+(quem edita a equipe é sempre a tela **Equipe** do portal). Projetos e Parceiros continuam
+só-leitura via fixtures.
 
 ## Estrutura de pastas
 
@@ -113,8 +117,13 @@ de contato em qualquer um dos dois repositórios é real.
   com uma CVE conhecida (CORS no servidor de desenvolvimento, GHSA-67mh-4wv8-2f99). Afeta só
   `npm run dev`, nunca o build de produção. Corrigir exigiria pular para Vite 6+, uma migração
   maior — aceito como risco conhecido por ora.
-- **Projetos/Equipe (página pública)/Parceiros** ainda não têm CRUD nem backend real (US5-7 de
+- **Projetos/Parceiros** ainda não têm CRUD nem backend real (US5-7 de
   `specs/002-liac-staff-area/spec.md`, não implementadas nesta entrega).
+- **Equipe (página pública)** lê de verdade (`GET /team`, backend real), mas não tem CRUD próprio
+  — ela reaproveita `staff_profiles` (a tabela de contas de acesso ao portal) só para leitura, então
+  hoje só existe um jeito de editar quem aparece lá: a tela **Equipe** do portal (convidar/trocar
+  cargo/revogar), que também controla login. Não dá pra ter alguém na vitrine pública sem também
+  virar uma conta de acesso ao portal.
 - **Redirect URL do convite** precisa ser adicionada manualmente no Supabase Dashboard
   (Authentication → URL Configuration) antes do fluxo de convite funcionar de ponta a ponta — ver
   `liac-backend/README.md`.
