@@ -1,8 +1,21 @@
-import type { TeamMember } from '../../types/entities'
+import type { SocialPlatform, TeamMember } from '../../types/entities'
 import { Card } from '../ui/Card'
+import { GitHubIcon } from '../ui/icons/GitHubIcon'
 import { InstagramIcon } from '../ui/icons/InstagramIcon'
 import { LinkedInIcon } from '../ui/icons/LinkedInIcon'
 import styles from './TeamMemberCard.module.css'
+
+const SOCIAL_LABELS: Record<SocialPlatform, string> = {
+  instagram: 'Instagram',
+  linkedin: 'LinkedIn',
+  github: 'GitHub',
+}
+
+const SOCIAL_ICONS: Record<SocialPlatform, typeof InstagramIcon> = {
+  instagram: InstagramIcon,
+  linkedin: LinkedInIcon,
+  github: GitHubIcon,
+}
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/)
@@ -25,17 +38,20 @@ export function TeamMemberCard({ member }: { member: TeamMember }) {
       <p className={styles.role}>{member.role}</p>
       {member.socialLinks.length > 0 && (
         <div className={styles.social}>
-          {member.socialLinks.map((link) => (
-            <a
-              key={link.url}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${member.name} no ${link.platform === 'instagram' ? 'Instagram' : 'LinkedIn'}`}
-            >
-              {link.platform === 'instagram' ? <InstagramIcon /> : <LinkedInIcon />}
-            </a>
-          ))}
+          {member.socialLinks.map((link) => {
+            const Icon = SOCIAL_ICONS[link.platform]
+            return (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${member.name} no ${SOCIAL_LABELS[link.platform]}`}
+              >
+                <Icon />
+              </a>
+            )
+          })}
         </div>
       )}
     </Card>
