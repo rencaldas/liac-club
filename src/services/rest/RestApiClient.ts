@@ -1,4 +1,11 @@
-import type { ArticleListParams, AuditLogListParams, EventListParams, PaginatedResult, PaginationParams } from '../ApiClient'
+import type {
+  ArticleListParams,
+  AuditLogListParams,
+  EventListParams,
+  PaginatedResult,
+  PaginationParams,
+  TeamListParams,
+} from '../ApiClient'
 import type {
   AuditLogEntry,
   AuthSession,
@@ -9,6 +16,8 @@ import type {
   StaffCredentials,
   StaffMember,
   StaffRole,
+  TeamMember,
+  UpdateProfilePayload,
 } from '../../types/entities'
 import { ApiError } from './ApiError'
 
@@ -87,6 +96,13 @@ export class RestApiClient {
     })
   }
 
+  async requestPasswordReset(email: string, redirectTo: string): Promise<void> {
+    await this.request<void>('/auth-forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email, redirectTo }),
+    })
+  }
+
   // Staff (team management + audit log — diretor_marketing/presidente/vice_presidente only)
 
   async getStaffMembers(token: string): Promise<StaffMember[]> {
@@ -114,6 +130,14 @@ export class RestApiClient {
     await this.request(`/staff/${id}`, { method: 'DELETE', headers: this.authHeader(token) })
   }
 
+  async updateOwnProfile(payload: UpdateProfilePayload, token: string): Promise<AuthSession> {
+    return this.request('/staff/me', {
+      method: 'PUT',
+      headers: this.authHeader(token),
+      body: JSON.stringify(payload),
+    })
+  }
+
   async getAuditLog(
     params: AuditLogListParams | undefined,
     token: string,
@@ -122,6 +146,13 @@ export class RestApiClient {
       `/audit-log${this.query({ page: params?.page, pageSize: params?.pageSize, author: params?.author })}`,
       { headers: this.authHeader(token) },
     )
+  }
+
+  // Team (public roster — reads staff_profiles, see liac-backend/supabase/functions/team)
+
+  async getTeam(params?: TeamListParams): Promise<TeamMember[]> {
+    const { items } = await this.request<{ items: TeamMember[] }>(`/team${this.query({ area: params?.area })}`)
+    return items
   }
 
   // News
