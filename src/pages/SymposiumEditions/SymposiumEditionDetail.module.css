@@ -1,0 +1,33 @@
+.article {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.cover {
+  border-radius: var(--liac-radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--liac-space-md);
+}
+
+.cover img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.meta {
+  color: var(--liac-text-muted);
+  font-size: var(--liac-fs-small);
+  margin: 0.25rem 0;
+}
+
+.description {
+  line-height: 1.7;
+}
+
+.externalLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: var(--liac-space-sm);
+}

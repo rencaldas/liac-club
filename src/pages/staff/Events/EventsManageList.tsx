@@ -7,7 +7,8 @@ import { LoadingState } from '../../../components/ui/LoadingState'
 import { EmptyState } from '../../../components/ui/EmptyState'
 import { DataTable } from '../../../components/staff/DataTable'
 import { ConfirmDialog } from '../../../components/staff/ConfirmDialog'
-import { formatEventDateRange } from '../../../utils/date'
+import { PlusIcon } from '../../../components/ui/icons/StaffIcons'
+import { formatEventDateRangeShort } from '../../../utils/date'
 import type { Event } from '../../../types/entities'
 import styles from '../ManageList.module.css'
 
@@ -37,6 +38,7 @@ export function EventsManageList() {
       <div className={styles.header}>
         <h1>Eventos</h1>
         <Link to="/portal-liac/eventos/novo" className={styles.newButton}>
+          <PlusIcon width={16} height={16} />
           Novo Evento
         </Link>
       </div>
@@ -53,7 +55,7 @@ export function EventsManageList() {
           getKey={(item) => item.slug}
           columns={[
             { header: 'Título', render: (item) => item.title },
-            { header: 'Data', render: (item) => formatEventDateRange(item.startDate, item.endDate) },
+            { header: 'Data', render: (item) => formatEventDateRangeShort(item.startDate, item.endDate) },
             { header: 'Local', render: (item) => item.location },
             { header: 'Destaque', render: (item) => (item.featured ? 'Sim' : 'Não') },
           ]}

@@ -1,3 +1,34 @@
+.clickable {
+  position: relative;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.clickable:hover {
+  box-shadow: var(--liac-shadow-hover, 0 6px 16px rgba(0, 0, 0, 0.12));
+  transform: translateY(-2px);
+}
+
+.stretchedLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.cover {
+  margin: calc(var(--liac-space-md) * -1) calc(var(--liac-space-md) * -1) 0;
+  aspect-ratio: 1.9 / 1;
+  overflow: hidden;
+  border-radius: var(--liac-radius) var(--liac-radius) 0 0;
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .title {
   margin: 0.25rem 0;
 }

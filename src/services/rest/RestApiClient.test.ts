@@ -121,6 +121,16 @@ describe('RestApiClient', () => {
     expect(members).toEqual([member])
   })
 
+  it('unwraps the items array from GET /team and forwards the area filter', async () => {
+    const member = { id: 'm1', name: 'Fulana', role: 'Coordenador', area: 'Marketing', socialLinks: [] }
+    fetchMock.mockResolvedValue(jsonResponse({ items: [member] }))
+
+    const team = await client.getTeam({ area: 'Marketing' })
+
+    expect(fetchMock.mock.calls[0][0]).toBe(`${BASE_URL}/team?area=Marketing`)
+    expect(team).toEqual([member])
+  })
+
   it('sends the invite payload with the bearer token to POST /invite-collaborator', async () => {
     fetchMock.mockResolvedValue(jsonResponse({ status: 'invited' }, 201))
 
@@ -161,6 +171,27 @@ describe('RestApiClient', () => {
     const [url, init] = fetchMock.mock.calls[0]
     expect(url).toBe(`${BASE_URL}/staff/m1`)
     expect(init.method).toBe('DELETE')
+  })
+
+  it('PUTs the profile payload to /staff/me and returns the refreshed session', async () => {
+    const updated = { token: 't', role: 'coordenador', displayName: 'Fulana Nova', email: 'f@liac.club' }
+    fetchMock.mockResolvedValue(jsonResponse(updated))
+
+    const result = await client.updateOwnProfile(
+      { displayName: 'Fulana Nova', email: 'f@liac.club', photoUrl: 'data:image/jpeg;base64,x' },
+      'tok-1',
+    )
+
+    const [url, init] = fetchMock.mock.calls[0]
+    expect(url).toBe(`${BASE_URL}/staff/me`)
+    expect(init.method).toBe('PUT')
+    expect(init.headers.Authorization).toBe('Bearer tok-1')
+    expect(JSON.parse(init.body)).toEqual({
+      displayName: 'Fulana Nova',
+      email: 'f@liac.club',
+      photoUrl: 'data:image/jpeg;base64,x',
+    })
+    expect(result).toEqual(updated)
   })
 
   it('requests GET /audit-log with the author filter and bearer token', async () => {

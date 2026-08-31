@@ -54,3 +54,15 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.forgotLink {
+  align-self: center;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--liac-text);
+  font-size: var(--liac-fs-small);
+  font-family: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}

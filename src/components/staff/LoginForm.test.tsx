@@ -9,10 +9,12 @@ import { apiClient } from '../../services/client'
 vi.mock('../../services/client', () => ({
   apiClient: {
     login: vi.fn(),
+    requestPasswordReset: vi.fn(),
   },
 }))
 
 const login = vi.mocked(apiClient.login)
+const requestPasswordReset = vi.mocked(apiClient.requestPasswordReset)
 
 function renderPage() {
   return render(
@@ -30,6 +32,7 @@ function renderPage() {
 describe('LoginForm', () => {
   beforeEach(() => {
     login.mockReset()
+    requestPasswordReset.mockReset()
     localStorage.clear()
   })
 
@@ -59,5 +62,32 @@ describe('LoginForm', () => {
     await waitFor(() => {
       expect(screen.getByText('Painel de novidades')).toBeInTheDocument()
     })
+  })
+
+  it('switches to the forgot-password view in place, sends the reset request, and can return to login', async () => {
+    requestPasswordReset.mockResolvedValue(undefined)
+    const user = userEvent.setup()
+    renderPage()
+
+    await user.click(screen.getByRole('button', { name: 'Esqueci minha senha' }))
+    expect(screen.queryByLabelText('Senha')).not.toBeInTheDocument()
+
+    await user.type(screen.getByLabelText('E-mail'), 'equipe.demo@liac.club')
+    await user.click(screen.getByRole('button', { name: 'Enviar link' }))
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Se o e-mail informado estiver cadastrado, enviamos um link para redefinir a senha.'),
+      ).toBeInTheDocument()
+    })
+
+    expect(requestPasswordReset).toHaveBeenCalledWith(
+      'equipe.demo@liac.club',
+      expect.stringContaining('/definir-senha'),
+    )
+    expect(login).not.toHaveBeenCalled()
+
+    await user.click(screen.getByRole('button', { name: 'Voltar para o login' }))
+    expect(screen.getByLabelText('Senha')).toBeInTheDocument()
   })
 })

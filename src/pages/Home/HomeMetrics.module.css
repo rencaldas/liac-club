@@ -1,5 +1,5 @@
 .section {
-  padding-block: var(--liac-space-xl);
+  padding-block: var(--liac-space-lg);
   background: var(--liac-neutral-900);
   color: var(--liac-white);
 }

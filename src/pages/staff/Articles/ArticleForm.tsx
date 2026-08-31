@@ -157,21 +157,33 @@ export function ArticleForm() {
         )}
       </div>
 
-      <div className={styles.field}>
-        <label htmlFor="article-authors">Autores (separados por vírgula)</label>
-        <input
-          id="article-authors"
-          value={form.authors}
-          onChange={(event) => updateField('authors', event.target.value)}
-          placeholder="Ana Beatriz Ramos, Carla Menezes"
-          aria-invalid={Boolean(fieldErrors.authors)}
-          aria-describedby={fieldErrors.authors ? 'article-authors-error' : undefined}
-        />
-        {fieldErrors.authors && (
-          <p id="article-authors-error" className={styles.errorText} role="alert">
-            {fieldErrors.authors}
-          </p>
-        )}
+      <div className={styles.row}>
+        <div className={styles.field}>
+          <label htmlFor="article-authors">Autores (separados por vírgula)</label>
+          <input
+            id="article-authors"
+            value={form.authors}
+            onChange={(event) => updateField('authors', event.target.value)}
+            placeholder="Ana Beatriz Ramos, Carla Menezes"
+            aria-invalid={Boolean(fieldErrors.authors)}
+            aria-describedby={fieldErrors.authors ? 'article-authors-error' : undefined}
+          />
+          {fieldErrors.authors && (
+            <p id="article-authors-error" className={styles.errorText} role="alert">
+              {fieldErrors.authors}
+            </p>
+          )}
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="article-tags">Tags (separadas por vírgula, opcional)</label>
+          <input
+            id="article-tags"
+            value={form.tags}
+            onChange={(event) => updateField('tags', event.target.value)}
+            placeholder="formulação, envelhecimento cutâneo"
+          />
+        </div>
       </div>
 
       <div className={styles.field}>
@@ -189,16 +201,6 @@ export function ArticleForm() {
             {fieldErrors.abstract}
           </p>
         )}
-      </div>
-
-      <div className={styles.field}>
-        <label htmlFor="article-tags">Tags (separadas por vírgula, opcional)</label>
-        <input
-          id="article-tags"
-          value={form.tags}
-          onChange={(event) => updateField('tags', event.target.value)}
-          placeholder="formulação, envelhecimento cutâneo"
-        />
       </div>
 
       <div className={styles.field}>

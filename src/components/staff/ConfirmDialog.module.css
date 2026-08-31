@@ -2,11 +2,13 @@
   position: fixed;
   inset: 0;
   background: rgba(31, 18, 22, 0.5);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--liac-space-md);
   z-index: 100;
+  animation: fadeIn 0.15s ease;
 }
 
 .dialog {
@@ -16,10 +18,52 @@
   padding: var(--liac-space-lg);
   max-width: 26rem;
   width: 100%;
+  animation: popIn 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background: #fdeaea;
+  color: var(--liac-primary-dark);
+  margin-bottom: var(--liac-space-sm);
 }
 
 .dialog h2 {
   margin-top: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .dialog {
+    animation: none;
+  }
 }
 
 .actions {
