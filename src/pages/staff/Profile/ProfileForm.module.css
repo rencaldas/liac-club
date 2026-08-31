@@ -1,0 +1,53 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: var(--liac-fs-small);
+}
+
+.field input {
+  font-family: var(--liac-font-body);
+  font-size: var(--liac-fs-body);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--liac-primary);
+  outline-offset: 1px;
+}
+
+.field input:disabled {
+  background: var(--liac-bg-alt);
+  color: var(--liac-text-muted);
+  cursor: not-allowed;
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--liac-fs-small);
+  color: var(--liac-text-muted);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--liac-space-sm);
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.errorText {
+  color: var(--liac-primary-dark);
+  font-size: var(--liac-fs-small);
+  margin: 0;
+}
