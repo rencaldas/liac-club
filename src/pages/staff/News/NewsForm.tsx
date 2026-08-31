@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { apiClient } from '../../../services/client'
+import { deleteImage } from '../../../services/storage'
 import { useAuth } from '../../../auth/AuthContext'
 import { useUnsavedChangesGuard } from '../../../hooks/useUnsavedChangesGuard'
 import { EntityFormLayout } from '../../../components/staff/EntityFormLayout'
@@ -108,6 +109,9 @@ export function NewsForm() {
         await apiClient.updateNews(slug, payload, session.token)
       } else {
         await apiClient.createNews(payload, session.token)
+      }
+      if (initialForm.coverImageUrl && initialForm.coverImageUrl !== form.coverImageUrl) {
+        void deleteImage(initialForm.coverImageUrl, session.token)
       }
       setInitialForm(form)
       bypassUnsavedGuard()

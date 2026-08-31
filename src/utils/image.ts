@@ -55,16 +55,27 @@ function loadImage(objectUrl: string): Promise<HTMLImageElement> {
 }
 
 export interface ProcessedImage {
-  dataUrl: string
+  blob: Blob
   width: number
   height: number
 }
 
+function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new ImageValidationError('Não foi possível processar essa imagem.'))),
+      'image/jpeg',
+      OUTPUT_QUALITY,
+    )
+  })
+}
+
 /**
- * Validates format/size/resolution client-side (no upload endpoint exists on the backend yet,
- * see specs/contracts/api-contract.md), then downsizes to a compressed JPEG data URL so the
- * resulting image string stays reasonably small. `constraints` picks the shape expected —
- * landscape cover images by default, or `AVATAR_IMAGE_CONSTRAINTS` for a profile photo.
+ * Validates format/size/resolution client-side, then downsizes to a compressed JPEG blob ready
+ * for upload to Supabase Storage (see `uploadImage` in `services/storage.ts`) — callers must not
+ * persist the raw file, only the blob this returns, to keep stored images small. `constraints`
+ * picks the shape expected — landscape cover images by default, or `AVATAR_IMAGE_CONSTRAINTS` for
+ * a profile photo.
  */
 export async function validateAndProcessImage(
   file: File,
@@ -113,7 +124,7 @@ export async function validateAndProcessImage(
     ctx.drawImage(img, 0, 0, outputWidth, outputHeight)
 
     return {
-      dataUrl: canvas.toDataURL('image/jpeg', OUTPUT_QUALITY),
+      blob: await canvasToBlob(canvas),
       width: outputWidth,
       height: outputHeight,
     }

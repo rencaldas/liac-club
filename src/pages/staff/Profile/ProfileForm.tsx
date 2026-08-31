@@ -6,6 +6,7 @@ import { useUnsavedChangesGuard } from '../../../hooks/useUnsavedChangesGuard'
 import { EntityFormLayout } from '../../../components/staff/EntityFormLayout'
 import { ImageUploadField } from '../../../components/staff/ImageUploadField'
 import { ApiError } from '../../../services/rest/ApiError'
+import { deleteImage } from '../../../services/storage'
 import { AVATAR_IMAGE_CONSTRAINTS } from '../../../utils/image'
 import type { AuthSession, SocialLink } from '../../../types/entities'
 import styles from './ProfileForm.module.css'
@@ -87,6 +88,9 @@ export function ProfileForm() {
         area: form.area || undefined,
         socialLinks,
       })
+      if (initialForm.photoUrl && initialForm.photoUrl !== form.photoUrl) {
+        void deleteImage(initialForm.photoUrl, session.token)
+      }
       setInitialForm(form)
       bypassUnsavedGuard()
       setSuccessMessage('Perfil atualizado com sucesso.')
