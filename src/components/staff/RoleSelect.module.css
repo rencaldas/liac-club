@@ -1,0 +1,42 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+.select {
+  appearance: none;
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--liac-fs-small);
+  font-weight: 600;
+  color: var(--liac-text);
+  background: var(--liac-bg-alt);
+  border: 1px solid var(--liac-border);
+  border-radius: 999px;
+  padding: 0.55rem 2.1rem 0.55rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.select:hover {
+  border-color: var(--liac-primary);
+  background: var(--liac-white);
+}
+
+.select:focus-visible {
+  outline: none;
+  border-color: var(--liac-primary);
+  box-shadow: 0 0 0 3px rgba(199, 0, 74, 0.15);
+}
+
+.chevron {
+  position: absolute;
+  right: 0.65rem;
+  width: 1rem;
+  height: 1rem;
+  color: var(--liac-text-muted);
+  pointer-events: none;
+  transform: rotate(90deg);
+}

@@ -5,6 +5,7 @@ import { useAuth } from '../../../auth/AuthContext'
 import { useUnsavedChangesGuard } from '../../../hooks/useUnsavedChangesGuard'
 import { EntityFormLayout } from '../../../components/staff/EntityFormLayout'
 import { FeaturedToggle } from '../../../components/staff/FeaturedToggle'
+import { ImageUploadField } from '../../../components/staff/ImageUploadField'
 import { LoadingState } from '../../../components/ui/LoadingState'
 import type { NewsItem } from '../../../types/entities'
 import styles from './NewsForm.module.css'
@@ -144,37 +145,39 @@ export function NewsForm() {
         )}
       </div>
 
-      <div className={styles.field}>
-        <label htmlFor="news-publishedAt">Data de publicação</label>
-        <input
-          id="news-publishedAt"
-          type="date"
-          value={form.publishedAt}
-          onChange={(event) => updateField('publishedAt', event.target.value)}
-          aria-invalid={Boolean(fieldErrors.publishedAt)}
-          aria-describedby={fieldErrors.publishedAt ? 'news-publishedAt-error' : undefined}
-        />
-        {fieldErrors.publishedAt && (
-          <p id="news-publishedAt-error" className={styles.errorText} role="alert">
-            {fieldErrors.publishedAt}
-          </p>
-        )}
-      </div>
+      <div className={styles.row}>
+        <div className={styles.field}>
+          <label htmlFor="news-publishedAt">Data de publicação</label>
+          <input
+            id="news-publishedAt"
+            type="date"
+            value={form.publishedAt}
+            onChange={(event) => updateField('publishedAt', event.target.value)}
+            aria-invalid={Boolean(fieldErrors.publishedAt)}
+            aria-describedby={fieldErrors.publishedAt ? 'news-publishedAt-error' : undefined}
+          />
+          {fieldErrors.publishedAt && (
+            <p id="news-publishedAt-error" className={styles.errorText} role="alert">
+              {fieldErrors.publishedAt}
+            </p>
+          )}
+        </div>
 
-      <div className={styles.field}>
-        <label htmlFor="news-category">Categoria</label>
-        <input
-          id="news-category"
-          value={form.category}
-          onChange={(event) => updateField('category', event.target.value)}
-          aria-invalid={Boolean(fieldErrors.category)}
-          aria-describedby={fieldErrors.category ? 'news-category-error' : undefined}
-        />
-        {fieldErrors.category && (
-          <p id="news-category-error" className={styles.errorText} role="alert">
-            {fieldErrors.category}
-          </p>
-        )}
+        <div className={styles.field}>
+          <label htmlFor="news-category">Categoria</label>
+          <input
+            id="news-category"
+            value={form.category}
+            onChange={(event) => updateField('category', event.target.value)}
+            aria-invalid={Boolean(fieldErrors.category)}
+            aria-describedby={fieldErrors.category ? 'news-category-error' : undefined}
+          />
+          {fieldErrors.category && (
+            <p id="news-category-error" className={styles.errorText} role="alert">
+              {fieldErrors.category}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className={styles.field}>
@@ -211,14 +214,12 @@ export function NewsForm() {
         )}
       </div>
 
-      <div className={styles.field}>
-        <label htmlFor="news-cover">URL da imagem de capa (opcional)</label>
-        <input
-          id="news-cover"
-          value={form.coverImageUrl}
-          onChange={(event) => updateField('coverImageUrl', event.target.value)}
-        />
-      </div>
+      <ImageUploadField
+        id="news-cover"
+        label="Imagem de capa (opcional)"
+        value={form.coverImageUrl}
+        onChange={(value) => updateField('coverImageUrl', value)}
+      />
 
       <FeaturedToggle checked={form.featured} onChange={(checked) => updateField('featured', checked)} />
     </EntityFormLayout>

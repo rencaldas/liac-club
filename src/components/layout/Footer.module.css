@@ -1,14 +1,14 @@
 .footer {
   background: var(--liac-neutral-900);
   color: var(--liac-white);
-  margin-top: var(--liac-space-xl);
+  margin-top: var(--liac-space-lg);
 }
 
 .inner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--liac-space-lg);
-  padding-block: var(--liac-space-xl);
+  gap: var(--liac-space-md);
+  padding-block: var(--liac-space-lg);
 }
 
 .brand {
@@ -54,7 +54,7 @@
 
 .bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding-block: var(--liac-space-sm);
+  padding-block: var(--liac-space-xs);
   font-size: var(--liac-fs-small);
   /* --liac-neutral-500 is calibrated as a muted text color for LIGHT backgrounds (see
      tokens.css) — using it here on the dark footer failed AA contrast (same class of bug as

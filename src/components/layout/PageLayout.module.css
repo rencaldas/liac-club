@@ -1,0 +1,16 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+}
+
+/* Cancels Footer's own margin-top (see Footer.module.css) so the home page's dark metrics
+   band sits flush against the footer with no gap, without changing that spacing on every
+   other page. */
+.mainFlush {
+  margin-bottom: calc(-1 * var(--liac-space-xl));
+}

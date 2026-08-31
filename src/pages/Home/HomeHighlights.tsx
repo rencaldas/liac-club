@@ -4,10 +4,13 @@ import { useAsyncResource } from '../../hooks/useAsyncResource'
 import { NewsCard } from '../../components/content/NewsCard'
 import { EventCard } from '../../components/content/EventCard'
 import { ArticleCard } from '../../components/content/ArticleCard'
+import { SymposiumEditionCard } from '../../components/content/SymposiumEditionCard'
+import { ProjectCard } from '../../components/content/ProjectCard'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { EmptyState } from '../../components/ui/EmptyState'
 import { Button } from '../../components/ui/Button'
 import { Carousel } from '../../components/ui/Carousel'
+import { HomeMetrics } from './HomeMetrics'
 import styles from './HomeHighlights.module.css'
 
 const HIGHLIGHT_COUNT = 8
@@ -102,12 +105,72 @@ function ArticleHighlights() {
   )
 }
 
+function SymposiumEditionHighlights() {
+  const fetchEditions = useCallback(
+    () => apiClient.getSymposiumEditions({ pageSize: HIGHLIGHT_COUNT }),
+    [],
+  )
+  const { status, data } = useAsyncResource(fetchEditions, [])
+
+  return (
+    <section className={`${styles.section} ${styles.altBg}`}>
+      <div className="liac-container">
+        <div className={styles.sectionHeader}>
+          <h2>Edições anteriores do Simpósio</h2>
+          <Button to="/edicoes-anteriores" variant="secondary">
+            Ver todas
+          </Button>
+        </div>
+        {status === 'loading' && <LoadingState label="Carregando edições…" />}
+        {status === 'empty' && <EmptyState title="Ainda não há edições registradas." />}
+        {status === 'success' && data && (
+          <Carousel ariaLabel="Edições anteriores do Simpósio">
+            {pickFeatured(data.items).map((edition) => (
+              <SymposiumEditionCard key={edition.slug} edition={edition} />
+            ))}
+          </Carousel>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function ProjectHighlights() {
+  const fetchProjects = useCallback(() => apiClient.getProjects({ pageSize: HIGHLIGHT_COUNT }), [])
+  const { status, data } = useAsyncResource(fetchProjects, [])
+
+  return (
+    <section className={styles.section}>
+      <div className="liac-container">
+        <div className={styles.sectionHeader}>
+          <h2>Projetos de pesquisa</h2>
+          <Button to="/projetos" variant="secondary">
+            Ver todos
+          </Button>
+        </div>
+        {status === 'loading' && <LoadingState label="Carregando projetos…" />}
+        {status === 'empty' && <EmptyState title="Ainda não há projetos cadastrados." />}
+        {status === 'success' && data && (
+          <Carousel ariaLabel="Projetos de pesquisa">
+            {data.items.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </Carousel>
+        )}
+      </div>
+    </section>
+  )
+}
+
 export function HomeHighlights() {
   return (
     <>
       <NewsHighlights />
+      <HomeMetrics />
       <EventHighlights />
       <ArticleHighlights />
+      <SymposiumEditionHighlights />
+      <ProjectHighlights />
     </>
   )
 }

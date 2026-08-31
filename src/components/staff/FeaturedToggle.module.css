@@ -1,14 +1,53 @@
 .toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
   font-weight: 500;
   cursor: pointer;
+  width: fit-content;
 }
 
-.toggle input {
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.track {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 1.4rem;
+  border-radius: 999px;
+  background: var(--liac-border);
+  padding: 0.15rem;
+  transition: background-color 0.2s ease;
+}
+
+.thumb {
+  display: block;
   width: 1.1rem;
   height: 1.1rem;
-  accent-color: var(--liac-primary);
-  cursor: pointer;
+  border-radius: 999px;
+  background: var(--liac-white);
+  box-shadow: 0 1px 3px rgba(31, 18, 22, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.input:checked + .track {
+  background: var(--liac-primary);
+}
+
+.input:checked + .track .thumb {
+  transform: translateX(1.1rem);
+}
+
+.input:focus-visible + .track {
+  outline: 2px solid var(--liac-primary);
+  outline-offset: 2px;
 }

@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--liac-space-sm);
+  flex-wrap: wrap;
 }
 
 .header h1 {
@@ -16,20 +17,51 @@
 }
 
 .newButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   background: var(--liac-primary);
   color: var(--liac-white);
   text-decoration: none;
   border-radius: 999px;
-  padding: 0.6rem 1.25rem;
+  padding: 0.65rem 1.35rem 0.65rem 1.1rem;
   font-weight: 600;
   white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(199, 0, 74, 0.25);
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .newButton:hover {
   background: var(--liac-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(199, 0, 74, 0.32);
 }
 
 .deleteError {
   color: var(--liac-primary-dark);
+  background: #fdeaea;
+  border: 1px solid var(--liac-primary);
+  border-radius: var(--liac-radius);
+  padding: 0.6rem 0.9rem;
   margin: 0;
+}
+
+.thumb {
+  width: 3.5rem;
+  height: 2.1rem;
+  border-radius: 0.4rem;
+  object-fit: cover;
+  display: block;
+  background: var(--liac-bg-alt);
+}
+
+.thumbPlaceholder {
+  width: 3.5rem;
+  height: 2.1rem;
+  border-radius: 0.4rem;
+  background: var(--liac-bg-alt);
+  color: var(--liac-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
