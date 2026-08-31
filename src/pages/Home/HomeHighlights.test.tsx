@@ -3,13 +3,21 @@ import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { HomeHighlights } from './HomeHighlights'
 import { apiClient } from '../../services/client'
-import type { Event, NewsItem, ScientificArticle } from '../../types/entities'
+import type {
+  Event,
+  NewsItem,
+  ResearchProject,
+  ScientificArticle,
+  SymposiumEdition,
+} from '../../types/entities'
 
 vi.mock('../../services/client', () => ({
   apiClient: {
     getNews: vi.fn(),
     getEvents: vi.fn(),
     getArticles: vi.fn(),
+    getSymposiumEditions: vi.fn(),
+    getProjects: vi.fn(),
   },
 }))
 
@@ -47,6 +55,28 @@ function makeArticles(n: number): ScientificArticle[] {
   }))
 }
 
+function makeEditions(n: number): SymposiumEdition[] {
+  return Array.from({ length: n }, (_, i) => ({
+    slug: `edicao-${i}`,
+    title: `Edição ${i}`,
+    year: 2020 + i,
+    startDate: '2026-10-01',
+    endDate: '2026-10-01',
+    location: 'Local',
+    description: 'Descrição',
+  }))
+}
+
+function makeProjects(n: number): ResearchProject[] {
+  return Array.from({ length: n }, (_, i) => ({
+    id: `projeto-${i}`,
+    title: `Projeto ${i}`,
+    status: 'ativo',
+    summary: 'Resumo',
+    members: ['Integrante'],
+  }))
+}
+
 function renderHighlights() {
   return render(
     <MemoryRouter>
@@ -75,6 +105,18 @@ describe('HomeHighlights', () => {
       pageSize: 8,
       total: 8,
     })
+    vi.mocked(apiClient.getSymposiumEditions).mockResolvedValue({
+      items: makeEditions(8),
+      page: 1,
+      pageSize: 8,
+      total: 8,
+    })
+    vi.mocked(apiClient.getProjects).mockResolvedValue({
+      items: makeProjects(8),
+      page: 1,
+      pageSize: 8,
+      total: 8,
+    })
   })
 
   it('requests exactly 8 items of each content type', async () => {
@@ -85,6 +127,8 @@ describe('HomeHighlights', () => {
     })
     expect(apiClient.getEvents).toHaveBeenCalledWith({ pageSize: 8 })
     expect(apiClient.getArticles).toHaveBeenCalledWith({ pageSize: 8 })
+    expect(apiClient.getSymposiumEditions).toHaveBeenCalledWith({ pageSize: 8 })
+    expect(apiClient.getProjects).toHaveBeenCalledWith({ pageSize: 8 })
   })
 
   it('renders a carousel of cards for each type, each linking to its own detail page', async () => {
@@ -105,6 +149,11 @@ describe('HomeHighlights', () => {
       'href',
       '/artigos/artigo-0',
     )
+    expect(screen.getByRole('link', { name: 'Edição 0' })).toHaveAttribute(
+      'href',
+      '/edicoes-anteriores/edicao-0',
+    )
+    expect(screen.getByText('Projeto 0')).toBeInTheDocument()
   })
 
   it('links each "Ver todas/todos" to the corresponding listing page', async () => {
@@ -112,9 +161,12 @@ describe('HomeHighlights', () => {
 
     await waitFor(() => expect(screen.getByText('Novidade 0')).toBeInTheDocument())
 
-    expect(screen.getByRole('link', { name: 'Ver todas' })).toHaveAttribute('href', '/novidades')
+    const verTodas = screen.getAllByRole('link', { name: 'Ver todas' })
+    expect(verTodas[0]).toHaveAttribute('href', '/novidades')
+    expect(verTodas[1]).toHaveAttribute('href', '/edicoes-anteriores')
     const verTodos = screen.getAllByRole('link', { name: 'Ver todos' })
     expect(verTodos[0]).toHaveAttribute('href', '/eventos')
     expect(verTodos[1]).toHaveAttribute('href', '/artigos')
+    expect(verTodos[2]).toHaveAttribute('href', '/projetos')
   })
 })
