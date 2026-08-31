@@ -1,7 +1,6 @@
 import { ContactForm } from '../../components/content/ContactForm'
 import { InstagramIcon } from '../../components/ui/icons/InstagramIcon'
 import { LinkedInIcon } from '../../components/ui/icons/LinkedInIcon'
-import { WhatsAppIcon } from '../../components/ui/icons/WhatsAppIcon'
 import styles from './Contact.module.css'
 
 export function Contact() {
@@ -28,7 +27,7 @@ export function Contact() {
           <h2>Redes sociais</h2>
           <div className={styles.social}>
             <a
-              href="https://instagram.com/liac.ufrj"
+              href="https://www.instagram.com/liac_ufrj?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw=="
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LIAC no Instagram"
@@ -36,20 +35,12 @@ export function Contact() {
               <InstagramIcon />
             </a>
             <a
-              href="https://linkedin.com/company/liac-ufrj"
+              href="https://www.linkedin.com/company/liac-ufrj/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LIAC no LinkedIn"
             >
               <LinkedInIcon />
-            </a>
-            <a
-              href="https://wa.me/5521999999999"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LIAC no WhatsApp"
-            >
-              <WhatsAppIcon />
             </a>
           </div>
 
