@@ -113,6 +113,18 @@ featured`
 
 **Response item (Partner)**: `id, name, logoUrl, externalUrl, tier?`
 
+### Perfil (autoatendimento)
+
+| Método | Rota | Descrição | Body |
+|--------|------|-----------|------|
+| PUT | `/staff/me` **[autenticado]** | Colaborador edita o próprio perfil | Body: `{ displayName, email, photoUrl?, area?, socialLinks? }` |
+
+Igual às demais rotas de staff (ver nota sobre `/auth-login`/`/auth-logout` acima, essa é
+implantada como `/staff/me`, não `/staff/:id/me`), qualquer colaborador autenticado pode chamar
+essa rota para editar seus próprios dados — **exceto `role`**, que não faz parte do body aceito e
+só muda via `PUT /staff/:id` (rota já existente, restrita a quem tem acesso de gestão de equipe).
+**Response (200)**: `AuthSession` atualizado (mesmo formato de `/auth-login`).
+
 ### Histórico de Alterações
 
 | Método | Rota | Descrição | Query params |
