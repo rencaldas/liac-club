@@ -135,8 +135,9 @@ No Vercel especificamente:
 
 1. Importe o repositório — o preset "Vite" é detectado automaticamente (`npm run build`, saída em
    `dist/`).
-2. Em Settings → Environment Variables, adicione `VITE_API_BASE_URL` com o valor de
-   `.env.example`.
+2. Em Settings → Environment Variables, adicione `VITE_API_BASE_URL` e `VITE_SUPABASE_ANON_KEY`
+   com os valores de `.env.example` — sem a segunda, o upload de imagem de capa/avatar falha em
+   produção (a chamada à Storage do Supabase vai sem `apikey`).
 3. `vercel.json` na raiz já faz o rewrite de toda rota pra `/index.html`, necessário porque o
    roteamento (`createBrowserRouter`) é 100% client-side — sem isso, recarregar a página em
    qualquer rota que não seja `/` (ex: `/portal-liac/login`) dá 404.

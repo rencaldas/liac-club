@@ -30,6 +30,8 @@ import { SymposiumEditionsManageList } from './pages/staff/SymposiumEditions/Sym
 import { SymposiumEditionForm } from './pages/staff/SymposiumEditions/SymposiumEditionForm'
 import { ProjectsManageList } from './pages/staff/Projects/ProjectsManageList'
 import { ProjectForm } from './pages/staff/Projects/ProjectForm'
+import { TestimonialsManageList } from './pages/staff/Testimonials/TestimonialsManageList'
+import { TestimonialForm } from './pages/staff/Testimonials/TestimonialForm'
 import { TeamManageList } from './pages/staff/Team/TeamManageList'
 import { PartnersManageList } from './pages/staff/Partners/PartnersManageList'
 import { PartnerForm } from './pages/staff/Partners/PartnerForm'
@@ -87,6 +89,9 @@ export const router = createBrowserRouter([
               { path: 'projetos', element: <ProjectsManageList /> },
               { path: 'projetos/novo', element: <ProjectForm /> },
               { path: 'projetos/:id/editar', element: <ProjectForm /> },
+              { path: 'depoimentos', element: <TestimonialsManageList /> },
+              { path: 'depoimentos/novo', element: <TestimonialForm /> },
+              { path: 'depoimentos/:id/editar', element: <TestimonialForm /> },
               { path: 'perfil', element: <ProfileForm /> },
               {
                 element: <RequireRole />,

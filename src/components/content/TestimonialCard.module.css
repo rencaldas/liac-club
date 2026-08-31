@@ -1,0 +1,11 @@
+.text {
+  color: var(--liac-text-muted);
+  margin: 0;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.name {
+  font-weight: 600;
+  margin: 0;
+}

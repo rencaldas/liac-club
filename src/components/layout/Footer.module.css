@@ -11,6 +11,29 @@
   padding-block: var(--liac-space-lg);
 }
 
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--liac-space-md);
+  text-align: center;
+  padding-top: var(--liac-space-lg);
+  padding-bottom: var(--liac-space-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.metricValue {
+  font-family: var(--liac-font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--liac-accent-coral);
+  margin: 0;
+}
+
+.metricLabel {
+  margin: 0.25rem 0 0;
+  color: var(--liac-white);
+}
+
 .brand {
   font-family: var(--liac-font-display);
   font-weight: 800;
@@ -66,5 +89,9 @@
 @media (min-width: 768px) {
   .inner {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .metrics {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

@@ -12,10 +12,12 @@ export function About() {
         <section>
           <h2>Missão</h2>
           <p>
-            A Liga Acadêmica de Cosmetologia da UFRJ (LIAC) existe para aproximar a ciência
-            cosmética produzida na universidade do público — traduzindo pesquisa em conteúdo
-            acessível, sem perder rigor técnico. Acreditamos que divulgação científica de
-            qualidade é parte do trabalho de quem faz ciência, não um extra.
+            A Liga Acadêmica de Cosmetologia (LiAC), da Faculdade de Farmácia (FF), da
+            Universidade Federal do Rio de Janeiro (UFRJ) é uma entidade de iniciativa
+            estudantil, de natureza autônoma, civil, laica, não vinculada a partidos políticos,
+            sem fins lucrativos e de duração ilimitada. Nossa atuação está direcionada para a
+            promoção da discussão relacionada à fabricação, regulação e características de
+            produtos cosméticos e dermocosméticos em geral.
           </p>
         </section>
 
