@@ -134,4 +134,20 @@ Build estático (`npm run build` gera `dist/`), compatível com qualquer hospeda
 (Vercel, Netlify, GitHub Pages) — configure `VITE_API_BASE_URL` como variável de ambiente de
 build na hospedagem escolhida (mesmo valor de `.env.example`, ou a URL do seu próprio backend caso
 tenha implantado uma cópia de `liac-backend`). O backend (`liac-backend`) é implantado
-separadamente via Supabase (`supabase functions deploy`) — ver o README daquele repositório.
+separadamente via Supabase (`supabase functions deploy`) — ver o README daquele repositório; o
+Vercel **não hospeda** esse backend, ele só serve este frontend estático que conversa com o
+projeto Supabase já publicado.
+
+No Vercel especificamente:
+
+1. Importe o repositório — o preset "Vite" é detectado automaticamente (`npm run build`, saída em
+   `dist/`).
+2. Em Settings → Environment Variables, adicione `VITE_API_BASE_URL` com o valor de
+   `.env.example`.
+3. `vercel.json` na raiz já faz o rewrite de toda rota pra `/index.html`, necessário porque o
+   roteamento (`createBrowserRouter`) é 100% client-side — sem isso, recarregar a página em
+   qualquer rota que não seja `/` (ex: `/portal-liac/login`) dá 404.
+4. Depois do primeiro deploy, adicione a URL de produção do Vercel (`https://.../definir-senha`)
+   em Authentication → URL Configuration → Redirect URLs no Supabase Dashboard do `liac-backend` —
+   sem isso os fluxos de convite e "esqueci minha senha" quebram em produção (mesma configuração
+   manual já necessária em dev, ver `liac-backend/README.md`).
