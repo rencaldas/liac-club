@@ -1,6 +1,5 @@
 import { Button } from '../../components/ui/Button'
 import { HomeHighlights } from './HomeHighlights'
-import { HomeMetrics } from './HomeMetrics'
 import liacLogo from '../../../docs/brand/liac-logo-2-white.png'
 import styles from './Home.module.css'
 
@@ -31,7 +30,6 @@ export function Home() {
       </section>
 
       <HomeHighlights />
-      <HomeMetrics />
     </>
   )
 }

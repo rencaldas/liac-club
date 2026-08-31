@@ -6,11 +6,11 @@ import { EventCard } from '../../components/content/EventCard'
 import { ArticleCard } from '../../components/content/ArticleCard'
 import { SymposiumEditionCard } from '../../components/content/SymposiumEditionCard'
 import { ProjectCard } from '../../components/content/ProjectCard'
+import { TestimonialCard } from '../../components/content/TestimonialCard'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { EmptyState } from '../../components/ui/EmptyState'
 import { Button } from '../../components/ui/Button'
 import { Carousel } from '../../components/ui/Carousel'
-import { HomeMetrics } from './HomeMetrics'
 import styles from './HomeHighlights.module.css'
 
 const HIGHLIGHT_COUNT = 8
@@ -162,15 +162,39 @@ function ProjectHighlights() {
   )
 }
 
+function TestimonialHighlights() {
+  const fetchTestimonials = useCallback(() => apiClient.getTestimonials(), [])
+  const { status, data } = useAsyncResource(fetchTestimonials, [])
+
+  return (
+    <section className={`${styles.section} ${styles.altBg}`}>
+      <div className="liac-container">
+        <div className={styles.sectionHeader}>
+          <h2>Depoimentos de ligantes</h2>
+        </div>
+        {status === 'loading' && <LoadingState label="Carregando depoimentos…" />}
+        {status === 'empty' && <EmptyState title="Ainda não há depoimentos cadastrados." />}
+        {status === 'success' && data && (
+          <Carousel ariaLabel="Depoimentos de ligantes">
+            {data.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </Carousel>
+        )}
+      </div>
+    </section>
+  )
+}
+
 export function HomeHighlights() {
   return (
     <>
       <NewsHighlights />
-      <HomeMetrics />
       <EventHighlights />
       <ArticleHighlights />
       <SymposiumEditionHighlights />
       <ProjectHighlights />
+      <TestimonialHighlights />
     </>
   )
 }
