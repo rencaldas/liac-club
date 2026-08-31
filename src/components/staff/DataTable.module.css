@@ -1,8 +1,9 @@
 .wrapper {
   overflow-x: auto;
   border: 1px solid var(--liac-border);
-  border-radius: var(--liac-radius);
+  border-radius: var(--liac-radius-lg);
   background: var(--liac-white);
+  box-shadow: var(--liac-shadow);
 }
 
 .table {
@@ -14,17 +15,34 @@
 .table th,
 .table td {
   text-align: left;
-  padding: 0.75rem var(--liac-space-sm);
+  padding: 0.85rem var(--liac-space-sm);
   border-bottom: 1px solid var(--liac-border);
-  white-space: nowrap;
+  overflow-wrap: break-word;
 }
 
-.table th {
+.table thead th {
+  background: var(--liac-bg-alt);
   color: var(--liac-text-muted);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: var(--liac-fs-eyebrow);
+}
+
+.table thead th:first-child {
+  border-top-left-radius: var(--liac-radius-lg);
+}
+
+.table thead th:last-child {
+  border-top-right-radius: var(--liac-radius-lg);
+}
+
+.table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+.table tbody tr:hover {
+  background: var(--liac-bg-alt);
 }
 
 .table tr:last-child td {
@@ -33,5 +51,29 @@
 
 .actionsCell {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.actionsCell a,
+.actionsCell button {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--liac-fs-small);
+  color: var(--liac-primary);
+  background: none;
+  border: 1px solid var(--liac-border);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.actionsCell a:hover,
+.actionsCell button:hover {
+  background: var(--liac-bg-alt);
+  border-color: var(--liac-primary);
 }

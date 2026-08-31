@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FocusEvent, type MouseEvent } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { MenuIcon, CloseIcon } from '../ui/icons/MenuIcon'
+import { LoginModal } from '../staff/LoginModal'
 import liacLogo from '../../../docs/brand/liac-logo-2.png'
 import styles from './Navbar.module.css'
 
@@ -19,6 +20,7 @@ const NAV_ITEMS: NavEntry[] = [
       { to: '/eventos', label: 'Eventos' },
       { to: '/artigos', label: 'Artigos' },
       { to: '/novidades', label: 'Novidades' },
+      { to: '/edicoes-anteriores', label: 'Edições Anteriores do Simpósio' },
       { to: '/projetos', label: 'Projetos' },
     ],
   },
@@ -40,6 +42,7 @@ type Indicator = { left: number; width: number; opacity: number }
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [indicator, setIndicator] = useState<Indicator>({ left: 0, width: 0, opacity: 0 })
   const navListRef = useRef<HTMLDivElement>(null)
@@ -145,16 +148,22 @@ export function Navbar() {
           </ul>
         </div>
 
-        <button
-          type="button"
-          className={styles.toggle}
-          aria-expanded={isOpen}
-          aria-controls="mobile-menu"
-          aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
-          onClick={() => setIsOpen((open) => !open)}
-        >
-          {isOpen ? <CloseIcon /> : <MenuIcon />}
-        </button>
+        <div className={styles.actions}>
+          <button type="button" className={styles.loginButton} onClick={() => setIsLoginOpen(true)}>
+            Portal da Equipe
+          </button>
+
+          <button
+            type="button"
+            className={styles.toggle}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+            aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
+            onClick={() => setIsOpen((open) => !open)}
+          >
+            {isOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
       </div>
 
       {isOpen && (
@@ -171,8 +180,20 @@ export function Navbar() {
               {item.label}
             </NavLink>
           ))}
+          <button
+            type="button"
+            style={{ animationDelay: `${MOBILE_ITEMS.length * 30}ms` }}
+            onClick={() => {
+              setIsOpen(false)
+              setIsLoginOpen(true)
+            }}
+          >
+            Entrar no Portal LIAC
+          </button>
         </nav>
       )}
+
+      {isLoginOpen && <LoginModal onClose={() => setIsLoginOpen(false)} />}
     </header>
   )
 }

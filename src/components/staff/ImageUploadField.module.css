@@ -1,0 +1,247 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: var(--liac-fs-small);
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--liac-text-muted);
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.dropzone {
+  aspect-ratio: 1.9 / 1;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: var(--liac-space-md);
+  border: 2px dashed var(--liac-border);
+  border-radius: var(--liac-radius);
+  background: var(--liac-bg-alt);
+  color: var(--liac-text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.dropzone:hover,
+.dropzone:focus-visible {
+  border-color: var(--liac-primary);
+  color: var(--liac-primary-dark);
+  outline: none;
+}
+
+.dropzoneActive {
+  border-color: var(--liac-primary);
+  background: #fdeaea;
+  color: var(--liac-primary-dark);
+}
+
+.dropzoneLabel {
+  font-size: var(--liac-fs-small);
+  max-width: 20rem;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 28rem;
+}
+
+.preview img {
+  width: 100%;
+  aspect-ratio: 1.9 / 1;
+  object-fit: cover;
+  border-radius: var(--liac-radius);
+  border: 1px solid var(--liac-border);
+  display: block;
+}
+
+.previewActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.previewActions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--liac-fs-small);
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--liac-border);
+  background: var(--liac-white);
+  color: var(--liac-text);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.previewActions button:hover {
+  background: var(--liac-bg-alt);
+}
+
+.removeButton {
+  color: var(--liac-primary-dark) !important;
+}
+
+.urlMode {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 28rem;
+}
+
+.urlMode input {
+  font-family: var(--liac-font-body);
+  font-size: var(--liac-fs-body);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--liac-border);
+  border-radius: var(--liac-radius);
+}
+
+.urlPreview {
+  aspect-ratio: 1.9 / 1;
+  overflow: hidden;
+  border-radius: var(--liac-radius);
+  border: 1px solid var(--liac-border);
+  background: var(--liac-bg-alt);
+}
+
+.urlPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.linkToggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--liac-primary);
+  font-size: var(--liac-fs-small);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.linkToggle:hover {
+  color: var(--liac-primary-dark);
+  text-decoration: underline;
+}
+
+.errorText {
+  color: var(--liac-primary-dark);
+  font-size: var(--liac-fs-small);
+  margin: 0;
+}
+
+/* Avatar variant — compact circular uploader for profile photos */
+
+.avatarRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.avatarMedia {
+  flex-shrink: 0;
+  width: 5.5rem;
+  height: 5.5rem;
+}
+
+.avatarMedia .dropzone {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  padding: 0;
+  gap: 0;
+}
+
+.avatarMedia .preview {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.avatarMedia .preview img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+}
+
+.avatarMeta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.15rem;
+}
+
+.avatarMeta .hint {
+  margin: 0;
+}
+
+.avatarActions {
+  display: flex;
+  gap: 0.9rem;
+}
+
+.avatarActions button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: var(--liac-fs-small);
+  font-weight: 600;
+  color: var(--liac-primary);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.avatarActions button:hover {
+  color: var(--liac-primary-dark);
+  text-decoration: underline;
+}
+
+.avatarRemove {
+  color: var(--liac-text-muted) !important;
+}
+
+.avatarUrlPreview {
+  width: 3.25rem;
+  height: 3.25rem;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  align-self: flex-start;
+}

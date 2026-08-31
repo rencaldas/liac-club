@@ -170,8 +170,37 @@
   z-index: 0;
 }
 
-.toggle {
+.actions {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.loginButton {
+  display: none;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0.45rem 0.85rem;
+  border: none;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: var(--liac-fs-small);
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--liac-primary);
+  color: var(--liac-white);
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.loginButton:hover,
+.loginButton:focus-visible {
+  background: var(--liac-primary-dark);
+  transform: translateY(-1px);
+}
+
+.toggle {
   display: inline-flex;
   background: none;
   border: none;
@@ -200,18 +229,28 @@
   box-shadow: 0 16px 40px rgba(31, 18, 22, 0.14);
 }
 
-.mobileMenu a {
+.mobileMenu a,
+.mobileMenu button {
   position: relative;
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
   color: var(--liac-text);
   text-decoration: none;
   font-weight: 500;
+  font-size: var(--liac-fs-body);
   padding: 0.65rem 0.85rem;
   border-radius: var(--liac-radius);
   animation: navItemIn 0.35s ease backwards;
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.mobileMenu a:hover {
+.mobileMenu a:hover,
+.mobileMenu button:hover {
   background: var(--liac-bg-alt);
   color: var(--liac-primary-dark);
   transform: translateX(4px);
@@ -245,6 +284,7 @@
   .groupArrow,
   .dropdown,
   .indicator,
+  .loginButton,
   .toggle,
   .mobileMenu a {
     transition: none;
@@ -258,6 +298,10 @@
 @media (min-width: 1024px) {
   .navList {
     display: block;
+  }
+
+  .loginButton {
+    display: inline-flex;
   }
 
   .toggle {

@@ -24,6 +24,18 @@
   outline-offset: 1px;
 }
 
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--liac-space-sm);
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .errorText {
   color: var(--liac-primary-dark);
   font-size: var(--liac-fs-small);

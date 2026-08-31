@@ -181,31 +181,33 @@ export function EventForm() {
         </div>
       </div>
 
-      <div className={styles.field}>
-        <label htmlFor="event-location">Local</label>
-        <input
-          id="event-location"
-          value={form.location}
-          onChange={(event) => updateField('location', event.target.value)}
-          aria-invalid={Boolean(fieldErrors.location)}
-          aria-describedby={fieldErrors.location ? 'event-location-error' : undefined}
-        />
-        {fieldErrors.location && (
-          <p id="event-location-error" className={styles.errorText} role="alert">
-            {fieldErrors.location}
-          </p>
-        )}
-      </div>
+      <div className={styles.row}>
+        <div className={styles.field}>
+          <label htmlFor="event-location">Local</label>
+          <input
+            id="event-location"
+            value={form.location}
+            onChange={(event) => updateField('location', event.target.value)}
+            aria-invalid={Boolean(fieldErrors.location)}
+            aria-describedby={fieldErrors.location ? 'event-location-error' : undefined}
+          />
+          {fieldErrors.location && (
+            <p id="event-location-error" className={styles.errorText} role="alert">
+              {fieldErrors.location}
+            </p>
+          )}
+        </div>
 
-      <div className={styles.field}>
-        <label htmlFor="event-type">Tipo</label>
-        <select id="event-type" value={form.type} onChange={(event) => updateField('type', event.target.value as EventType)}>
-          {EVENT_TYPE_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className={styles.field}>
+          <label htmlFor="event-type">Tipo</label>
+          <select id="event-type" value={form.type} onChange={(event) => updateField('type', event.target.value as EventType)}>
+            {EVENT_TYPE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className={styles.field}>

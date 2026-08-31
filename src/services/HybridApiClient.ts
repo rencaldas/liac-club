@@ -7,6 +7,7 @@ import type {
   PaginationParams,
   PartnerListParams,
   ProjectListParams,
+  SymposiumEditionListParams,
   TeamListParams,
 } from './ApiClient'
 import type {
@@ -22,15 +23,17 @@ import type {
   StaffCredentials,
   StaffMember,
   StaffRole,
+  SymposiumEdition,
   TeamMember,
+  UpdateProfilePayload,
 } from '../types/entities'
 import { MockApiClient } from './mock/MockApiClient'
 import { RestApiClient } from './rest/RestApiClient'
 
 /**
- * Composes the two partial clients into the full `ApiClient` contract: News/Events/Articles and
- * staff auth go to the real backend (`RestApiClient`); Projects/Team/Partners/contact form stay
- * on local fixtures (`MockApiClient`) until a future feature gives them CRUD too.
+ * Composes the two partial clients into the full `ApiClient` contract: News/Events/Articles,
+ * staff auth and Team go to the real backend (`RestApiClient`); Projects/Partners/contact form
+ * stay on local fixtures (`MockApiClient`) until a future feature gives them CRUD too.
  */
 export class HybridApiClient implements ApiClient {
   private readonly mock = new MockApiClient()
@@ -91,11 +94,55 @@ export class HybridApiClient implements ApiClient {
   getProjects(params?: ProjectListParams): Promise<PaginatedResult<ResearchProject>> {
     return this.mock.getProjects(params)
   }
+  createProject(payload: Omit<ResearchProject, 'id'>, _token: string): Promise<ResearchProject> {
+    return this.mock.createProject(payload)
+  }
+  updateProject(id: string, payload: Partial<ResearchProject>, _token: string): Promise<ResearchProject> {
+    return this.mock.updateProject(id, payload)
+  }
+  deleteProject(id: string, _token: string): Promise<void> {
+    return this.mock.deleteProject(id)
+  }
+
+  getSymposiumEditions(
+    params?: SymposiumEditionListParams,
+  ): Promise<PaginatedResult<SymposiumEdition>> {
+    return this.mock.getSymposiumEditions(params)
+  }
+  getSymposiumEditionBySlug(slug: string): Promise<SymposiumEdition | null> {
+    return this.mock.getSymposiumEditionBySlug(slug)
+  }
+  createSymposiumEdition(
+    payload: Omit<SymposiumEdition, 'slug'>,
+    _token: string,
+  ): Promise<SymposiumEdition> {
+    return this.mock.createSymposiumEdition(payload)
+  }
+  updateSymposiumEdition(
+    slug: string,
+    payload: Partial<SymposiumEdition>,
+    _token: string,
+  ): Promise<SymposiumEdition> {
+    return this.mock.updateSymposiumEdition(slug, payload)
+  }
+  deleteSymposiumEdition(slug: string, _token: string): Promise<void> {
+    return this.mock.deleteSymposiumEdition(slug)
+  }
+
   getTeam(params?: TeamListParams): Promise<TeamMember[]> {
-    return this.mock.getTeam(params)
+    return this.rest.getTeam(params)
   }
   getPartners(params?: PartnerListParams): Promise<Partner[]> {
     return this.mock.getPartners(params)
+  }
+  createPartner(payload: Omit<Partner, 'id'>, _token: string): Promise<Partner> {
+    return this.mock.createPartner(payload)
+  }
+  updatePartner(id: string, payload: Partial<Partner>, _token: string): Promise<Partner> {
+    return this.mock.updatePartner(id, payload)
+  }
+  deletePartner(id: string, _token: string): Promise<void> {
+    return this.mock.deletePartner(id)
   }
   submitContactForm(payload: ContactFormPayload): Promise<{ status: 'received' }> {
     return this.mock.submitContactForm(payload)
@@ -110,6 +157,9 @@ export class HybridApiClient implements ApiClient {
   setPassword(token: string, password: string): Promise<AuthSession> {
     return this.rest.setPassword(token, password)
   }
+  requestPasswordReset(email: string, redirectTo: string): Promise<void> {
+    return this.rest.requestPasswordReset(email, redirectTo)
+  }
 
   getStaffMembers(token: string): Promise<StaffMember[]> {
     return this.rest.getStaffMembers(token)
@@ -122,6 +172,9 @@ export class HybridApiClient implements ApiClient {
   }
   revokeStaffAccess(id: string, token: string): Promise<void> {
     return this.rest.revokeStaffAccess(id, token)
+  }
+  updateOwnProfile(payload: UpdateProfilePayload, token: string): Promise<AuthSession> {
+    return this.rest.updateOwnProfile(payload, token)
   }
 
   getAuditLog(params: AuditLogListParams | undefined, token: string): Promise<PaginatedResult<AuditLogEntry>> {

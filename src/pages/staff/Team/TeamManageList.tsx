@@ -1,15 +1,24 @@
 import { useCallback, useState, type FormEvent } from 'react'
 import { apiClient } from '../../../services/client'
+import { ApiError } from '../../../services/rest/ApiError'
 import { useAuth } from '../../../auth/AuthContext'
-import { ALL_ROLES, ROLE_LABELS } from '../../../auth/roles'
 import { useAsyncResource } from '../../../hooks/useAsyncResource'
 import { LoadingState } from '../../../components/ui/LoadingState'
 import { EmptyState } from '../../../components/ui/EmptyState'
 import { DataTable } from '../../../components/staff/DataTable'
 import { ConfirmDialog } from '../../../components/staff/ConfirmDialog'
+import { ImagePreviewDialog } from '../../../components/staff/ImagePreviewDialog'
+import { RoleSelect } from '../../../components/staff/RoleSelect'
 import type { StaffMember, StaffRole } from '../../../types/entities'
 import listStyles from '../ManageList.module.css'
 import styles from './TeamManageList.module.css'
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/)
+  const first = parts[0]?.[0] ?? ''
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : ''
+  return `${first}${last}`.toUpperCase()
+}
 
 const EMPTY_INVITE = { email: '', displayName: '', role: 'coordenador' as StaffRole }
 
@@ -22,6 +31,7 @@ export function TeamManageList() {
   const [inviteSuccess, setInviteSuccess] = useState<string | null>(null)
   const [pendingRevoke, setPendingRevoke] = useState<StaffMember | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
+  const [previewMember, setPreviewMember] = useState<StaffMember | null>(null)
 
   const fetchStaff = useCallback(() => {
     if (!session) return Promise.resolve([] as StaffMember[])
@@ -48,8 +58,10 @@ export function TeamManageList() {
       setInviteSuccess(`Convite enviado para ${invite.email}.`)
       setInvite(EMPTY_INVITE)
       setRefreshKey((key) => key + 1)
-    } catch {
-      setInviteError('Não foi possível enviar o convite. Confirme se o e-mail já não está cadastrado.')
+    } catch (err) {
+      setInviteError(
+        err instanceof ApiError ? err.message : 'Não foi possível enviar o convite. Tente novamente.',
+      )
     } finally {
       setIsInviting(false)
     }
@@ -108,17 +120,11 @@ export function TeamManageList() {
           </div>
           <div className={styles.field}>
             <label htmlFor="invite-role">Cargo</label>
-            <select
+            <RoleSelect
               id="invite-role"
               value={invite.role}
-              onChange={(event) => setInvite((prev) => ({ ...prev, role: event.target.value as StaffRole }))}
-            >
-              {ALL_ROLES.map((role) => (
-                <option key={role} value={role}>
-                  {ROLE_LABELS[role]}
-                </option>
-              ))}
-            </select>
+              onChange={(role) => setInvite((prev) => ({ ...prev, role }))}
+            />
           </div>
           <button type="submit" className={styles.inviteButton} disabled={isInviting}>
             {isInviting ? 'Convidando…' : 'Convidar'}
@@ -145,22 +151,34 @@ export function TeamManageList() {
           items={data}
           getKey={(member) => member.id}
           columns={[
+            {
+              header: 'Foto',
+              render: (member) =>
+                member.photoUrl ? (
+                  <button
+                    type="button"
+                    className={styles.avatarButton}
+                    onClick={() => setPreviewMember(member)}
+                    aria-label={`Ver foto de ${member.displayName}`}
+                  >
+                    <img src={member.photoUrl} alt="" className={styles.avatar} />
+                  </button>
+                ) : (
+                  <span className={styles.avatarPlaceholder} aria-hidden="true">
+                    {getInitials(member.displayName)}
+                  </span>
+                ),
+            },
             { header: 'Nome', render: (member) => member.displayName },
             { header: 'E-mail', render: (member) => member.email },
             {
               header: 'Cargo',
               render: (member) => (
-                <select
+                <RoleSelect
                   value={member.role}
-                  onChange={(event) => handleRoleChange(member, event.target.value as StaffRole)}
+                  onChange={(role) => handleRoleChange(member, role)}
                   aria-label={`Cargo de ${member.displayName}`}
-                >
-                  {ALL_ROLES.map((role) => (
-                    <option key={role} value={role}>
-                      {ROLE_LABELS[role]}
-                    </option>
-                  ))}
-                </select>
+                />
               ),
             },
           ]}
@@ -185,6 +203,14 @@ export function TeamManageList() {
           confirmLabel="Revogar"
           onConfirm={handleConfirmRevoke}
           onCancel={() => setPendingRevoke(null)}
+        />
+      )}
+
+      {previewMember?.photoUrl && (
+        <ImagePreviewDialog
+          src={previewMember.photoUrl}
+          title={previewMember.displayName}
+          onClose={() => setPreviewMember(null)}
         />
       )}
     </div>

@@ -42,7 +42,20 @@ export interface ResearchProject {
   members: string[]
 }
 
-export type SocialPlatform = 'instagram' | 'linkedin'
+export interface SymposiumEdition {
+  slug: string
+  title: string
+  year: number
+  startDate: string
+  endDate: string
+  location: string
+  description: string
+  coverImageUrl?: string
+  externalUrl?: string
+  featured?: boolean
+}
+
+export type SocialPlatform = 'instagram' | 'linkedin' | 'github'
 
 export interface SocialLink {
   platform: SocialPlatform
@@ -71,12 +84,23 @@ export interface StaffCredentials {
   password: string
 }
 
-export type StaffRole = 'diretor_marketing' | 'presidente' | 'vice_presidente' | 'coordenador' | 'diretor_eventos'
+export type StaffRole =
+  | 'diretor_marketing'
+  | 'presidente'
+  | 'vice_presidente'
+  | 'coordenador'
+  | 'diretor_eventos'
+  | 'desenvolvedor'
 
 export interface AuthSession {
   token: string
   role: StaffRole
   displayName: string
+  id?: string
+  email?: string
+  photoUrl?: string
+  area?: string
+  socialLinks?: SocialLink[]
 }
 
 export interface StaffMember {
@@ -84,6 +108,18 @@ export interface StaffMember {
   displayName: string
   role: StaffRole
   email: string
+  photoUrl?: string
+  area?: string
+  socialLinks?: SocialLink[]
+}
+
+/** Everything a collaborator can edit about themselves — role is fixed, only management can change it (see RequireRole). */
+export interface UpdateProfilePayload {
+  displayName: string
+  email: string
+  photoUrl?: string
+  area?: string
+  socialLinks?: SocialLink[]
 }
 
 export interface InvitePayload {

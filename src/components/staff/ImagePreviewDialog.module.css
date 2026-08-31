@@ -1,0 +1,85 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 18, 22, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--liac-space-md);
+  z-index: 100;
+  animation: fadeIn 0.15s ease;
+}
+
+.dialog {
+  position: relative;
+  background: var(--liac-white);
+  border-radius: var(--liac-radius-lg);
+  box-shadow: 0 24px 60px rgba(31, 18, 22, 0.25);
+  padding: var(--liac-space-md);
+  max-width: min(24rem, 90vw);
+  animation: popIn 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--liac-bg-alt);
+  color: var(--liac-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--liac-border);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  border-radius: var(--liac-radius);
+  object-fit: contain;
+}
+
+.caption {
+  margin: var(--liac-space-sm) 0 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .dialog {
+    animation: none;
+  }
+}

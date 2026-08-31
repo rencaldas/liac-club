@@ -96,6 +96,25 @@ describe('TeamManageList', () => {
     await waitFor(() => expect(updateStaffRole).toHaveBeenCalledWith('member-1', 'diretor_eventos', 'tok-1'))
   })
 
+  it('opens a full-size preview of a member photo and closes it', async () => {
+    getStaffMembers.mockResolvedValue([
+      makeMember({ photoUrl: 'https://example.com/fulana.jpg' }),
+    ])
+    const user = userEvent.setup()
+    renderPage()
+
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Ver foto de Fulana de Tal' })).toBeInTheDocument())
+    await user.click(screen.getByRole('button', { name: 'Ver foto de Fulana de Tal' }))
+
+    const dialog = screen.getByRole('dialog', { name: 'Foto de Fulana de Tal' })
+    // alt="" is deliberate (decorative — the name is already in the caption right below it), so
+    // the image is intentionally absent from the accessibility tree — query the DOM directly.
+    expect(dialog.querySelector('img')).toHaveAttribute('src', 'https://example.com/fulana.jpg')
+
+    await user.click(within(dialog).getByRole('button', { name: 'Fechar' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
   it('revokes access only after confirming the dialog', async () => {
     getStaffMembers.mockResolvedValue([makeMember()])
     revokeStaffAccess.mockResolvedValue(undefined)

@@ -7,10 +7,17 @@ import styles from './NewsCard.module.css'
 
 export function NewsCard({ item }: { item: NewsItem }) {
   return (
-    <Card>
+    <Card className={styles.clickable}>
+      {item.coverImageUrl && (
+        <div className={styles.cover}>
+          <img src={item.coverImageUrl} alt="" loading="lazy" />
+        </div>
+      )}
       <Badge>{item.category}</Badge>
       <h3 className={styles.title}>
-        <Link to={`/novidades/${item.slug}`}>{item.title}</Link>
+        <Link to={`/novidades/${item.slug}`} className={styles.stretchedLink}>
+          {item.title}
+        </Link>
       </h3>
       <p className={styles.meta}>{formatDate(item.publishedAt)}</p>
       <p className={styles.summary}>{item.summary}</p>

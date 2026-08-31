@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { WarningIcon } from '../ui/icons/StaffIcons'
 import styles from './ConfirmDialog.module.css'
 
 interface ConfirmDialogProps {
@@ -24,6 +25,9 @@ export function ConfirmDialog({ title, message, confirmLabel = 'Excluir', onConf
   return (
     <div className={styles.backdrop}>
       <div className={styles.dialog} role="alertdialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
+        <div className={styles.iconBadge} aria-hidden="true">
+          <WarningIcon width={22} height={22} />
+        </div>
         <h2 id="confirm-dialog-title">{title}</h2>
         <p>{message}</p>
         <div className={styles.actions}>
