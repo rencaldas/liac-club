@@ -32,6 +32,12 @@
   gap: var(--liac-space-sm);
 }
 
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .errorText {
   color: var(--liac-primary-dark);
   font-size: var(--liac-fs-small);

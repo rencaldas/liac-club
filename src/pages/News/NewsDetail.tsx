@@ -42,6 +42,11 @@ export function NewsDetail() {
   return (
     <div className="liac-container liac-page">
       <article className={styles.article}>
+        {data.coverImageUrl && (
+          <div className={styles.cover}>
+            <img src={data.coverImageUrl} alt="" />
+          </div>
+        )}
         <Badge>{data.category}</Badge>
         <h1>{data.title}</h1>
         <p className={styles.meta}>{formatDate(data.publishedAt)}</p>

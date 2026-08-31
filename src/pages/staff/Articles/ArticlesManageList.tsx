@@ -7,6 +7,7 @@ import { LoadingState } from '../../../components/ui/LoadingState'
 import { EmptyState } from '../../../components/ui/EmptyState'
 import { DataTable } from '../../../components/staff/DataTable'
 import { ConfirmDialog } from '../../../components/staff/ConfirmDialog'
+import { PlusIcon } from '../../../components/ui/icons/StaffIcons'
 import { formatAuthors } from '../../../utils/text'
 import type { ScientificArticle } from '../../../types/entities'
 import styles from '../ManageList.module.css'
@@ -37,6 +38,7 @@ export function ArticlesManageList() {
       <div className={styles.header}>
         <h1>Artigos Científicos</h1>
         <Link to="/portal-liac/artigos/novo" className={styles.newButton}>
+          <PlusIcon width={16} height={16} />
           Novo Artigo
         </Link>
       </div>

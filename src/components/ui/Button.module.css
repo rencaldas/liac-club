@@ -26,6 +26,7 @@
 
 .primary:hover {
   background: var(--liac-primary-dark);
+  color: var(--liac-white);
   transform: translateY(-1px);
 }
 
@@ -37,6 +38,7 @@
 
 .secondary:hover {
   background: var(--liac-neutral-100);
+  color: var(--liac-primary);
 }
 
 .button:disabled {

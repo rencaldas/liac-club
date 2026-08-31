@@ -96,6 +96,13 @@ export function Carousel({ children, ariaLabel }: CarouselProps) {
     }
   }
 
+  function preventNativeDrag(event: ReactMouseEvent<HTMLDivElement>) {
+    // Links and images start a native browser drag-and-drop gesture on mousedown+move,
+    // which hijacks the pointer before our drag-to-scroll logic runs and shows the
+    // browser's link-preview ghost. Block it so pointer events stay in control.
+    event.preventDefault()
+  }
+
   return (
     <div className={styles.wrapper}>
       <div
@@ -109,6 +116,7 @@ export function Carousel({ children, ariaLabel }: CarouselProps) {
         onPointerCancel={endDrag}
         onPointerLeave={endDrag}
         onClickCapture={suppressClickAfterDrag}
+        onDragStart={preventNativeDrag}
       >
         {Children.map(children, (child) => (
           <div className={styles.slide} key={isValidElement(child) ? child.key : undefined}>
