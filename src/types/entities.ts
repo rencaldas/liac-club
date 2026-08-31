@@ -79,18 +79,25 @@ export interface Partner {
   tier?: string
 }
 
+/** A ligante's feedback about their experience in LIAC, shown as the last carousel on the home page. */
+export interface Testimonial {
+  id: string
+  name: string
+  text: string
+}
+
 export interface StaffCredentials {
   email: string
   password: string
 }
 
 export type StaffRole =
+  | 'desenvolvedor'
   | 'diretor_marketing'
   | 'presidente'
   | 'vice_presidente'
   | 'coordenador'
   | 'diretor_eventos'
-  | 'desenvolvedor'
 
 export interface AuthSession {
   token: string
@@ -130,7 +137,7 @@ export interface InvitePayload {
 }
 
 export type AuditAction = 'create' | 'update' | 'delete' | 'feature' | 'unfeature'
-export type AuditEntityType = 'news' | 'event' | 'article'
+export type AuditEntityType = 'news' | 'event' | 'article' | 'partner'
 
 export interface AuditLogEntry {
   id: string

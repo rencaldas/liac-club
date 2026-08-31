@@ -1,13 +1,12 @@
 import type { ApiClient } from './ApiClient'
-import { HybridApiClient } from './HybridApiClient'
+import { RestApiClient } from './rest/RestApiClient'
 
 /**
- * Single instance consumed by every page/hook. News/Events/Articles/auth/Team are real, served by
- * the `liac-backend` repo (Supabase Edge Functions) at `VITE_API_BASE_URL`; Projects/Partners/
- * contact form stay on local fixtures for now — see `HybridApiClient`.
+ * Single instance consumed by every page/hook. Talks to the `liac-backend` repo (Supabase Edge
+ * Functions) at `VITE_API_BASE_URL` — no local fixtures left, see `RestApiClient`.
  *
  * Named `client.ts` (not `apiClient.ts`) deliberately: this project is developed on a
  * case-insensitive filesystem (Windows), where `apiClient.ts` and `ApiClient.ts` are the same
  * file and one would silently overwrite the other.
  */
-export const apiClient: ApiClient = new HybridApiClient(import.meta.env.VITE_API_BASE_URL)
+export const apiClient: ApiClient = new RestApiClient(import.meta.env.VITE_API_BASE_URL)
