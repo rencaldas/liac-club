@@ -49,6 +49,7 @@ describe('TeamMemberCard', () => {
           socialLinks: [
             { platform: 'instagram', url: 'https://instagram.com/liac.ufrj' },
             { platform: 'linkedin', url: 'https://linkedin.com/company/liac-ufrj' },
+            { platform: 'github', url: 'https://github.com/liac-ufrj' },
           ],
         }}
       />,
@@ -61,6 +62,10 @@ describe('TeamMemberCard', () => {
     expect(screen.getByRole('link', { name: /linkedin/i })).toHaveAttribute(
       'href',
       'https://linkedin.com/company/liac-ufrj',
+    )
+    expect(screen.getByRole('link', { name: /github/i })).toHaveAttribute(
+      'href',
+      'https://github.com/liac-ufrj',
     )
   })
 })
