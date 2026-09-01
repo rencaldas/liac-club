@@ -6,7 +6,7 @@ import { LoadingState } from '../../components/ui/LoadingState'
 import { EmptyState } from '../../components/ui/EmptyState'
 import { NotFound } from '../../components/ui/NotFound'
 import { Badge } from '../../components/ui/Badge'
-import { formatEventDateRange } from '../../utils/date'
+import { formatEventDateRangeShort } from '../../utils/date'
 import type { Event } from '../../types/entities'
 import styles from './EventDetail.module.css'
 
@@ -48,9 +48,14 @@ export function EventDetail() {
   return (
     <div className="liac-container liac-page">
       <article className={styles.article}>
+        {data.coverImageUrl && (
+          <div className={styles.cover}>
+            <img src={data.coverImageUrl} alt="" />
+          </div>
+        )}
         <Badge>{EVENT_TYPE_LABELS[data.type]}</Badge>
         <h1>{data.title}</h1>
-        <p className={styles.meta}>{formatEventDateRange(data.startDate, data.endDate)}</p>
+        <p className={styles.meta}>{formatEventDateRangeShort(data.startDate, data.endDate)}</p>
         <p className={styles.meta}>{data.location}</p>
         <p className={styles.description}>{data.description}</p>
       </article>

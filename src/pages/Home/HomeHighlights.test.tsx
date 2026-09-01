@@ -50,6 +50,7 @@ function makeArticles(n: number): ScientificArticle[] {
   return Array.from({ length: n }, (_, i) => ({
     slug: `artigo-${i}`,
     title: `Artigo ${i}`,
+    publishedAt: '2026-08-01',
     authors: ['Autora'],
     abstract: 'Resumo',
     tags: [],

@@ -6,7 +6,18 @@
 .authors {
   color: var(--liac-text-muted);
   font-size: var(--liac-fs-small);
-  margin: 0.25rem 0 var(--liac-space-sm);
+  margin: 0.25rem 0 0;
+}
+
+.authorsLabel {
+  font-weight: 600;
+  color: var(--liac-text);
+}
+
+.date {
+  color: var(--liac-text-muted);
+  font-size: var(--liac-fs-small);
+  margin: 0.15rem 0 var(--liac-space-sm);
 }
 
 .abstract {

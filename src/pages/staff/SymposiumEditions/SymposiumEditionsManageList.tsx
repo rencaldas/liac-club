@@ -36,7 +36,7 @@ export function SymposiumEditionsManageList() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <h1>Edições Anteriores do Simpósio</h1>
+        <h1>Edições Anteriores</h1>
         <Link to="/portal-liac/edicoes-anteriores/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Nova Edição

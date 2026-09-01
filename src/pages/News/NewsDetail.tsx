@@ -6,7 +6,7 @@ import { LoadingState } from '../../components/ui/LoadingState'
 import { EmptyState } from '../../components/ui/EmptyState'
 import { NotFound } from '../../components/ui/NotFound'
 import { Badge } from '../../components/ui/Badge'
-import { formatDate } from '../../utils/date'
+import { formatDateShort } from '../../utils/date'
 import type { NewsItem } from '../../types/entities'
 import styles from './NewsDetail.module.css'
 
@@ -49,7 +49,7 @@ export function NewsDetail() {
         )}
         <Badge>{data.category}</Badge>
         <h1>{data.title}</h1>
-        <p className={styles.meta}>{formatDate(data.publishedAt)}</p>
+        <p className={styles.meta}>{formatDateShort(data.publishedAt)}</p>
         <p className={styles.content}>{data.content}</p>
       </article>
     </div>

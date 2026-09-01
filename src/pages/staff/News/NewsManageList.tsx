@@ -9,7 +9,7 @@ import { EmptyState } from '../../../components/ui/EmptyState'
 import { DataTable } from '../../../components/staff/DataTable'
 import { ConfirmDialog } from '../../../components/staff/ConfirmDialog'
 import { PlusIcon, ImagePlaceholderIcon } from '../../../components/ui/icons/StaffIcons'
-import { formatDate } from '../../../utils/date'
+import { formatDateShort } from '../../../utils/date'
 import type { NewsItem } from '../../../types/entities'
 import styles from '../ManageList.module.css'
 
@@ -69,7 +69,7 @@ export function NewsManageList() {
             },
             { header: 'Título', render: (item) => item.title },
             { header: 'Categoria', render: (item) => item.category },
-            { header: 'Publicado em', render: (item) => formatDate(item.publishedAt) },
+            { header: 'Publicado em', render: (item) => formatDateShort(item.publishedAt) },
             { header: 'Destaque', render: (item) => (item.featured ? 'Sim' : 'Não') },
           ]}
           renderActions={(item) => (

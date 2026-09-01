@@ -31,6 +31,7 @@ especificação de referência para `MockApiClient` e para o contrato REST em
 | `location` | `string` | sim | — |
 | `type` | `"workshop" \| "congresso" \| "palestra"` | sim | Enum fechado — controla o filtro por tipo se adicionado futuramente |
 | `description` | `string` | sim | — |
+| `coverImageUrl` | `string` | não | Ausente → card sem imagem |
 
 **Derivado (não persistido)**: `isPast: boolean` = `endDate < hoje`, calculado em runtime para o
 filtro futuro/passado (FR-003) — não é um campo de dado, é lógica de apresentação.
@@ -41,6 +42,7 @@ filtro futuro/passado (FR-003) — não é um campo de dado, é lógica de apres
 |-------|------|:-----------:|-------|
 | `slug` | `string` | sim | Único na coleção |
 | `title` | `string` | sim | — |
+| `publishedAt` | `string` (ISO 8601 date) | sim | Exibido no card e no detalhe (dd/mm/aaaa); usado para ordenação cronológica |
 | `authors` | `string[]` | sim | Um ou mais (Clarifications 2026-08-29) |
 | `abstract` | `string` | sim | Exibido na listagem (resumo) e no detalhe |
 | `tags` | `string[]` | sim | Usado no filtro por tema (FR-003) |

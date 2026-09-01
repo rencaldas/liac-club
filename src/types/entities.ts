@@ -19,12 +19,14 @@ export interface Event {
   location: string
   type: EventType
   description: string
+  coverImageUrl?: string
   featured?: boolean
 }
 
 export interface ScientificArticle {
   slug: string
   title: string
+  publishedAt: string
   authors: string[]
   abstract: string
   tags: string[]

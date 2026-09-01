@@ -5,6 +5,38 @@
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), var(--liac-gradient-brand);
   color: var(--liac-white);
   padding-block: var(--liac-space-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+/* A soft coral glow that drifts slowly behind the hero content, adding depth without
+   competing with the text (it sits under .heroInner, which is raised to z-index 1).
+   Built from a radial-gradient with a transparent outer stop — no `filter: blur`, which
+   is expensive — and it only animates `transform`, which composites for free. */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -25%;
+  left: -12%;
+  width: 55%;
+  height: 150%;
+  background: radial-gradient(
+    closest-side,
+    rgba(253, 119, 92, 0.55),
+    rgba(253, 119, 92, 0) 72%
+  );
+  pointer-events: none;
+  animation: heroDrift 24s ease-in-out infinite alternate;
+}
+
+@keyframes heroDrift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(8%, 5%, 0) scale(1.12);
+  }
 }
 
 .hero h1 {
@@ -13,6 +45,8 @@
 }
 
 .heroInner {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,8 +84,11 @@
   flex-wrap: wrap;
 }
 
-.heroLogo {
+.heroLogoReveal {
   flex-shrink: 0;
+}
+
+.heroLogo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,8 +106,14 @@
     align-items: flex-start;
   }
 
-  .heroLogo {
+  .heroLogoReveal {
     align-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before {
+    animation: none;
   }
 }
 

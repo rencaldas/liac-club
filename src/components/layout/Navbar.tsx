@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type FocusEvent, type MouseEvent } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { MenuIcon, CloseIcon } from '../ui/icons/MenuIcon'
+import { InstagramIcon } from '../ui/icons/InstagramIcon'
+import { LinkedInIcon } from '../ui/icons/LinkedInIcon'
 import { LoginModal } from '../staff/LoginModal'
-import liacLogo from '../../../docs/brand/liac-logo-2.png'
+import liacLogo from '../../../docs/brand/liac-logo-2-white.png'
 import styles from './Navbar.module.css'
 
 type NavLeaf = { type: 'link'; to: string; label: string; end?: boolean }
@@ -18,11 +20,11 @@ const NAV_ITEMS: NavEntry[] = [
       { to: '/eventos', label: 'Eventos' },
       { to: '/artigos', label: 'Artigos' },
       { to: '/novidades', label: 'Novidades' },
-      { to: '/edicoes-anteriores', label: 'Edições Anteriores do Simpósio' },
+      { to: '/edicoes-anteriores', label: 'Edições Anteriores' },
       { to: '/projetos', label: 'Projetos' },
     ],
   },
-  { type: 'link', to: '/sobre', label: 'Sobre' },
+  { type: 'link', to: '/sobre', label: 'Quem somos' },
   { type: 'link', to: '/equipe', label: 'Equipe' },
   { type: 'link', to: '/parceiros', label: 'Parceiros' },
   { type: 'link', to: '/contato', label: 'Contato' },
@@ -34,13 +36,26 @@ const MOBILE_ITEMS: NavLeaf[] = NAV_ITEMS.flatMap((item) =>
     : item.children.map((child) => ({ type: 'link' as const, end: false, ...child })),
 )
 
+const SOCIAL_LINKS = [
+  {
+    label: 'LIAC no Instagram',
+    href: 'https://www.instagram.com/liac_ufrj?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==',
+    Icon: InstagramIcon,
+  },
+  {
+    label: 'LIAC no LinkedIn',
+    href: 'https://www.linkedin.com/company/liac-ufrj/',
+    Icon: LinkedInIcon,
+  },
+]
+
 function linkClassName({ isActive }: { isActive: boolean }) {
   return isActive ? styles.linkActive : undefined
 }
 
 type Indicator = { left: number; width: number; opacity: number }
 
-export function Navbar() {
+export function Navbar({ onHero = false }: { onHero?: boolean } = {}) {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -77,7 +92,9 @@ export function Navbar() {
   }
 
   return (
-    <header className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
+    <header
+      className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''} ${onHero ? styles.onHero : ''}`}
+    >
       <div className={styles.inner}>
         <NavLink to="/" className={styles.brand} onClick={() => setIsOpen(false)}>
           <img src={liacLogo} alt="LIAC — Liga Acadêmica de Cosmetologia UFRJ" />
@@ -149,6 +166,20 @@ export function Navbar() {
         </div>
 
         <div className={styles.actions}>
+          <div className={styles.social}>
+            {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
+
           <button type="button" className={styles.loginButton} onClick={() => setIsLoginOpen(true)}>
             Portal da Equipe
           </button>
@@ -190,6 +221,22 @@ export function Navbar() {
           >
             Entrar no Portal LIAC
           </button>
+          <div
+            className={styles.mobileSocial}
+            style={{ animationDelay: `${(MOBILE_ITEMS.length + 1) * 30}ms` }}
+          >
+            {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
         </nav>
       )}
 

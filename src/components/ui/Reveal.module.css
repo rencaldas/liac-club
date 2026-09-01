@@ -1,0 +1,53 @@
+/* Scroll-reveal primitive. Each element starts in a "hidden" pose and eases to rest once
+   <Reveal> sets `data-revealed` on it. Only opacity and transform animate — both are
+   GPU-composited, so a whole page of these stays cheap. No `will-change`: the transition
+   is one-shot and short, and permanent layer promotion is what makes these feel heavy. */
+.reveal {
+  transition:
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fadeUp {
+  opacity: 0;
+  transform: translate3d(0, 2rem, 0);
+}
+
+.fadeDown {
+  opacity: 0;
+  transform: translate3d(0, -2rem, 0);
+}
+
+.slideLeft {
+  opacity: 0;
+  transform: translate3d(-3rem, 0, 0);
+}
+
+.slideRight {
+  opacity: 0;
+  transform: translate3d(3rem, 0, 0);
+}
+
+.zoom {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.flipUp {
+  opacity: 0;
+  transform: perspective(1200px) rotateX(10deg) translate3d(0, 1.5rem, 0);
+  transform-origin: top center;
+}
+
+.reveal[data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: opacity 0.2s ease;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

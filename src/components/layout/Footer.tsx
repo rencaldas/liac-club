@@ -3,6 +3,7 @@ import { apiClient } from '../../services/client'
 import { useAsyncResource } from '../../hooks/useAsyncResource'
 import { InstagramIcon } from '../ui/icons/InstagramIcon'
 import { LinkedInIcon } from '../ui/icons/LinkedInIcon'
+import liacLogoWhite from '../../../docs/brand/liac-logo-2-white.png'
 import styles from './Footer.module.css'
 
 const FOUNDING_YEAR = 2020
@@ -58,7 +59,7 @@ export function Footer() {
 
       <div className={`liac-container ${styles.inner}`}>
         <div>
-          <p className={styles.brand}>LIAC</p>
+          <img src={liacLogoWhite} alt="LIAC" className={styles.brand} />
           <p>Liga Acadêmica de Cosmetologia da UFRJ — ciência cosmética acessível.</p>
         </div>
 

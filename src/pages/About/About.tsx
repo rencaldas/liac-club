@@ -4,8 +4,8 @@ export function About() {
   return (
     <div className="liac-container liac-page">
       <header className="liac-page-header">
-        <p className="liac-eyebrow">Sobre a Liga</p>
-        <h1>Sobre a LIAC</h1>
+        <p className="liac-eyebrow">Quem somos</p>
+        <h1>A LIAC</h1>
       </header>
 
       <div className={styles.content}>

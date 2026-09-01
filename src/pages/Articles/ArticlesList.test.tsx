@@ -18,6 +18,7 @@ function makeArticle(overrides: Partial<ScientificArticle>): ScientificArticle {
   return {
     slug: 'artigo',
     title: 'Artigo',
+    publishedAt: '2026-08-01',
     authors: ['Autora'],
     abstract: 'Resumo',
     tags: ['tag'],
