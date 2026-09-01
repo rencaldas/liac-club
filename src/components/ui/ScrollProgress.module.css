@@ -1,0 +1,17 @@
+.track {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.bar {
+  height: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: var(--liac-gradient-brand);
+  /* This one genuinely animates on every scroll frame and is a single 3px element, so a
+     dedicated compositor layer is worth it here. */
+  will-change: transform;
+}

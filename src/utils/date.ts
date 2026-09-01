@@ -10,16 +10,25 @@ const shortFormatter = new Intl.DateTimeFormat('pt-BR', {
   year: 'numeric',
 })
 
-/** Formats a single ISO date (YYYY-MM-DD) as a localized pt-BR date. */
-export function formatDate(isoDate: string): string {
-  // Intl parses bare "YYYY-MM-DD" as UTC midnight; append a local-noon time to avoid off-by-one
-  // day shifts in timezones behind UTC.
-  return formatter.format(new Date(`${isoDate}T12:00:00`))
+/** Parses a bare "YYYY-MM-DD" at local noon so timezones behind UTC don't shift the day.
+ *  Returns null for missing or unparseable input so callers can render a fallback instead
+ *  of letting `Intl.format` throw a RangeError mid-render. */
+function parseIsoDate(isoDate: string | null | undefined): Date | null {
+  if (!isoDate) return null
+  const date = new Date(`${isoDate}T12:00:00`)
+  return Number.isNaN(date.getTime()) ? null : date
 }
 
-/** Formats a single ISO date (YYYY-MM-DD) as a compact dd/mm/yyyy pt-BR date. */
+/** Formats a single ISO date (YYYY-MM-DD) as a localized pt-BR date, or '' if invalid. */
+export function formatDate(isoDate: string): string {
+  const date = parseIsoDate(isoDate)
+  return date ? formatter.format(date) : ''
+}
+
+/** Formats a single ISO date (YYYY-MM-DD) as a compact dd/mm/yyyy pt-BR date, or '' if invalid. */
 export function formatDateShort(isoDate: string): string {
-  return shortFormatter.format(new Date(`${isoDate}T12:00:00`))
+  const date = parseIsoDate(isoDate)
+  return date ? shortFormatter.format(date) : ''
 }
 
 /**

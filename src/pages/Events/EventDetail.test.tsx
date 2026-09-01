@@ -41,9 +41,7 @@ describe('EventDetail', () => {
     renderAt('/eventos/simposio')
 
     await waitFor(() => {
-      expect(
-        screen.getByText('18 de agosto de 2026 – 20 de agosto de 2026'),
-      ).toBeInTheDocument()
+      expect(screen.getByText('18/08/2026 à 20/08/2026')).toBeInTheDocument()
     })
   })
 

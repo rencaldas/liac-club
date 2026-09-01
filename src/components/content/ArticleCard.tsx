@@ -3,6 +3,7 @@ import type { ScientificArticle } from '../../types/entities'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { formatAuthors } from '../../utils/text'
+import { formatDateShort } from '../../utils/date'
 import styles from './ArticleCard.module.css'
 
 export function ArticleCard({ article }: { article: ScientificArticle }) {
@@ -18,7 +19,12 @@ export function ArticleCard({ article }: { article: ScientificArticle }) {
           {article.title}
         </Link>
       </h3>
-      <p className={styles.authors}>{formatAuthors(article.authors)}</p>
+      <p className={styles.authors}>
+        <span className={styles.authorsLabel}>Publicado por:</span> {formatAuthors(article.authors)}
+      </p>
+      {formatDateShort(article.publishedAt) && (
+        <p className={styles.date}>{formatDateShort(article.publishedAt)}</p>
+      )}
       <p className={styles.abstract}>{article.abstract}</p>
     </Card>
   )

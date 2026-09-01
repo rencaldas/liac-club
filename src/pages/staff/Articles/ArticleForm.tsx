@@ -11,6 +11,7 @@ import styles from './ArticleForm.module.css'
 
 interface FormState {
   title: string
+  publishedAt: string
   authors: string
   abstract: string
   tags: string
@@ -20,6 +21,7 @@ interface FormState {
 
 const EMPTY_STATE: FormState = {
   title: '',
+  publishedAt: '',
   authors: '',
   abstract: '',
   tags: '',
@@ -37,6 +39,7 @@ function splitList(value: string): string[] {
 function toFormState(item: ScientificArticle): FormState {
   return {
     title: item.title,
+    publishedAt: item.publishedAt,
     authors: item.authors.join(', '),
     abstract: item.abstract,
     tags: item.tags.join(', '),
@@ -92,6 +95,7 @@ export function ArticleForm() {
   function validate(): boolean {
     const errors: Partial<Record<keyof FormState, string>> = {}
     if (!form.title.trim()) errors.title = 'Informe um título.'
+    if (!form.publishedAt) errors.publishedAt = 'Informe a data de publicação.'
     if (splitList(form.authors).length === 0) errors.authors = 'Informe ao menos um autor.'
     if (!form.abstract.trim()) errors.abstract = 'Informe um resumo.'
     if (!form.externalUrl.trim() || !isValidUrl(form.externalUrl.trim())) {
@@ -110,6 +114,7 @@ export function ArticleForm() {
     try {
       const payload = {
         title: form.title,
+        publishedAt: form.publishedAt,
         authors: splitList(form.authors),
         abstract: form.abstract,
         tags: splitList(form.tags),
@@ -153,6 +158,23 @@ export function ArticleForm() {
         {fieldErrors.title && (
           <p id="article-title-error" className={styles.errorText} role="alert">
             {fieldErrors.title}
+          </p>
+        )}
+      </div>
+
+      <div className={styles.field}>
+        <label htmlFor="article-publishedAt">Data de publicação</label>
+        <input
+          id="article-publishedAt"
+          type="date"
+          value={form.publishedAt}
+          onChange={(event) => updateField('publishedAt', event.target.value)}
+          aria-invalid={Boolean(fieldErrors.publishedAt)}
+          aria-describedby={fieldErrors.publishedAt ? 'article-publishedAt-error' : undefined}
+        />
+        {fieldErrors.publishedAt && (
+          <p id="article-publishedAt-error" className={styles.errorText} role="alert">
+            {fieldErrors.publishedAt}
           </p>
         )}
       </div>

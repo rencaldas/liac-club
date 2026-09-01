@@ -7,6 +7,7 @@ import {
   ArticleIcon,
   ChevronsLeftIcon,
   EventIcon,
+  ExternalLinkIcon,
   HistoryIcon,
   LogoutIcon,
   NewsIcon,
@@ -99,7 +100,7 @@ export function StaffLayout() {
         <div className={styles.sidebarHead}>
           <NavLink to="/portal-liac/novidades" className={styles.brand}>
             <img src={liacLogo} alt="LIAC" />
-            <span className={styles.brandText}>Portal LIAC</span>
+            <span className={styles.brandText}>Portal da Equipe</span>
           </NavLink>
           <button
             type="button"
@@ -128,6 +129,17 @@ export function StaffLayout() {
         </nav>
 
         <div className={styles.sidebarFoot}>
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.siteLink}
+            title={isCollapsed ? 'Ver site' : undefined}
+          >
+            <ExternalLinkIcon className={styles.navIcon} />
+            <span className={styles.navLabel}>Ver site</span>
+          </a>
+
           <button
             type="button"
             className={styles.collapseToggle}

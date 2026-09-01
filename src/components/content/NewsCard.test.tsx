@@ -28,7 +28,7 @@ describe('NewsCard', () => {
     expect(screen.getByText('Divulgação Científica')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: item.title })).toBeInTheDocument()
     expect(screen.getByText('Um resumo curto para o card.')).toBeInTheDocument()
-    expect(screen.getByText(/20 de agosto de 2026/i)).toBeInTheDocument()
+    expect(screen.getByText('20/08/2026')).toBeInTheDocument()
   })
 
   it('links to the news detail page', () => {

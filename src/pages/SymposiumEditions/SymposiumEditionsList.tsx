@@ -13,7 +13,7 @@ export function SymposiumEditionsList() {
     <div className="liac-container liac-page">
       <header className="liac-page-header">
         <p className="liac-eyebrow">Simpósio LIAC</p>
-        <h1>Edições Anteriores do Simpósio</h1>
+        <h1>Edições Anteriores</h1>
       </header>
 
       {status === 'loading' && <LoadingState label="Carregando edições…" />}

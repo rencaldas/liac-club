@@ -1,11 +1,11 @@
 .clickable {
   position: relative;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .clickable:hover {
-  box-shadow: var(--liac-shadow-hover, 0 6px 16px rgba(0, 0, 0, 0.12));
-  transform: translateY(-2px);
+  box-shadow: var(--liac-shadow-hover, 0 16px 36px rgba(31, 18, 22, 0.16));
+  transform: translateY(-4px);
 }
 
 .stretchedLink::after {
@@ -29,6 +29,17 @@
 }
 
 .authors {
+  font-size: var(--liac-fs-small);
+  color: var(--liac-text-muted);
+  margin: 0;
+}
+
+.authorsLabel {
+  font-weight: 600;
+  color: var(--liac-text);
+}
+
+.date {
   font-size: var(--liac-fs-small);
   color: var(--liac-text-muted);
   margin: 0;

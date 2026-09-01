@@ -1,13 +1,14 @@
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiClient } from '../../../services/client'
+import { deleteImage } from '../../../services/storage'
 import { useAuth } from '../../../auth/AuthContext'
 import { useAsyncResource } from '../../../hooks/useAsyncResource'
 import { LoadingState } from '../../../components/ui/LoadingState'
 import { EmptyState } from '../../../components/ui/EmptyState'
 import { DataTable } from '../../../components/staff/DataTable'
 import { ConfirmDialog } from '../../../components/staff/ConfirmDialog'
-import { PlusIcon } from '../../../components/ui/icons/StaffIcons'
+import { PlusIcon, ImagePlaceholderIcon } from '../../../components/ui/icons/StaffIcons'
 import { formatEventDateRangeShort } from '../../../utils/date'
 import type { Event } from '../../../types/entities'
 import styles from '../ManageList.module.css'
@@ -26,6 +27,7 @@ export function EventsManageList() {
     setDeleteError(null)
     try {
       await apiClient.deleteEvent(pendingDelete.slug, session.token)
+      if (pendingDelete.coverImageUrl) void deleteImage(pendingDelete.coverImageUrl, session.token)
       setPendingDelete(null)
       setRefreshKey((key) => key + 1)
     } catch {
@@ -54,6 +56,17 @@ export function EventsManageList() {
           items={data.items}
           getKey={(item) => item.slug}
           columns={[
+            {
+              header: 'Capa',
+              render: (item) =>
+                item.coverImageUrl ? (
+                  <img src={item.coverImageUrl} alt="" className={styles.thumb} />
+                ) : (
+                  <span className={styles.thumbPlaceholder}>
+                    <ImagePlaceholderIcon width={16} height={16} />
+                  </span>
+                ),
+            },
             { header: 'Título', render: (item) => item.title },
             { header: 'Data', render: (item) => formatEventDateRangeShort(item.startDate, item.endDate) },
             { header: 'Local', render: (item) => item.location },

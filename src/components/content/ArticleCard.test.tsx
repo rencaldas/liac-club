@@ -17,19 +17,23 @@ describe('ArticleCard', () => {
     renderArticle({
       slug: 'artigo-um-autor',
       title: 'Artigo com um autor',
+      publishedAt: '2026-08-15',
       authors: ['Ana Beatriz Ramos'],
       abstract: 'Resumo.',
       tags: ['tag-a'],
       externalUrl: 'https://example.com/artigo',
     })
 
+    expect(screen.getByText('Publicado por:')).toBeInTheDocument()
     expect(screen.getByText('Ana Beatriz Ramos')).toBeInTheDocument()
+    expect(screen.getByText('15/08/2026')).toBeInTheDocument()
   })
 
   it('joins multiple authors with "e" before the last one', () => {
     renderArticle({
       slug: 'artigo-multiplos-autores',
       title: 'Artigo com múltiplos autores',
+      publishedAt: '2026-08-15',
       authors: ['Ana Beatriz Ramos', 'Carla Menezes', 'Mariana Costa'],
       abstract: 'Resumo.',
       tags: ['tag-a', 'tag-b'],
@@ -47,6 +51,7 @@ describe('ArticleCard', () => {
     renderArticle({
       slug: 'artigo-x',
       title: 'Artigo X',
+      publishedAt: '2026-08-15',
       authors: ['Autora Y'],
       abstract: 'Resumo.',
       tags: [],

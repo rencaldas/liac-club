@@ -1,11 +1,11 @@
 .clickable {
   position: relative;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .clickable:hover {
-  box-shadow: var(--liac-shadow-hover, 0 6px 16px rgba(0, 0, 0, 0.12));
-  transform: translateY(-2px);
+  box-shadow: var(--liac-shadow-hover, 0 16px 36px rgba(31, 18, 22, 0.16));
+  transform: translateY(-4px);
 }
 
 .stretchedLink::after {
@@ -13,6 +13,79 @@
   position: absolute;
   inset: 0;
   z-index: 1;
+}
+
+.cover {
+  margin: calc(var(--liac-space-md) * -1) calc(var(--liac-space-md) * -1) 0;
+  aspect-ratio: 1.9 / 1;
+  overflow: hidden;
+  border-radius: var(--liac-radius-lg) var(--liac-radius-lg) 0 0;
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.clickable:hover .cover img {
+  transform: scale(1.05);
+}
+
+/* Feature variant: large, horizontal layout for the home carousel — 70% image, 30% text. */
+.feature {
+  flex-direction: row;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+}
+
+.featureCover {
+  flex: 0 0 70%;
+  min-height: 22rem;
+  position: relative;
+}
+
+.featureCover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  inset: 0;
+  transition: transform 0.4s ease;
+}
+
+.clickable:hover .featureCover img {
+  transform: scale(1.05);
+}
+
+.body {
+  flex: 1 1 30%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: var(--liac-space-lg) var(--liac-space-md);
+}
+
+@media (max-width: 640px) {
+  .feature {
+    flex-direction: column;
+  }
+
+  .featureCover {
+    flex-basis: auto;
+    aspect-ratio: 1.9 / 1;
+    min-height: 0;
+  }
+
+  .body {
+    padding: var(--liac-space-md);
+  }
 }
 
 .title {

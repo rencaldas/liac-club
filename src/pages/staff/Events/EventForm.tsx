@@ -1,10 +1,12 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { apiClient } from '../../../services/client'
+import { deleteImage } from '../../../services/storage'
 import { useAuth } from '../../../auth/AuthContext'
 import { useUnsavedChangesGuard } from '../../../hooks/useUnsavedChangesGuard'
 import { EntityFormLayout } from '../../../components/staff/EntityFormLayout'
 import { FeaturedToggle } from '../../../components/staff/FeaturedToggle'
+import { ImageUploadField } from '../../../components/staff/ImageUploadField'
 import { LoadingState } from '../../../components/ui/LoadingState'
 import type { Event, EventType } from '../../../types/entities'
 import styles from './EventForm.module.css'
@@ -16,6 +18,7 @@ interface FormState {
   location: string
   type: EventType
   description: string
+  coverImageUrl: string
   featured: boolean
 }
 
@@ -26,6 +29,7 @@ const EMPTY_STATE: FormState = {
   location: '',
   type: 'workshop',
   description: '',
+  coverImageUrl: '',
   featured: false,
 }
 
@@ -43,6 +47,7 @@ function toFormState(item: Event): FormState {
     location: item.location,
     type: item.type,
     description: item.description,
+    coverImageUrl: item.coverImageUrl ?? '',
     featured: item.featured ?? false,
   }
 }
@@ -103,11 +108,23 @@ export function EventForm() {
 
     setIsSubmitting(true)
     try {
-      const payload = { ...form }
+      const payload = {
+        title: form.title,
+        startDate: form.startDate,
+        endDate: form.endDate,
+        location: form.location,
+        type: form.type,
+        description: form.description,
+        coverImageUrl: form.coverImageUrl || undefined,
+        featured: form.featured,
+      }
       if (isEditing && slug) {
         await apiClient.updateEvent(slug, payload, session.token)
       } else {
         await apiClient.createEvent(payload, session.token)
+      }
+      if (initialForm.coverImageUrl && initialForm.coverImageUrl !== form.coverImageUrl) {
+        void deleteImage(initialForm.coverImageUrl, session.token)
       }
       setInitialForm(form)
       bypassUnsavedGuard()
@@ -226,6 +243,13 @@ export function EventForm() {
           </p>
         )}
       </div>
+
+      <ImageUploadField
+        id="event-cover"
+        label="Imagem de capa (opcional)"
+        value={form.coverImageUrl}
+        onChange={(value) => updateField('coverImageUrl', value)}
+      />
 
       <FeaturedToggle checked={form.featured} onChange={(checked) => updateField('featured', checked)} />
     </EntityFormLayout>

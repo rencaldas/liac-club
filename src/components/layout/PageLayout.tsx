@@ -8,8 +8,8 @@ export function PageLayout() {
   const isHome = pathname === '/'
 
   return (
-    <div className={styles.page}>
-      <Navbar />
+    <div className={isHome ? `${styles.page} ${styles.pageHome}` : styles.page}>
+      <Navbar onHero={isHome} />
       <main className={isHome ? `${styles.main} ${styles.mainFlush}` : styles.main}>
         <Outlet />
       </main>

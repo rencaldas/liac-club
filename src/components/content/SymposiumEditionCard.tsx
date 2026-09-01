@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import type { SymposiumEdition } from '../../types/entities'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
-import { formatEventDateRange } from '../../utils/date'
+import { formatEventDateRangeShort } from '../../utils/date'
 import styles from './SymposiumEditionCard.module.css'
 
 export function SymposiumEditionCard({ edition }: { edition: SymposiumEdition }) {
@@ -14,7 +14,7 @@ export function SymposiumEditionCard({ edition }: { edition: SymposiumEdition })
           {edition.title}
         </Link>
       </h3>
-      <p className={styles.meta}>{formatEventDateRange(edition.startDate, edition.endDate)}</p>
+      <p className={styles.meta}>{formatEventDateRangeShort(edition.startDate, edition.endDate)}</p>
       <p className={styles.meta}>{edition.location}</p>
       <p className={styles.description}>{edition.description}</p>
     </Card>

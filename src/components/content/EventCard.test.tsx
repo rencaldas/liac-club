@@ -24,7 +24,7 @@ describe('EventCard', () => {
       description: 'Descrição do workshop.',
     })
 
-    expect(screen.getByText('12 de setembro de 2026')).toBeInTheDocument()
+    expect(screen.getByText('12/09/2026')).toBeInTheDocument()
     expect(screen.getByText('Workshop')).toBeInTheDocument()
   })
 
@@ -39,9 +39,7 @@ describe('EventCard', () => {
       description: 'Descrição do simpósio.',
     })
 
-    expect(
-      screen.getByText('18 de agosto de 2026 – 20 de agosto de 2026'),
-    ).toBeInTheDocument()
+    expect(screen.getByText('18/08/2026 à 20/08/2026')).toBeInTheDocument()
   })
 
   it('links to the event detail page', () => {
