@@ -1,5 +1,8 @@
 .section {
   padding-block: var(--liac-space-lg);
+  /* Contains the horizontal travel of slide-in reveals so they never spawn a page
+     scrollbar mid-animation; vertical stays visible for card shadows and hover lift. */
+  overflow-x: clip;
 }
 
 .sectionHeader {
@@ -11,9 +14,41 @@
 }
 
 .sectionHeader h2 {
+  position: relative;
   margin: 0;
+}
+
+/* Gradient underline that wipes in from the left once the header is revealed. The
+   `data-revealed` attribute is set by <Reveal>, which is the .sectionHeader element itself. */
+.sectionHeader h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.4rem;
+  height: 3px;
+  width: 2.75rem;
+  border-radius: 999px;
+  background: var(--liac-gradient-brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.sectionHeader[data-revealed] h2::after {
+  transform: scaleX(1);
 }
 
 .altBg {
   background: var(--liac-bg-alt);
+}
+
+.eventSlide {
+  width: min(1000px, 92vw);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionHeader h2::after {
+    transition: none;
+    transform: scaleX(1);
+  }
 }
