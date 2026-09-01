@@ -8,7 +8,7 @@ import { NotFound } from '../../components/ui/NotFound'
 import { Badge } from '../../components/ui/Badge'
 import { Button } from '../../components/ui/Button'
 import { ExternalLinkIcon } from '../../components/ui/icons/ExternalLinkIcon'
-import { formatEventDateRange } from '../../utils/date'
+import { formatEventDateRangeShort } from '../../utils/date'
 import type { SymposiumEdition } from '../../types/entities'
 import styles from './SymposiumEditionDetail.module.css'
 
@@ -51,7 +51,7 @@ export function SymposiumEditionDetail() {
         )}
         <Badge>{data.year}</Badge>
         <h1>{data.title}</h1>
-        <p className={styles.meta}>{formatEventDateRange(data.startDate, data.endDate)}</p>
+        <p className={styles.meta}>{formatEventDateRangeShort(data.startDate, data.endDate)}</p>
         <p className={styles.meta}>{data.location}</p>
         <p className={styles.description}>{data.description}</p>
         {data.externalUrl && (

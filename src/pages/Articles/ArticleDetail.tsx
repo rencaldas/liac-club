@@ -9,6 +9,7 @@ import { Badge } from '../../components/ui/Badge'
 import { Button } from '../../components/ui/Button'
 import { ExternalLinkIcon } from '../../components/ui/icons/ExternalLinkIcon'
 import { formatAuthors } from '../../utils/text'
+import { formatDateShort } from '../../utils/date'
 import type { ScientificArticle } from '../../types/entities'
 import styles from './ArticleDetail.module.css'
 
@@ -50,7 +51,10 @@ export function ArticleDetail() {
           ))}
         </div>
         <h1>{data.title}</h1>
-        <p className={styles.authors}>{formatAuthors(data.authors)}</p>
+        <p className={styles.authors}>
+          <span className={styles.authorsLabel}>Publicado por:</span> {formatAuthors(data.authors)}
+        </p>
+        <p className={styles.date}>{formatDateShort(data.publishedAt)}</p>
         <p className={styles.abstract}>{data.abstract}</p>
         <Button href={data.externalUrl} variant="secondary" className={styles.externalLink}>
           Ver artigo original

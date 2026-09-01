@@ -65,7 +65,7 @@ contrato de listagem — não é um endpoint separado).
 | DELETE | `/events/:slug` **[autenticado]** | Exclui um evento | — |
 
 **Response item (Event)**: `slug, title, startDate, endDate, location, type, description,
-featured`
+coverImageUrl?, featured`
 
 ### Artigos Científicos
 
@@ -77,8 +77,8 @@ featured`
 | PUT | `/articles/:slug` **[autenticado]** | Edita um artigo (inclui `featured`) | Body: `Partial<ScientificArticle>` |
 | DELETE | `/articles/:slug` **[autenticado]** | Exclui um artigo | — |
 
-**Response item (ScientificArticle)**: `slug, title, authors[], abstract, tags[], externalUrl,
-featured`
+**Response item (ScientificArticle)**: `slug, title, publishedAt, authors[], abstract, tags[],
+externalUrl, featured`
 
 ### Projetos de Pesquisa
 

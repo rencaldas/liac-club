@@ -31,6 +31,7 @@ describe('ArticleDetail', () => {
     getArticleBySlug.mockResolvedValue({
       slug: 'artigo-existente',
       title: 'Artigo existente',
+      publishedAt: '2026-07-09',
       authors: ['Ana Beatriz Ramos', 'Carla Menezes'],
       abstract: 'Resumo completo.',
       tags: ['colágeno'],
@@ -42,7 +43,9 @@ describe('ArticleDetail', () => {
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: 'Artigo existente' })).toBeInTheDocument()
     })
+    expect(screen.getByText('Publicado por:')).toBeInTheDocument()
     expect(screen.getByText('Ana Beatriz Ramos e Carla Menezes')).toBeInTheDocument()
+    expect(screen.getByText('09/07/2026')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /ver artigo original/i })).toHaveAttribute(
       'href',
       'https://doi.org/10.1000/exemplo',

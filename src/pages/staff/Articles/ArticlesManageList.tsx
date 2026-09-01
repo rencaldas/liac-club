@@ -9,6 +9,7 @@ import { DataTable } from '../../../components/staff/DataTable'
 import { ConfirmDialog } from '../../../components/staff/ConfirmDialog'
 import { PlusIcon } from '../../../components/ui/icons/StaffIcons'
 import { formatAuthors } from '../../../utils/text'
+import { formatDateShort } from '../../../utils/date'
 import type { ScientificArticle } from '../../../types/entities'
 import styles from '../ManageList.module.css'
 
@@ -56,6 +57,7 @@ export function ArticlesManageList() {
           columns={[
             { header: 'Título', render: (item) => item.title },
             { header: 'Autores', render: (item) => formatAuthors(item.authors) },
+            { header: 'Publicado em', render: (item) => formatDateShort(item.publishedAt) },
             { header: 'Destaque', render: (item) => (item.featured ? 'Sim' : 'Não') },
           ]}
           renderActions={(item) => (

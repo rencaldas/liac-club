@@ -74,6 +74,7 @@ describe('ArticleForm (create)', () => {
     createArticle.mockResolvedValue({
       slug: 'artigo-teste',
       title: 'Artigo Teste',
+      publishedAt: '2026-08-20',
       authors: ['Autora A', 'Autora B'],
       abstract: 'Resumo do artigo',
       tags: ['formulação'],
@@ -84,6 +85,7 @@ describe('ArticleForm (create)', () => {
     renderPage()
 
     await user.type(screen.getByLabelText('Título'), 'Artigo Teste')
+    await user.type(screen.getByLabelText('Data de publicação'), '2026-08-20')
     await user.type(screen.getByLabelText('Autores (separados por vírgula)'), 'Autora A, Autora B')
     await user.type(screen.getByLabelText('Resumo'), 'Resumo do artigo')
     await user.type(screen.getByLabelText('Tags (separadas por vírgula, opcional)'), 'formulação')
@@ -94,6 +96,7 @@ describe('ArticleForm (create)', () => {
       expect(createArticle).toHaveBeenCalledWith(
         {
           title: 'Artigo Teste',
+          publishedAt: '2026-08-20',
           authors: ['Autora A', 'Autora B'],
           abstract: 'Resumo do artigo',
           tags: ['formulação'],
