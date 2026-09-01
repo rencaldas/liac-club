@@ -2,7 +2,10 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: var(--liac-space-sm) clamp(1rem, 4vw, 2rem) 0;
+  /* Bottom padding gives the floating pill's drop shadow room to render inside the header;
+     with 0 here the shadow bled past the header edge and was painted over by the section
+     (or hero) directly below, so it looked clipped by a hard horizontal line. */
+  padding: var(--liac-space-sm) clamp(1rem, 4vw, 2rem) var(--liac-space-sm);
 }
 
 .inner {
@@ -13,18 +16,25 @@
   align-items: center;
   gap: var(--liac-space-md);
   padding: 0.65rem var(--liac-space-md);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  /* Same treatment as the Home hero: a thin dark scrim over the brand gradient so the
+     white nav text keeps AA contrast even over the gradient's brightest (orange) stop. */
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), var(--liac-gradient-brand);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 999px;
-  box-shadow: 0 4px 20px rgba(31, 18, 22, 0.06);
-  transition: box-shadow 0.35s ease, background-color 0.35s ease;
+  box-shadow: 0 4px 20px rgba(31, 18, 22, 0.12);
+  transition: box-shadow 0.35s ease;
 }
 
 .scrolled .inner {
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 12px 32px rgba(31, 18, 22, 0.14);
+  box-shadow: 0 12px 32px rgba(31, 18, 22, 0.22);
+}
+
+/* On the home page a gradient band sits behind the header (see PageLayout .navBackdrop) so
+   the strip around the floating pill matches the hero instead of showing white. Drop the
+   bottom padding here so the pill meets the hero flush with no gradient seam between them;
+   the pill's drop shadow spilling onto the hero is imperceptible over the dark gradient. */
+.onHero {
+  padding-bottom: 0;
 }
 
 .brand {
@@ -69,7 +79,7 @@
   padding: 0.5rem 0.9rem;
   background: none;
   border: none;
-  color: var(--liac-text);
+  color: var(--liac-white);
   text-decoration: none;
   font-family: inherit;
   font-weight: 500;
@@ -83,12 +93,12 @@
 .links a:focus-visible,
 .links button:hover,
 .links button:focus-visible {
-  color: var(--liac-primary-dark);
+  color: rgba(255, 255, 255, 0.75);
   transform: translateY(-1px);
 }
 
 .linkActive {
-  color: var(--liac-primary) !important;
+  color: var(--liac-white) !important;
   font-weight: 600;
 }
 
@@ -100,7 +110,7 @@
   bottom: 0.15rem;
   height: 2px;
   border-radius: 999px;
-  background: var(--liac-gradient-brand);
+  background: var(--liac-white);
 }
 
 .navGroup {
@@ -109,7 +119,7 @@
 
 .groupArrow {
   margin-left: 0.35rem;
-  color: #000;
+  color: currentColor;
   transition: transform 0.2s ease;
 }
 
@@ -153,6 +163,20 @@
   padding: 0.55rem 0.75rem;
   border-radius: calc(var(--liac-radius) - 0.25rem);
   white-space: nowrap;
+  color: var(--liac-text);
+}
+
+.dropdown a:hover,
+.dropdown a:focus-visible {
+  color: var(--liac-primary-dark);
+}
+
+.dropdown a.linkActive {
+  color: var(--liac-primary) !important;
+}
+
+.dropdown a.linkActive::after {
+  display: none;
 }
 
 .indicator {
@@ -161,7 +185,7 @@
   left: 0;
   height: 2px;
   border-radius: 999px;
-  background: var(--liac-gradient-brand);
+  background: var(--liac-white);
   transition:
     transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
     width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
@@ -177,6 +201,50 @@
   gap: 0.4rem;
 }
 
+.social {
+  display: none;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  color: var(--liac-white);
+  border-radius: 999px;
+  transition: color 0.25s ease, background-color 0.2s ease, transform 0.25s ease;
+}
+
+.social a:hover,
+.social a:focus-visible {
+  color: var(--liac-white);
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.mobileSocial {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem 0.25rem;
+  animation: navItemIn 0.35s ease backwards;
+}
+
+.mobileSocial a {
+  display: inline-flex;
+  width: auto;
+  padding: 0.5rem;
+  color: var(--liac-text);
+  border-radius: 999px;
+}
+
+.mobileSocial a:hover {
+  background: var(--liac-bg-alt);
+  color: var(--liac-primary-dark);
+  transform: none;
+}
+
 .loginButton {
   display: none;
   align-items: center;
@@ -189,14 +257,14 @@
   font-size: var(--liac-fs-small);
   text-decoration: none;
   cursor: pointer;
-  background: var(--liac-primary);
-  color: var(--liac-white);
+  background: var(--liac-white);
+  color: var(--liac-primary-dark);
   transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
 
 .loginButton:hover,
 .loginButton:focus-visible {
-  background: var(--liac-primary-dark);
+  background: rgba(255, 255, 255, 0.85);
   transform: translateY(-1px);
 }
 
@@ -204,7 +272,7 @@
   display: inline-flex;
   background: none;
   border: none;
-  color: var(--liac-primary);
+  color: var(--liac-white);
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 999px;
@@ -212,7 +280,7 @@
 }
 
 .toggle:hover {
-  background: var(--liac-bg-alt);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .mobileMenu {
@@ -286,6 +354,8 @@
   .indicator,
   .loginButton,
   .toggle,
+  .social a,
+  .mobileSocial,
   .mobileMenu a {
     transition: none;
     animation: none;
@@ -302,6 +372,10 @@
 
   .loginButton {
     display: inline-flex;
+  }
+
+  .social {
+    display: flex;
   }
 
   .toggle {

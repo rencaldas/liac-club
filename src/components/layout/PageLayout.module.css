@@ -4,6 +4,24 @@
   min-height: 100vh;
 }
 
+/* Home only: a brand-gradient band behind the header, so the strip around the floating nav
+   pill reads as part of the hero instead of a white bar. It scrolls away with the page (it
+   is not sticky like the navbar) and is covered by the opaque hero below, so only the
+   header's own transparent area reveals it. */
+.pageHome {
+  position: relative;
+}
+
+.pageHome::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 10rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), var(--liac-gradient-brand);
+  pointer-events: none;
+  z-index: -1;
+}
+
 .main {
   flex: 1;
 }
