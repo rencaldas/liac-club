@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Projects } from './Projects'
 import { apiClient } from '../../services/client'
@@ -39,7 +40,11 @@ describe('Projects', () => {
       total: 2,
     })
 
-    render(<Projects />)
+    render(
+      <MemoryRouter>
+        <Projects />
+      </MemoryRouter>,
+    )
 
     await waitFor(() => {
       expect(screen.getByText('Projeto A')).toBeInTheDocument()
@@ -49,7 +54,11 @@ describe('Projects', () => {
 
   it('shows an empty state when there are no projects', async () => {
     getProjects.mockResolvedValue({ items: [], page: 1, pageSize: 12, total: 0 })
-    render(<Projects />)
+    render(
+      <MemoryRouter>
+        <Projects />
+      </MemoryRouter>,
+    )
 
     await waitFor(() => {
       expect(screen.getByText(/nenhum projeto cadastrado/i)).toBeInTheDocument()

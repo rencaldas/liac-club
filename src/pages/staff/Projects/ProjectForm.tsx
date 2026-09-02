@@ -13,6 +13,7 @@ interface FormState {
   status: ResearchProjectStatus
   summary: string
   members: string
+  publishedAt: string
 }
 
 const EMPTY_STATE: FormState = {
@@ -20,6 +21,7 @@ const EMPTY_STATE: FormState = {
   status: 'ativo',
   summary: '',
   members: '',
+  publishedAt: '',
 }
 
 const STATUS_OPTIONS: { value: ResearchProjectStatus; label: string }[] = [
@@ -40,6 +42,7 @@ function toFormState(item: ResearchProject): FormState {
     status: item.status,
     summary: item.summary,
     members: item.members.join(', '),
+    publishedAt: item.publishedAt ?? '',
   }
 }
 
@@ -101,6 +104,7 @@ export function ProjectForm() {
         status: form.status,
         summary: form.summary,
         members: splitList(form.members),
+        publishedAt: form.publishedAt || undefined,
       }
       if (isEditing && id) {
         await apiClient.updateProject(id, payload, session.token)
@@ -109,7 +113,7 @@ export function ProjectForm() {
       }
       setInitialForm(form)
       bypassUnsavedGuard()
-      navigate('/portal-liac/projetos')
+      navigate('/portal-equipe/projetos')
     } catch {
       setGeneralError('Não foi possível salvar. Tente novamente.')
     } finally {
@@ -123,27 +127,27 @@ export function ProjectForm() {
     <EntityFormLayout
       title={isEditing ? 'Editar Projeto' : 'Novo Projeto'}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('/portal-liac/projetos')}
+      onCancel={() => navigate('/portal-equipe/projetos')}
       isSubmitting={isSubmitting}
       generalError={generalError}
     >
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label htmlFor="project-title">Título</label>
-          <input
-            id="project-title"
-            value={form.title}
-            onChange={(event) => updateField('title', event.target.value)}
-            aria-invalid={Boolean(fieldErrors.title)}
-            aria-describedby={fieldErrors.title ? 'project-title-error' : undefined}
-          />
-          {fieldErrors.title && (
-            <p id="project-title-error" className={styles.errorText} role="alert">
-              {fieldErrors.title}
-            </p>
-          )}
-        </div>
+      <div className={styles.field}>
+        <label htmlFor="project-title">Título</label>
+        <input
+          id="project-title"
+          value={form.title}
+          onChange={(event) => updateField('title', event.target.value)}
+          aria-invalid={Boolean(fieldErrors.title)}
+          aria-describedby={fieldErrors.title ? 'project-title-error' : undefined}
+        />
+        {fieldErrors.title && (
+          <p id="project-title-error" className={styles.errorText} role="alert">
+            {fieldErrors.title}
+          </p>
+        )}
+      </div>
 
+      <div className={styles.row}>
         <div className={styles.field}>
           <label htmlFor="project-status">Status</label>
           <select
@@ -157,6 +161,16 @@ export function ProjectForm() {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="project-publishedAt">Data de publicação</label>
+          <input
+            id="project-publishedAt"
+            type="date"
+            value={form.publishedAt}
+            onChange={(event) => updateField('publishedAt', event.target.value)}
+          />
         </div>
       </div>
 
