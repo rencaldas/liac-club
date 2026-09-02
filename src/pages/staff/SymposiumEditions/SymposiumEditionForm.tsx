@@ -135,7 +135,7 @@ export function SymposiumEditionForm() {
       }
       setInitialForm(form)
       bypassUnsavedGuard()
-      navigate('/portal-liac/edicoes-anteriores')
+      navigate('/portal-equipe/edicoes-anteriores')
     } catch {
       setGeneralError('Não foi possível salvar. Tente novamente.')
     } finally {
@@ -149,7 +149,7 @@ export function SymposiumEditionForm() {
     <EntityFormLayout
       title={isEditing ? 'Editar Edição' : 'Nova Edição'}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('/portal-liac/edicoes-anteriores')}
+      onCancel={() => navigate('/portal-equipe/edicoes-anteriores')}
       isSubmitting={isSubmitting}
       generalError={generalError}
     >

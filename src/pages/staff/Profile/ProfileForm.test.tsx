@@ -24,8 +24,8 @@ vi.mocked(useNavigate).mockReturnValue(navigateMock)
 const STORAGE_KEY = 'liac_staff_session'
 
 function renderPage() {
-  const router = createMemoryRouter([{ path: '/portal-liac/perfil', element: <ProfileForm /> }], {
-    initialEntries: ['/portal-liac/perfil'],
+  const router = createMemoryRouter([{ path: '/portal-equipe/perfil', element: <ProfileForm /> }], {
+    initialEntries: ['/portal-equipe/perfil'],
   })
   return render(
     <AuthProvider>

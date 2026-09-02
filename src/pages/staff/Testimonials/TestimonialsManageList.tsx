@@ -40,7 +40,7 @@ export function TestimonialsManageList() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>Depoimentos</h1>
-        <Link to="/portal-liac/depoimentos/novo" className={styles.newButton}>
+        <Link to="/portal-equipe/depoimentos/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Novo Depoimento
         </Link>
@@ -65,7 +65,7 @@ export function TestimonialsManageList() {
           ]}
           renderActions={(item) => (
             <>
-              <Link to={`/portal-liac/depoimentos/${item.id}/editar`}>Editar</Link>
+              <Link to={`/portal-equipe/depoimentos/${item.id}/editar`}>Editar</Link>
               <button type="button" onClick={() => setPendingDelete(item)}>
                 Excluir
               </button>

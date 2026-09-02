@@ -29,8 +29,8 @@ const STORAGE_KEY = 'liac_staff_session'
 
 function renderPage() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ token: 'tok-1', role: 'coordenador', displayName: 'Fulana' }))
-  const router = createMemoryRouter([{ path: '/portal-liac/eventos/novo', element: <EventForm /> }], {
-    initialEntries: ['/portal-liac/eventos/novo'],
+  const router = createMemoryRouter([{ path: '/portal-equipe/eventos/novo', element: <EventForm /> }], {
+    initialEntries: ['/portal-equipe/eventos/novo'],
   })
   return render(
     <AuthProvider>
@@ -106,6 +106,6 @@ describe('EventForm (create)', () => {
         'tok-1',
       )
     })
-    await waitFor(() => expect(navigateMock).toHaveBeenCalledWith('/portal-liac/eventos'))
+    await waitFor(() => expect(navigateMock).toHaveBeenCalledWith('/portal-equipe/eventos'))
   })
 })

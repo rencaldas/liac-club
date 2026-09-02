@@ -111,7 +111,7 @@ export function PartnerForm() {
       }
       setInitialForm(form)
       bypassUnsavedGuard()
-      navigate('/portal-liac/parceiros')
+      navigate('/portal-equipe/parceiros')
     } catch {
       setGeneralError('Não foi possível salvar. Tente novamente.')
     } finally {
@@ -125,7 +125,7 @@ export function PartnerForm() {
     <EntityFormLayout
       title={isEditing ? 'Editar Parceiro' : 'Novo Parceiro'}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('/portal-liac/parceiros')}
+      onCancel={() => navigate('/portal-equipe/parceiros')}
       isSubmitting={isSubmitting}
       generalError={generalError}
     >

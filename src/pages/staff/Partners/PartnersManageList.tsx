@@ -36,7 +36,7 @@ export function PartnersManageList() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>Parceiros</h1>
-        <Link to="/portal-liac/parceiros/novo" className={styles.newButton}>
+        <Link to="/portal-equipe/parceiros/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Novo Parceiro
         </Link>
@@ -69,7 +69,7 @@ export function PartnersManageList() {
           ]}
           renderActions={(item) => (
             <>
-              <Link to={`/portal-liac/parceiros/${item.id}/editar`}>Editar</Link>
+              <Link to={`/portal-equipe/parceiros/${item.id}/editar`}>Editar</Link>
               <button type="button" onClick={() => setPendingDelete(item)}>
                 Excluir
               </button>
