@@ -18,7 +18,12 @@ interface CarouselProps {
   slideClassName?: string
 }
 
-const DRAG_THRESHOLD_PX = 5
+/**
+ * Pointer travel before a press is treated as a drag rather than a click. Kept above the
+ * browser's own click-cancel slop (~a few px) so an imperfect click on a card link inside
+ * the carousel still navigates instead of being swallowed by `suppressClickAfterDrag`.
+ */
+const DRAG_THRESHOLD_PX = 10
 /** A drag shorter than this still advances one slide as long as it ended with a quick flick. */
 const FLICK_DISTANCE_PX = 40
 /** Pointer speed (px/ms) at release that counts as a flick even without much travel. */
@@ -146,10 +151,14 @@ export function Carousel({ children, ariaLabel, slideClassName }: CarouselProps)
   }
 
   function suppressClickAfterDrag(event: ReactMouseEvent<HTMLDivElement>) {
-    if (dragRef.current.moved) {
+    const state = dragRef.current
+    const wasDrag = state.moved
+    state.moved = false
+    // Cancel the click only after a real drag (pointer past DRAG_THRESHOLD_PX). A small twitch
+    // during an ordinary click on a card link stays below that and must still navigate.
+    if (wasDrag) {
       event.preventDefault()
       event.stopPropagation()
-      dragRef.current.moved = false
     }
   }
 
