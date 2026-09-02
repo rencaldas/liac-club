@@ -20,6 +20,7 @@ import type {
   Partner,
   ResearchProject,
   ScientificArticle,
+  SiteStats,
   StaffCredentials,
   StaffMember,
   StaffRole,
@@ -30,21 +31,109 @@ import type {
 } from '../../types/entities'
 import { ApiError } from './ApiError'
 
+export interface RestApiClientOptions {
+  /**
+   * How long an unauthenticated GET response stays fresh before it is refetched, in ms.
+   * The public content changes rarely and every staff write clears the cache app-wide, so a
+   * few minutes of staleness is invisible in practice. Default: 5 min.
+   */
+  cacheTtlMs?: number
+  /**
+   * Mirror the GET cache into `sessionStorage`, so a full reload or a second tab opened in the
+   * same session reuses the payloads instead of hitting the Edge Functions again. Off by default
+   * (kept per-instance for tests); the shared `apiClient` singleton turns it on.
+   */
+  persistCache?: boolean
+}
+
+interface CacheEntry {
+  expires: number
+  body: unknown
+}
+
+const SESSION_PREFIX = 'liac_api_cache:'
+const DEFAULT_CACHE_TTL_MS = 5 * 60_000
+
 /**
  * Talks HTTP to the `liac-backend` repo's Supabase Edge Functions (contract:
  * specs/contracts/api-contract.md) — the full `ApiClient` contract, no local fixtures left. Never
  * imports the Supabase SDK; this is a plain `fetch()` client against our own documented contract
  * (Constitution Princípio I stays intact — the real backend lives in the separate repo, this only
  * calls its HTTP surface).
+ *
+ * Reads are cached to keep Supabase egress down: without this every page mount refetches the same
+ * listings (the Home fires ~6, the Footer 3 more on every route), and SPA back-navigation pays
+ * for all of them again. Unauthenticated GETs are served from an in-memory cache (optionally
+ * mirrored to `sessionStorage`) with in-flight de-duplication; any write (`POST`/`PUT`/`DELETE`)
+ * clears the cache so the staff portal never shows a stale list after an edit.
  */
 export class RestApiClient implements ApiClient {
-  constructor(private readonly baseUrl: string) {}
+  private readonly cacheTtlMs: number
+  private readonly persistCache: boolean
+  private readonly cache = new Map<string, CacheEntry>()
+  private readonly inflight = new Map<string, Promise<unknown>>()
 
-  private async request<T>(path: string, init?: RequestInit): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      ...init,
-      headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
-    })
+  constructor(
+    private readonly baseUrl: string,
+    options: RestApiClientOptions = {},
+  ) {
+    this.cacheTtlMs = options.cacheTtlMs ?? DEFAULT_CACHE_TTL_MS
+    this.persistCache = options.persistCache ?? false
+  }
+
+  private readCache(key: string): unknown | undefined {
+    const inMemory = this.cache.get(key)
+    if (inMemory) {
+      if (inMemory.expires > Date.now()) return inMemory.body
+      this.cache.delete(key)
+    }
+    if (!this.persistCache) return undefined
+    try {
+      const raw = sessionStorage.getItem(SESSION_PREFIX + key)
+      if (!raw) return undefined
+      const entry = JSON.parse(raw) as CacheEntry
+      if (entry.expires > Date.now()) {
+        this.cache.set(key, entry)
+        return entry.body
+      }
+      sessionStorage.removeItem(SESSION_PREFIX + key)
+    } catch {
+      // sessionStorage unavailable/quota/corrupt — fall through to the network.
+    }
+    return undefined
+  }
+
+  private writeCache(key: string, body: unknown): void {
+    const entry: CacheEntry = { expires: Date.now() + this.cacheTtlMs, body }
+    this.cache.set(key, entry)
+    if (!this.persistCache) return
+    try {
+      sessionStorage.setItem(SESSION_PREFIX + key, JSON.stringify(entry))
+    } catch {
+      // Over quota or unavailable — the in-memory cache still applies.
+    }
+  }
+
+  private clearCache(): void {
+    this.cache.clear()
+    if (!this.persistCache) return
+    try {
+      for (let i = sessionStorage.length - 1; i >= 0; i -= 1) {
+        const key = sessionStorage.key(i)
+        if (key?.startsWith(SESSION_PREFIX)) sessionStorage.removeItem(key)
+      }
+    } catch {
+      // Nothing to clean up if sessionStorage is unavailable.
+    }
+  }
+
+  private async fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
+    const headers: Record<string, string> = { ...((init?.headers as Record<string, string>) ?? {}) }
+    // Only send a JSON content-type when there is a body: on a bare GET it upgrades the request
+    // to "non-simple" and forces a CORS preflight (an extra Edge Function invocation per call).
+    if (init?.body != null) headers['Content-Type'] = 'application/json'
+
+    const response = await fetch(`${this.baseUrl}${path}`, { ...init, headers })
 
     if (response.status === 204) return undefined as T
 
@@ -56,6 +145,39 @@ export class RestApiClient implements ApiClient {
     }
 
     return body as T
+  }
+
+  private async request<T>(path: string, init?: RequestInit): Promise<T> {
+    const method = (init?.method ?? 'GET').toUpperCase()
+    const hasAuth = Boolean((init?.headers as Record<string, string> | undefined)?.Authorization)
+    const cacheable = method === 'GET' && !hasAuth
+
+    if (!cacheable) {
+      const result = await this.fetchJson<T>(path, init)
+      // Any write can change what the cached listings would return — drop them all. The public
+      // site is read-heavy and staff writes are rare, so a full clear is simpler than tracking
+      // which keys a given mutation touched.
+      if (method !== 'GET') this.clearCache()
+      return result
+    }
+
+    const cached = this.readCache(path)
+    if (cached !== undefined) return cached as T
+
+    const pending = this.inflight.get(path)
+    if (pending) return pending as Promise<T>
+
+    const tracked = this.fetchJson<T>(path, init)
+      .then((body) => {
+        this.writeCache(path, body)
+        return body
+      })
+      .finally(() => {
+        this.inflight.delete(path)
+      })
+
+    this.inflight.set(path, tracked)
+    return tracked as Promise<T>
   }
 
   private authHeader(token: string): Record<string, string> {
@@ -164,6 +286,12 @@ export class RestApiClient implements ApiClient {
     return items
   }
 
+  // Stats (footer activity counters — see liac-backend/supabase/functions/stats)
+
+  async getStats(): Promise<SiteStats> {
+    return this.request<SiteStats>('/stats')
+  }
+
   // Partners
 
   async getPartners(params?: PartnerListParams): Promise<Partner[]> {
@@ -194,7 +322,12 @@ export class RestApiClient implements ApiClient {
   // News
 
   async getNews(params?: PaginationParams): Promise<PaginatedResult<NewsItem>> {
-    return this.request(`/news${this.query({ page: params?.page, pageSize: params?.pageSize })}`)
+    // `fields=card` drops the full `content` body from list items — every consumer of this list
+    // (Home, /novidades, staff manage-list) only renders the card fields. Detail views use
+    // `getNewsBySlug`, which still returns everything.
+    return this.request(
+      `/news${this.query({ page: params?.page, pageSize: params?.pageSize, fields: 'card' })}`,
+    )
   }
 
   async getNewsBySlug(slug: string): Promise<NewsItem | null> {
@@ -220,8 +353,15 @@ export class RestApiClient implements ApiClient {
   // Events
 
   async getEvents(params?: EventListParams): Promise<PaginatedResult<Event>> {
+    // `fields=card` returns a short excerpt of `description` instead of the full text — the
+    // listing cards only show ~180 chars. `getEventBySlug` still returns the full description.
     return this.request(
-      `/events${this.query({ page: params?.page, pageSize: params?.pageSize, when: params?.when })}`,
+      `/events${this.query({
+        page: params?.page,
+        pageSize: params?.pageSize,
+        when: params?.when,
+        fields: 'card',
+      })}`,
     )
   }
 
@@ -294,6 +434,14 @@ export class RestApiClient implements ApiClient {
     )
   }
 
+  // The backend only exposes `GET /projects/:id` behind staff auth, so the public detail page
+  // reads the (cached, full-text) listing and picks the project out of it — same approach the
+  // staff ProjectForm already uses to load one project for editing.
+  async getProjectById(id: string): Promise<ResearchProject | null> {
+    const { items } = await this.getProjects({ pageSize: 100 })
+    return items.find((project) => project.id === id) ?? null
+  }
+
   async createProject(payload: Omit<ResearchProject, 'id'>, token: string): Promise<ResearchProject> {
     return this.request('/projects', {
       method: 'POST',
@@ -319,8 +467,14 @@ export class RestApiClient implements ApiClient {
   async getSymposiumEditions(
     params?: SymposiumEditionListParams,
   ): Promise<PaginatedResult<SymposiumEdition>> {
+    // `fields=card` returns a short excerpt of `description` — listing cards show ~180 chars.
+    // `getSymposiumEditionBySlug` still returns the full description.
     return this.request(
-      `/symposium-editions${this.query({ page: params?.page, pageSize: params?.pageSize })}`,
+      `/symposium-editions${this.query({
+        page: params?.page,
+        pageSize: params?.pageSize,
+        fields: 'card',
+      })}`,
     )
   }
 

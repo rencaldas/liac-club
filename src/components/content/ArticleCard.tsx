@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import type { ScientificArticle } from '../../types/entities'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
-import { formatAuthors } from '../../utils/text'
+import { formatAuthors, truncate } from '../../utils/text'
 import { formatDateShort } from '../../utils/date'
 import styles from './ArticleCard.module.css'
 
@@ -15,7 +15,7 @@ export function ArticleCard({ article }: { article: ScientificArticle }) {
         ))}
       </div>
       <h3 className={styles.title}>
-        <Link to={`/artigos/${article.slug}`} className={styles.stretchedLink}>
+        <Link to={`/artigos/${article.slug}`} className={styles.stretchedLink} draggable={false}>
           {article.title}
         </Link>
       </h3>
@@ -25,7 +25,7 @@ export function ArticleCard({ article }: { article: ScientificArticle }) {
       {formatDateShort(article.publishedAt) && (
         <p className={styles.date}>{formatDateShort(article.publishedAt)}</p>
       )}
-      <p className={styles.abstract}>{article.abstract}</p>
+      <p className={styles.abstract}>{truncate(article.abstract)}</p>
     </Card>
   )
 }

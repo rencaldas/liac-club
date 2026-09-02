@@ -31,7 +31,15 @@ describe('RestApiClient', () => {
     await client.getNews({ page: 1, pageSize: 8 })
 
     const [url] = fetchMock.mock.calls[0]
-    expect(url).toBe(`${BASE_URL}/news?page=1&pageSize=8`)
+    expect(url).toBe(`${BASE_URL}/news?page=1&pageSize=8&fields=card`)
+  })
+
+  it('requests GET /news with the lightweight card projection to keep egress down', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ items: [], page: 1, pageSize: 12, total: 0 }))
+
+    await client.getNews()
+
+    expect(fetchMock.mock.calls[0][0]).toBe(`${BASE_URL}/news?fields=card`)
   })
 
   it('sends the bearer token when creating a news item', async () => {
@@ -121,6 +129,15 @@ describe('RestApiClient', () => {
     expect(members).toEqual([member])
   })
 
+  it('returns the footer counters from GET /stats', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ members: 24, pastEvents: 12, articles: 7 }))
+
+    const stats = await client.getStats()
+
+    expect(fetchMock.mock.calls[0][0]).toBe(`${BASE_URL}/stats`)
+    expect(stats).toEqual({ members: 24, pastEvents: 12, articles: 7 })
+  })
+
   it('unwraps the items array from GET /team and forwards the area filter', async () => {
     const member = { id: 'm1', name: 'Fulana', role: 'Coordenador', area: 'Marketing', socialLinks: [] }
     fetchMock.mockResolvedValue(jsonResponse({ items: [member] }))
@@ -202,5 +219,67 @@ describe('RestApiClient', () => {
     const [url, init] = fetchMock.mock.calls[0]
     expect(url).toBe(`${BASE_URL}/audit-log?pageSize=20&author=Fulana`)
     expect(init.headers.Authorization).toBe('Bearer tok-1')
+  })
+
+  it('does not send a JSON content-type on a bodyless GET (avoids a CORS preflight)', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ items: [], page: 1, pageSize: 12, total: 0 }))
+
+    await client.getNews()
+
+    const [, init] = fetchMock.mock.calls[0]
+    expect(init.headers['Content-Type']).toBeUndefined()
+  })
+
+  describe('read caching (Supabase egress)', () => {
+    it('serves a repeated unauthenticated GET from cache instead of refetching', async () => {
+      fetchMock.mockResolvedValue(jsonResponse({ items: [], page: 1, pageSize: 12, total: 0 }))
+
+      await client.getNews()
+      await client.getNews()
+
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+    })
+
+    it('de-duplicates concurrent identical GETs into a single request', async () => {
+      fetchMock.mockResolvedValue(jsonResponse({ items: [], page: 1, pageSize: 12, total: 0 }))
+
+      await Promise.all([client.getEvents(), client.getEvents(), client.getEvents()])
+
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+    })
+
+    it('refetches once the cache entry has expired', async () => {
+      const fresh = new RestApiClient(BASE_URL, { cacheTtlMs: 0 })
+      fetchMock.mockImplementation(() =>
+        Promise.resolve(jsonResponse({ items: [], page: 1, pageSize: 12, total: 0 })),
+      )
+
+      await fresh.getNews()
+      await fresh.getNews()
+
+      expect(fetchMock).toHaveBeenCalledTimes(2)
+    })
+
+    it('invalidates cached reads after a write', async () => {
+      fetchMock.mockResolvedValue(jsonResponse({ items: [], page: 1, pageSize: 12, total: 0 }))
+      await client.getNews()
+
+      fetchMock.mockResolvedValue(new Response(null, { status: 204 }))
+      await client.deleteNews('slug', 'tok-1')
+
+      fetchMock.mockResolvedValue(jsonResponse({ items: [], page: 1, pageSize: 12, total: 0 }))
+      await client.getNews()
+
+      expect(fetchMock).toHaveBeenCalledTimes(3)
+    })
+
+    it('does not cache authenticated GETs', async () => {
+      fetchMock.mockImplementation(() => Promise.resolve(jsonResponse({ items: [] })))
+
+      await client.getStaffMembers('tok-1')
+      await client.getStaffMembers('tok-1')
+
+      expect(fetchMock).toHaveBeenCalledTimes(2)
+    })
   })
 })

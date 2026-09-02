@@ -11,6 +11,7 @@ import type {
   StaffCredentials,
   StaffMember,
   StaffRole,
+  SiteStats,
   SymposiumEdition,
   TeamMember,
   Testimonial,
@@ -84,6 +85,7 @@ export interface ApiClient {
   deleteArticle(slug: string, token: string): Promise<void>
 
   getProjects(params?: ProjectListParams): Promise<PaginatedResult<ResearchProject>>
+  getProjectById(id: string): Promise<ResearchProject | null>
   createProject(payload: Omit<ResearchProject, 'id'>, token: string): Promise<ResearchProject>
   updateProject(id: string, payload: Partial<ResearchProject>, token: string): Promise<ResearchProject>
   deleteProject(id: string, token: string): Promise<void>
@@ -102,6 +104,9 @@ export interface ApiClient {
   deleteSymposiumEdition(slug: string, token: string): Promise<void>
 
   getTeam(params?: TeamListParams): Promise<TeamMember[]>
+
+  /** Footer activity counters — plain numbers, no rows transferred. */
+  getStats(): Promise<SiteStats>
 
   getPartners(params?: PartnerListParams): Promise<Partner[]>
   createPartner(payload: Omit<Partner, 'id'>, token: string): Promise<Partner>
