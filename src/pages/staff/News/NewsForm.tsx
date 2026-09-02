@@ -115,7 +115,7 @@ export function NewsForm() {
       }
       setInitialForm(form)
       bypassUnsavedGuard()
-      navigate('/portal-liac/novidades')
+      navigate('/portal-equipe/novidades')
     } catch {
       setGeneralError('Não foi possível salvar. Tente novamente.')
     } finally {
@@ -129,7 +129,7 @@ export function NewsForm() {
     <EntityFormLayout
       title={isEditing ? 'Editar Novidade' : 'Nova Novidade'}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('/portal-liac/novidades')}
+      onCancel={() => navigate('/portal-equipe/novidades')}
       isSubmitting={isSubmitting}
       generalError={generalError}
     >

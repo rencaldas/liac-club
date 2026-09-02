@@ -38,7 +38,7 @@ export function ArticlesManageList() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>Artigos Científicos</h1>
-        <Link to="/portal-liac/artigos/novo" className={styles.newButton}>
+        <Link to="/portal-equipe/artigos/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Novo Artigo
         </Link>
@@ -62,7 +62,7 @@ export function ArticlesManageList() {
           ]}
           renderActions={(item) => (
             <>
-              <Link to={`/portal-liac/artigos/${item.slug}/editar`}>Editar</Link>
+              <Link to={`/portal-equipe/artigos/${item.slug}/editar`}>Editar</Link>
               <button type="button" onClick={() => setPendingDelete(item)}>
                 Excluir
               </button>

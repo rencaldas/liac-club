@@ -33,7 +33,7 @@ export function LoginForm({ onSuccess, onViewChange }: LoginFormProps) {
     try {
       await login({ email, password })
       const redirectTo =
-        (location.state as { from?: { pathname: string } } | null)?.from?.pathname ?? '/portal-liac/novidades'
+        (location.state as { from?: { pathname: string } } | null)?.from?.pathname ?? '/portal-equipe/novidades'
       navigate(redirectTo, { replace: true })
       onSuccess?.()
     } catch {

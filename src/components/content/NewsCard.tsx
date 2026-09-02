@@ -3,6 +3,7 @@ import type { NewsItem } from '../../types/entities'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { formatDateShort } from '../../utils/date'
+import { truncate } from '../../utils/text'
 import styles from './NewsCard.module.css'
 
 export function NewsCard({ item }: { item: NewsItem }) {
@@ -15,12 +16,12 @@ export function NewsCard({ item }: { item: NewsItem }) {
       )}
       <Badge>{item.category}</Badge>
       <h3 className={styles.title}>
-        <Link to={`/novidades/${item.slug}`} className={styles.stretchedLink}>
+        <Link to={`/novidades/${item.slug}`} className={styles.stretchedLink} draggable={false}>
           {item.title}
         </Link>
       </h3>
       <p className={styles.meta}>{formatDateShort(item.publishedAt)}</p>
-      <p className={styles.summary}>{item.summary}</p>
+      <p className={styles.summary}>{truncate(item.summary)}</p>
     </Card>
   )
 }

@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { apiClient } from '../../services/client'
 import { useAsyncResource } from '../../hooks/useAsyncResource'
@@ -8,23 +9,12 @@ import styles from './Footer.module.css'
 
 const FOUNDING_YEAR = 2020
 
-interface Counts {
-  members: number
-  pastEvents: number
-  articles: number
-}
-
-async function fetchCounts(): Promise<Counts> {
-  const [team, events, articles] = await Promise.all([
-    apiClient.getTeam(),
-    apiClient.getEvents({ when: 'past', pageSize: 1 }),
-    apiClient.getArticles({ pageSize: 1 }),
-  ])
-  return { members: team.length, pastEvents: events.total, articles: articles.total }
-}
-
 function FooterMetrics() {
-  const { status, data } = useAsyncResource(fetchCounts, [], () => false)
+  // `GET /stats` returns the counters as plain numbers — no rows. This runs on every page
+  // (the footer is in the shared layout), so it must stay cheap; the previous version pulled
+  // the whole team roster just for `.length`.
+  const fetchStats = useCallback(() => apiClient.getStats(), [])
+  const { status, data } = useAsyncResource(fetchStats, [], () => false)
 
   if (status === 'error' || status === 'loading') return null
 

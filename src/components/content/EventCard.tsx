@@ -3,6 +3,7 @@ import type { Event } from '../../types/entities'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { formatEventDateRangeShort } from '../../utils/date'
+import { truncate } from '../../utils/text'
 import styles from './EventCard.module.css'
 
 const EVENT_TYPE_LABELS: Record<Event['type'], string> = {
@@ -22,13 +23,13 @@ export function EventCard({ event, variant = 'grid' }: EventCardProps) {
     <>
       <Badge>{EVENT_TYPE_LABELS[event.type]}</Badge>
       <h3 className={styles.title}>
-        <Link to={`/eventos/${event.slug}`} className={styles.stretchedLink}>
+        <Link to={`/eventos/${event.slug}`} className={styles.stretchedLink} draggable={false}>
           {event.title}
         </Link>
       </h3>
       <p className={styles.meta}>{formatEventDateRangeShort(event.startDate, event.endDate)}</p>
       <p className={styles.meta}>{event.location}</p>
-      <p className={styles.description}>{event.description}</p>
+      <p className={styles.description}>{truncate(event.description)}</p>
     </>
   )
 

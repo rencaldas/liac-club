@@ -128,7 +128,7 @@ export function ArticleForm() {
       }
       setInitialForm(form)
       bypassUnsavedGuard()
-      navigate('/portal-liac/artigos')
+      navigate('/portal-equipe/artigos')
     } catch {
       setGeneralError('Não foi possível salvar. Tente novamente.')
     } finally {
@@ -142,7 +142,7 @@ export function ArticleForm() {
     <EntityFormLayout
       title={isEditing ? 'Editar Artigo' : 'Novo Artigo'}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('/portal-liac/artigos')}
+      onCancel={() => navigate('/portal-equipe/artigos')}
       isSubmitting={isSubmitting}
       generalError={generalError}
     >

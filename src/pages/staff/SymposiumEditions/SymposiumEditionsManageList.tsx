@@ -37,7 +37,7 @@ export function SymposiumEditionsManageList() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>Edições Anteriores</h1>
-        <Link to="/portal-liac/edicoes-anteriores/novo" className={styles.newButton}>
+        <Link to="/portal-equipe/edicoes-anteriores/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Nova Edição
         </Link>
@@ -62,7 +62,7 @@ export function SymposiumEditionsManageList() {
           ]}
           renderActions={(item) => (
             <>
-              <Link to={`/portal-liac/edicoes-anteriores/${item.slug}/editar`}>Editar</Link>
+              <Link to={`/portal-equipe/edicoes-anteriores/${item.slug}/editar`}>Editar</Link>
               <button type="button" onClick={() => setPendingDelete(item)}>
                 Excluir
               </button>

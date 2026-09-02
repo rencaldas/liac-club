@@ -39,7 +39,7 @@ export function EventsManageList() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>Eventos</h1>
-        <Link to="/portal-liac/eventos/novo" className={styles.newButton}>
+        <Link to="/portal-equipe/eventos/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Novo Evento
         </Link>
@@ -74,7 +74,7 @@ export function EventsManageList() {
           ]}
           renderActions={(item) => (
             <>
-              <Link to={`/portal-liac/eventos/${item.slug}/editar`}>Editar</Link>
+              <Link to={`/portal-equipe/eventos/${item.slug}/editar`}>Editar</Link>
               <button type="button" onClick={() => setPendingDelete(item)}>
                 Excluir
               </button>

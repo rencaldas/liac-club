@@ -42,6 +42,8 @@ export interface ResearchProject {
   status: ResearchProjectStatus
   summary: string
   members: string[]
+  /** ISO "YYYY-MM-DD". Optional until the backend (liac-backend) adds the column. */
+  publishedAt?: string
 }
 
 export interface SymposiumEdition {
@@ -148,6 +150,13 @@ export interface AuditLogEntry {
   action: AuditAction
   entityType: AuditEntityType
   entityLabel: string
+}
+
+/** Activity counters shown in the site footer — served by `GET /stats` as plain numbers (no rows). */
+export interface SiteStats {
+  members: number
+  pastEvents: number
+  articles: number
 }
 
 export interface ContactFormPayload {

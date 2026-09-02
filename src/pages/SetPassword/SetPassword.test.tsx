@@ -21,7 +21,7 @@ function renderPage() {
       <AuthProvider>
         <Routes>
           <Route path="/definir-senha" element={<SetPassword />} />
-          <Route path="/portal-liac/novidades" element={<p>Painel de novidades</p>} />
+          <Route path="/portal-equipe/novidades" element={<p>Painel de novidades</p>} />
         </Routes>
       </AuthProvider>
     </MemoryRouter>,

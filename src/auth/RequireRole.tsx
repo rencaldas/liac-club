@@ -12,7 +12,7 @@ export function RequireRole({ check = hasAuditAccess }: RequireRoleProps) {
   const { session } = useAuth()
 
   if (!session || !check(session.role)) {
-    return <Navigate to="/portal-liac/novidades" replace />
+    return <Navigate to="/portal-equipe/novidades" replace />
   }
 
   return <Outlet />

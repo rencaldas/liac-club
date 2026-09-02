@@ -12,6 +12,7 @@ import { SymposiumEditionDetail } from './pages/SymposiumEditions/SymposiumEditi
 import { Home } from './pages/Home/Home'
 import { Team } from './pages/Team/Team'
 import { Projects } from './pages/Projects/Projects'
+import { ProjectDetail } from './pages/Projects/ProjectDetail'
 import { Partners } from './pages/Partners/Partners'
 import { About } from './pages/About/About'
 import { Contact } from './pages/Contact/Contact'
@@ -57,6 +58,7 @@ export const router = createBrowserRouter([
       { path: 'edicoes-anteriores', element: <SymposiumEditionsList /> },
       { path: 'edicoes-anteriores/:slug', element: <SymposiumEditionDetail /> },
       { path: 'projetos', element: <Projects /> },
+      { path: 'projetos/:id', element: <ProjectDetail /> },
       { path: 'parceiros', element: <Partners /> },
       { path: 'contato', element: <Contact /> },
       { path: '*', element: <NotFound /> },
@@ -64,7 +66,7 @@ export const router = createBrowserRouter([
   },
   { path: '/definir-senha', element: <SetPassword /> },
   {
-    path: '/portal-liac',
+    path: '/portal-equipe',
     children: [
       { path: 'login', element: <Login /> },
       {

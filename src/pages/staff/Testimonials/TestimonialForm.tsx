@@ -88,7 +88,7 @@ export function TestimonialForm() {
       }
       setInitialForm(form)
       bypassUnsavedGuard()
-      navigate('/portal-liac/depoimentos')
+      navigate('/portal-equipe/depoimentos')
     } catch {
       setGeneralError('Não foi possível salvar. Tente novamente.')
     } finally {
@@ -102,7 +102,7 @@ export function TestimonialForm() {
     <EntityFormLayout
       title={isEditing ? 'Editar Depoimento' : 'Novo Depoimento'}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('/portal-liac/depoimentos')}
+      onCancel={() => navigate('/portal-equipe/depoimentos')}
       isSubmitting={isSubmitting}
       generalError={generalError}
     >
