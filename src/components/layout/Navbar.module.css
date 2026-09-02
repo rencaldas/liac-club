@@ -12,7 +12,7 @@
   max-width: 1180px;
   margin-inline: auto;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--liac-space-md);
   padding: 0.65rem var(--liac-space-md);
@@ -57,7 +57,7 @@
 .navList {
   position: relative;
   display: none;
-  justify-self: center;
+  justify-self: start;
 }
 
 .links {

@@ -39,7 +39,33 @@
 }
 
 .altBg {
-  background: var(--liac-bg-alt);
+  background: var(--liac-gradient-brand-subtle), var(--liac-bg-alt);
+}
+
+/* "Próximos eventos": mesmo tratamento do hero — degradê da marca sob um scrim
+   escuro leve que garante contraste AA para o texto branco (Constituição Princípio II). */
+.heroBg {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), var(--liac-gradient-brand);
+  color: var(--liac-white);
+}
+
+.heroBg h2 {
+  color: var(--liac-white);
+}
+
+.heroBg .sectionHeader h2::after {
+  background: var(--liac-white);
+}
+
+.onDarkButton {
+  background: transparent;
+  color: var(--liac-white) !important;
+  border-color: var(--liac-white) !important;
+}
+
+.onDarkButton:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: var(--liac-white) !important;
 }
 
 .eventSlide {

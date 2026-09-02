@@ -128,7 +128,7 @@ export function EventForm() {
       }
       setInitialForm(form)
       bypassUnsavedGuard()
-      navigate('/portal-liac/eventos')
+      navigate('/portal-equipe/eventos')
     } catch {
       setGeneralError('Não foi possível salvar. Tente novamente.')
     } finally {
@@ -142,7 +142,7 @@ export function EventForm() {
     <EntityFormLayout
       title={isEditing ? 'Editar Evento' : 'Novo Evento'}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('/portal-liac/eventos')}
+      onCancel={() => navigate('/portal-equipe/eventos')}
       isSubmitting={isSubmitting}
       generalError={generalError}
     >

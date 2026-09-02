@@ -39,7 +39,7 @@ export function NewsManageList() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>Novidades</h1>
-        <Link to="/portal-liac/novidades/novo" className={styles.newButton}>
+        <Link to="/portal-equipe/novidades/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Nova Novidade
         </Link>
@@ -74,7 +74,7 @@ export function NewsManageList() {
           ]}
           renderActions={(item) => (
             <>
-              <Link to={`/portal-liac/novidades/${item.slug}/editar`}>Editar</Link>
+              <Link to={`/portal-equipe/novidades/${item.slug}/editar`}>Editar</Link>
               <button type="button" onClick={() => setPendingDelete(item)}>
                 Excluir
               </button>

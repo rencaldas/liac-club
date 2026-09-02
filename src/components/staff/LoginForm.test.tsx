@@ -18,11 +18,11 @@ const requestPasswordReset = vi.mocked(apiClient.requestPasswordReset)
 
 function renderPage() {
   return render(
-    <MemoryRouter initialEntries={['/portal-liac/login']}>
+    <MemoryRouter initialEntries={['/portal-equipe/login']}>
       <AuthProvider>
         <Routes>
-          <Route path="/portal-liac/login" element={<LoginForm />} />
-          <Route path="/portal-liac/novidades" element={<p>Painel de novidades</p>} />
+          <Route path="/portal-equipe/login" element={<LoginForm />} />
+          <Route path="/portal-equipe/novidades" element={<p>Painel de novidades</p>} />
         </Routes>
       </AuthProvider>
     </MemoryRouter>,

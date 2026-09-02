@@ -16,9 +16,9 @@ function renderAt(path: string) {
     <MemoryRouter initialEntries={[path]}>
       <AuthProvider>
         <Routes>
-          <Route path="/portal-liac/novidades" element={<p>Lista de novidades</p>} />
+          <Route path="/portal-equipe/novidades" element={<p>Lista de novidades</p>} />
           <Route element={<RequireRole />}>
-            <Route path="/portal-liac/historico" element={<p>Histórico</p>} />
+            <Route path="/portal-equipe/historico" element={<p>Histórico</p>} />
           </Route>
         </Routes>
       </AuthProvider>
@@ -33,31 +33,31 @@ describe('RequireRole', () => {
 
   it('redirects a non-audit role (coordenador) away from the protected route', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionWith('coordenador')))
-    renderAt('/portal-liac/historico')
+    renderAt('/portal-equipe/historico')
     expect(screen.getByText('Lista de novidades')).toBeInTheDocument()
     expect(screen.queryByText('Histórico')).not.toBeInTheDocument()
   })
 
   it('redirects diretor_eventos (the other non-audit role) away too', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionWith('diretor_eventos')))
-    renderAt('/portal-liac/historico')
+    renderAt('/portal-equipe/historico')
     expect(screen.getByText('Lista de novidades')).toBeInTheDocument()
   })
 
   it('renders the protected route for an audit role (diretor_marketing)', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionWith('diretor_marketing')))
-    renderAt('/portal-liac/historico')
+    renderAt('/portal-equipe/historico')
     expect(screen.getByText('Histórico')).toBeInTheDocument()
   })
 
   it('renders it for the other 2 audit roles too (presidente, vice_presidente)', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionWith('presidente')))
-    const { unmount } = renderAt('/portal-liac/historico')
+    const { unmount } = renderAt('/portal-equipe/historico')
     expect(screen.getByText('Histórico')).toBeInTheDocument()
     unmount()
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionWith('vice_presidente')))
-    renderAt('/portal-liac/historico')
+    renderAt('/portal-equipe/historico')
     expect(screen.getByText('Histórico')).toBeInTheDocument()
   })
 })

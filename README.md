@@ -2,7 +2,7 @@
 
 Hub de portfólio digital da LIAC (Liga Acadêmica de Cosmetologia da UFRJ) — divulgação de
 novidades, eventos e artigos científicos, além de apresentar equipe, projetos de pesquisa e
-parceiros. Inclui uma área de equipe protegida (`/portal-liac`) com login por cargo, gestão de
+parceiros. Inclui uma área de equipe protegida (`/portal-equipe`) com login por cargo, gestão de
 Novidades/Eventos/Artigos, convite de colaboradores por e-mail e histórico de auditoria.
 
 **Este repositório continua 100% frontend** (Constitution Princípio I): nenhum código de
@@ -10,7 +10,7 @@ servidor, nenhuma lógica de autenticação real e nenhum acesso a banco de dado
 passa pela abstração `ApiClient`. A implementação injetada é `RestApiClient`, que fala HTTP com o
 backend real (repositório separado, [`liac-backend`](../liac-backend), rodando como Supabase Edge
 Functions) — não há mais fixtures locais nem dados fictícios de seed; todo conteúdo é criado de
-verdade pela equipe via `/portal-liac`. Veja `.specify/memory/constitution.md` para os princípios
+verdade pela equipe via `/portal-equipe`. Veja `.specify/memory/constitution.md` para os princípios
 completos e `specs/002-liac-staff-area/` para o spec da área de equipe.
 
 ## Setup
@@ -37,9 +37,9 @@ npm run test:watch  # roda a suíte em modo watch
 npm run lint         # ESLint
 ```
 
-## Área da Equipe (`/portal-liac`)
+## Área da Equipe (`/portal-equipe`)
 
-Login em `/portal-liac/login`, não linkado em nenhum menu público. Acesso é só por convite (ver
+Login em `/portal-equipe/login`, não linkado em nenhum menu público. Acesso é só por convite (ver
 `liac-backend/README.md` para como provisionar a primeira conta).
 
 6 cargos nomeados (Diretor de Marketing, Presidente, Vice-Presidente, Coordenador, Diretor de
@@ -63,7 +63,7 @@ excluir Parceiros, Projetos, Edições do Simpósio e Depoimentos — via `/parc
 ```text
 src/
 ├── main.tsx / App.tsx        # bootstrap da aplicação (App.tsx envolve tudo em AuthProvider)
-├── router.tsx                  # rotas públicas + subárvore protegida /portal-liac/*
+├── router.tsx                  # rotas públicas + subárvore protegida /portal-equipe/*
 ├── styles/tokens.css           # paleta de cores e tipografia da marca LIAC (fonte da verdade)
 ├── types/entities.ts           # tipos das entidades de domínio + StaffCredentials/AuthSession
 ├── auth/                        # AuthContext, roles.ts (cargos/ROLE_LABELS), RequireAuth/RequireRole (guards)
@@ -101,7 +101,7 @@ um diretório `tests/` separado.
 
 Não há mais fixtures locais nem dados de seed fictícios em nenhuma entidade — todo o conteúdo
 (Novidades, Eventos, Artigos, Projetos, Edições do Simpósio, Depoimentos, Parceiros) é criado de
-verdade pela equipe via `/portal-liac`, persistido no backend real (`liac-backend`), e não há mais
+verdade pela equipe via `/portal-equipe`, persistido no backend real (`liac-backend`), e não há mais
 contas de demonstração seedadas (ver `liac-backend/README.md` para como provisionar acesso).
 
 ## Débito técnico conhecido
@@ -120,6 +120,27 @@ contas de demonstração seedadas (ver `liac-backend/README.md` para como provis
 - **Redirect URL do convite** precisa ser adicionada manualmente no Supabase Dashboard
   (Authentication → URL Configuration) antes do fluxo de convite funcionar de ponta a ponta — ver
   `liac-backend/README.md`.
+
+## Egress do Supabase (Functions / Postgres)
+
+O `RestApiClient` mantém um **cache de leitura** para não refazer as mesmas requisições às Edge
+Functions a cada montagem de página — sem ele a Home dispara ~6 listagens por visita, o `Footer`
+(presente em toda rota) mais 3, e navegar/voltar paga tudo de novo. GETs não autenticados são
+servidos de um cache em memória espelhado em `sessionStorage` (TTL de 5 min, configurável em
+`services/client.ts`), com deduplicação de requisições simultâneas; **qualquer escrita**
+(`POST`/`PUT`/`DELETE`) limpa o cache, então o portal nunca mostra lista desatualizada após uma
+edição. GETs de bare (sem corpo) também não mandam mais `Content-Type: application/json`, o que
+evitava um preflight `OPTIONS` (invocação extra de Function) por chamada.
+
+Projeção enxuta nas listagens: `getNews` / `getEvents` / `getSymposiumEditions` mandam
+`?fields=card`, então o backend devolve os itens sem o corpo pesado (`content` some, as
+`description` vêm truncadas em ~300 chars). Toda tela de listagem/carrossel só renderiza os
+campos de card; o detalhe (`get*BySlug`) continua trazendo o item inteiro. Ver
+`specs/contracts/api-contract.md` e `liac-backend`.
+
+O `Footer` (presente em toda rota) usa `GET /stats`, que devolve `{ members, pastEvents, articles }`
+como números puros (contagens com `head: true`, zero linhas) — antes ele baixava `GET /team`
+inteiro só para `team.length`.
 
 ## Deploy
 
@@ -140,7 +161,7 @@ No Vercel especificamente:
    produção (a chamada à Storage do Supabase vai sem `apikey`).
 3. `vercel.json` na raiz já faz o rewrite de toda rota pra `/index.html`, necessário porque o
    roteamento (`createBrowserRouter`) é 100% client-side — sem isso, recarregar a página em
-   qualquer rota que não seja `/` (ex: `/portal-liac/login`) dá 404.
+   qualquer rota que não seja `/` (ex: `/portal-equipe/login`) dá 404.
 4. Depois do primeiro deploy, adicione a URL de produção do Vercel (`https://.../definir-senha`)
    em Authentication → URL Configuration → Redirect URLs no Supabase Dashboard do `liac-backend` —
    sem isso os fluxos de convite e "esqueci minha senha" quebram em produção (mesma configuração

@@ -41,7 +41,7 @@ export function ProjectsManageList() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1>Projetos</h1>
-        <Link to="/portal-liac/projetos/novo" className={styles.newButton}>
+        <Link to="/portal-equipe/projetos/novo" className={styles.newButton}>
           <PlusIcon width={16} height={16} />
           Novo Projeto
         </Link>
@@ -64,7 +64,7 @@ export function ProjectsManageList() {
           ]}
           renderActions={(item) => (
             <>
-              <Link to={`/portal-liac/projetos/${item.id}/editar`}>Editar</Link>
+              <Link to={`/portal-equipe/projetos/${item.id}/editar`}>Editar</Link>
               <button type="button" onClick={() => setPendingDelete(item)}>
                 Excluir
               </button>

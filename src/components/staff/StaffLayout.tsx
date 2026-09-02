@@ -29,18 +29,18 @@ interface NavItem {
 }
 
 const CONTENT_NAV_ITEMS: NavItem[] = [
-  { to: '/portal-liac/novidades', label: 'Novidades', icon: NewsIcon, access: () => true },
-  { to: '/portal-liac/eventos', label: 'Eventos', icon: EventIcon, access: () => true },
-  { to: '/portal-liac/artigos', label: 'Artigos', icon: ArticleIcon, access: () => true },
-  { to: '/portal-liac/edicoes-anteriores', label: 'Edições Anteriores', icon: SymposiumIcon, access: () => true },
-  { to: '/portal-liac/projetos', label: 'Projetos', icon: ProjectIcon, access: () => true },
-  { to: '/portal-liac/depoimentos', label: 'Depoimentos', icon: TestimonialIcon, access: () => true },
+  { to: '/portal-equipe/novidades', label: 'Novidades', icon: NewsIcon, access: () => true },
+  { to: '/portal-equipe/eventos', label: 'Eventos', icon: EventIcon, access: () => true },
+  { to: '/portal-equipe/artigos', label: 'Artigos', icon: ArticleIcon, access: () => true },
+  { to: '/portal-equipe/edicoes-anteriores', label: 'Edições Anteriores', icon: SymposiumIcon, access: () => true },
+  { to: '/portal-equipe/projetos', label: 'Projetos', icon: ProjectIcon, access: () => true },
+  { to: '/portal-equipe/depoimentos', label: 'Depoimentos', icon: TestimonialIcon, access: () => true },
 ]
 
 const MANAGEMENT_NAV_ITEMS: NavItem[] = [
-  { to: '/portal-liac/equipe', label: 'Equipe', icon: TeamIcon, access: hasAuditAccess },
-  { to: '/portal-liac/parceiros', label: 'Parceiros', icon: PartnerIcon, access: hasPartnerManagementAccess },
-  { to: '/portal-liac/historico', label: 'Histórico', icon: HistoryIcon, access: hasAuditAccess },
+  { to: '/portal-equipe/equipe', label: 'Equipe', icon: TeamIcon, access: hasAuditAccess },
+  { to: '/portal-equipe/parceiros', label: 'Parceiros', icon: PartnerIcon, access: hasPartnerManagementAccess },
+  { to: '/portal-equipe/historico', label: 'Histórico', icon: HistoryIcon, access: hasAuditAccess },
 ]
 
 function linkClassName({ isActive }: { isActive: boolean }) {
@@ -64,7 +64,7 @@ export function StaffLayout() {
 
   async function handleLogout() {
     await logout()
-    navigate('/portal-liac/login', { replace: true })
+    navigate('/portal-equipe/login', { replace: true })
   }
 
   function renderNavList(items: NavItem[]) {
@@ -98,7 +98,7 @@ export function StaffLayout() {
 
       <aside className={`${styles.sidebar} ${isMobileOpen ? styles.sidebarOpen : ''}`}>
         <div className={styles.sidebarHead}>
-          <NavLink to="/portal-liac/novidades" className={styles.brand}>
+          <NavLink to="/portal-equipe/novidades" className={styles.brand}>
             <img src={liacLogo} alt="LIAC" />
             <span className={styles.brandText}>Portal da Equipe</span>
           </NavLink>
@@ -152,7 +152,7 @@ export function StaffLayout() {
 
           <div className={styles.userCard}>
             <NavLink
-              to="/portal-liac/perfil"
+              to="/portal-equipe/perfil"
               className={styles.avatar}
               title="Editar perfil"
               aria-label="Editar perfil"

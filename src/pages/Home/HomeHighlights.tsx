@@ -56,11 +56,11 @@ function EventHighlights() {
   const { status, data } = useAsyncResource(fetchEvents, [])
 
   return (
-    <section className={`${styles.section} ${styles.altBg}`}>
+    <section className={`${styles.section} ${styles.heroBg}`}>
       <div className="liac-container">
         <Reveal variant="fade-up" className={styles.sectionHeader}>
           <h2>Próximos eventos</h2>
-          <Button to="/eventos" variant="secondary">
+          <Button to="/eventos" variant="secondary" className={styles.onDarkButton}>
             Ver todos
           </Button>
         </Reveal>

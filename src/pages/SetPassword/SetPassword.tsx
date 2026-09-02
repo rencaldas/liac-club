@@ -39,7 +39,7 @@ export function SetPassword() {
     try {
       const session = await apiClient.setPassword(token, password)
       setSession(session)
-      navigate('/portal-liac/novidades', { replace: true })
+      navigate('/portal-equipe/novidades', { replace: true })
     } catch {
       setError('Não foi possível definir a senha. O link pode ter expirado — peça um novo convite.')
     } finally {

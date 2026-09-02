@@ -13,9 +13,9 @@ function renderAt(path: string) {
     <MemoryRouter initialEntries={[path]}>
       <AuthProvider>
         <Routes>
-          <Route path="/portal-liac/login" element={<p>Tela de login</p>} />
+          <Route path="/portal-equipe/login" element={<p>Tela de login</p>} />
           <Route element={<RequireAuth />}>
-            <Route path="/portal-liac/novidades" element={<p>Área protegida</p>} />
+            <Route path="/portal-equipe/novidades" element={<p>Área protegida</p>} />
           </Route>
         </Routes>
       </AuthProvider>
@@ -29,14 +29,14 @@ describe('RequireAuth', () => {
   })
 
   it('redirects to the login route when there is no session', () => {
-    renderAt('/portal-liac/novidades')
+    renderAt('/portal-equipe/novidades')
     expect(screen.getByText('Tela de login')).toBeInTheDocument()
     expect(screen.queryByText('Área protegida')).not.toBeInTheDocument()
   })
 
   it('renders the protected route when a valid session exists', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(SESSION))
-    renderAt('/portal-liac/novidades')
+    renderAt('/portal-equipe/novidades')
     expect(screen.getByText('Área protegida')).toBeInTheDocument()
   })
 })

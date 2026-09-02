@@ -15,6 +15,12 @@ deve continuar respeitando este mesmo contrato.
 - Formato: JSON (`Content-Type: application/json`)
 - Paginação: query params `?page=<n>&pageSize=<n>` (padrão `page=1`, `pageSize=12`); resposta de
   listagem sempre no formato `{ items: T[], page: number, pageSize: number, total: number }`
+- Projeção enxuta: `?fields=card` nas listagens de **Novidades**, **Eventos** e **Edições do
+  Simpósio** devolve os itens sem o corpo pesado — `NewsItem.content` vem como `""` e
+  `Event.description` / `SymposiumEdition.description` vêm truncados (~300 chars). Usado por
+  toda tela de listagem/carrossel (que só renderiza os campos de card); o detalhe
+  (`GET /.../:slug`) sempre devolve o item completo. Parâmetro opcional e retrocompatível —
+  omiti-lo devolve o payload completo de sempre.
 - Erros: `{ error: { code: string, message: string } }` com status HTTP apropriado
   (`404` para item não encontrado, `422` para validação, `500` para erro inesperado)
 - Datas: ISO 8601 (`YYYY-MM-DD`)
@@ -41,7 +47,7 @@ token pertença a um usuário com `role: "director"`; resposta `403` caso contr�
 
 | Método | Rota | Descrição | Query params / Body |
 |--------|------|-----------|-----------------------|
-| GET | `/news` | Lista novidades, mais recente primeiro (ou por `featured` — ver nota) | `page`, `pageSize` |
+| GET | `/news` | Lista novidades, mais recente primeiro (ou por `featured` — ver nota) | `page`, `pageSize`, `fields=card` |
 | GET | `/news/:slug` | Detalhe de uma novidade | — |
 | POST | `/news` **[autenticado]** | Cria uma novidade | Body: `NewsItem` sem `slug` (gerado/validado pelo backend) |
 | PUT | `/news/:slug` **[autenticado]** | Edita uma novidade (inclui `featured`) | Body: `Partial<NewsItem>` |
@@ -58,7 +64,7 @@ contrato de listagem — não é um endpoint separado).
 
 | Método | Rota | Descrição | Query params / Body |
 |--------|------|-----------|-----------------------|
-| GET | `/events` | Lista eventos | `page`, `pageSize`, `when=upcoming\|past` |
+| GET | `/events` | Lista eventos | `page`, `pageSize`, `when=upcoming\|past`, `fields=card` |
 | GET | `/events/:slug` | Detalhe de um evento | — |
 | POST | `/events` **[autenticado]** | Cria um evento | Body: `Event` sem `slug` |
 | PUT | `/events/:slug` **[autenticado]** | Edita um evento (inclui `featured`) | Body: `Partial<Event>` |
@@ -95,7 +101,7 @@ externalUrl, featured`
 
 | Método | Rota | Descrição | Query params / Body |
 |--------|------|-----------|-----------------------|
-| GET | `/symposium-editions` | Lista edições, mais recente primeiro | `page`, `pageSize` |
+| GET | `/symposium-editions` | Lista edições, mais recente primeiro | `page`, `pageSize`, `fields=card` |
 | GET | `/symposium-editions/:slug` | Detalhe de uma edição | — |
 | POST | `/symposium-editions` **[autenticado]** | Cria uma edição | Body: `SymposiumEdition` sem `slug` |
 | PUT | `/symposium-editions/:slug` **[autenticado]** | Edita uma edição (inclui `featured`) | Body: `Partial<SymposiumEdition>` |
@@ -114,6 +120,16 @@ description, coverImageUrl?, externalUrl?, featured`
 | DELETE | `/team/:id` **[autenticado]** | Exclui um membro | — |
 
 **Response item (TeamMember)**: `id, name, role, area, photoUrl?, socialLinks[]`
+
+### Estatísticas
+
+| Método | Rota | Descrição | Query params |
+|--------|------|-----------|---------------|
+| GET | `/stats` | Contadores de atividade do rodapé | — |
+
+**Response (200)**: `{ members: number, pastEvents: number, articles: number }` — números puros,
+nenhuma linha trafegada (cada contagem roda com `head: true`). Consumido pelo `Footer` do
+`liac-ufrj`, em vez de baixar `GET /team` inteiro só para `team.length`.
 
 ### Parceiros
 

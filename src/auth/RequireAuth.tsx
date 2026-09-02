@@ -6,7 +6,7 @@ export function RequireAuth() {
   const location = useLocation()
 
   if (!session) {
-    return <Navigate to="/portal-liac/login" state={{ from: location }} replace />
+    return <Navigate to="/portal-equipe/login" state={{ from: location }} replace />
   }
 
   return <Outlet />

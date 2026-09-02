@@ -14,8 +14,8 @@ const STORAGE_KEY = 'liac_staff_session'
 
 function renderLayout() {
   const router = createMemoryRouter(
-    [{ path: '/portal-liac/novidades', element: <StaffLayout />, children: [{ index: true, element: <p>conteúdo</p> }] }],
-    { initialEntries: ['/portal-liac/novidades'] },
+    [{ path: '/portal-equipe/novidades', element: <StaffLayout />, children: [{ index: true, element: <p>conteúdo</p> }] }],
+    { initialEntries: ['/portal-equipe/novidades'] },
   )
   return render(
     <AuthProvider>
@@ -34,7 +34,7 @@ describe('StaffLayout', () => {
     renderLayout()
 
     const link = screen.getByRole('link', { name: 'Editar perfil' })
-    expect(link).toHaveAttribute('href', '/portal-liac/perfil')
+    expect(link).toHaveAttribute('href', '/portal-equipe/perfil')
     expect(link).toHaveTextContent('F')
   })
 

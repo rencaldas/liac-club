@@ -1,0 +1,37 @@
+.article {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.summary {
+  line-height: 1.7;
+  margin-top: var(--liac-space-sm);
+}
+
+.members {
+  color: var(--liac-text-muted);
+  font-size: var(--liac-fs-small);
+  margin: var(--liac-space-sm) 0 0;
+}
+
+.membersLabel {
+  font-weight: 600;
+  color: var(--liac-text);
+}
+
+.date {
+  color: var(--liac-text-muted);
+  font-size: var(--liac-fs-small);
+  margin: 0.25rem 0 0;
+}
+
+.statusConcluido {
+  color: var(--liac-text-muted);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: var(--liac-space-md);
+}
