@@ -33,7 +33,9 @@ export function DataTable<T>({ items, getKey, columns, renderActions }: DataTabl
           {items.map((item) => (
             <tr key={getKey(item)}>
               {columns.map((column) => (
-                <td key={column.header}>{column.render(item)}</td>
+                <td key={column.header} data-label={column.header}>
+                  {column.render(item)}
+                </td>
               ))}
               <td className={styles.actionsCell}>
                 <div className={styles.actions}>{renderActions(item)}</div>

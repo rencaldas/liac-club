@@ -2,7 +2,7 @@ import { Button } from '../../components/ui/Button'
 import { Reveal } from '../../components/ui/Reveal'
 import { ScrollProgress } from '../../components/ui/ScrollProgress'
 import { HomeHighlights } from './HomeHighlights'
-import liacLogo from '../../../docs/brand/liac-logo-2-white.png'
+import heroIllustration from '../../../docs/brand/liac-hero-illustration.png'
 import styles from './Home.module.css'
 
 export function Home() {
@@ -35,9 +35,12 @@ export function Home() {
             </Reveal>
           </div>
 
-          <Reveal variant="fade-up" delay={120} className={styles.heroLogoReveal}>
-            <div className={styles.heroLogo}>
-              <img src={liacLogo} alt="LIAC — Liga Acadêmica de Cosmetologia UFRJ" />
+          <Reveal variant="fade-up" delay={120} className={styles.heroIllustrationReveal}>
+            <div className={styles.heroIllustration}>
+              <img
+                src={heroIllustration}
+                alt="Ilustração da LIAC: um frasco de laboratório florescendo sobre um livro aberto, cercado por estrelas e um dropper de cosmético"
+              />
             </div>
           </Reveal>
         </div>

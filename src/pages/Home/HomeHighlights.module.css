@@ -57,6 +57,16 @@
   background: var(--liac-white);
 }
 
+/* Below 640px, EventCard's "feature" variant stacks the cover image above the text
+   (see EventCard.module.css) instead of placing them side by side. Re-center the
+   carousel arrow on the image's height (aspect-ratio 1.9/1) so it doesn't drift down
+   over the title once the text grows the slide taller than the image. */
+@media (max-width: 640px) {
+  .heroBg {
+    --liac-carousel-arrow-top: calc((100vw - 3.25rem) / 3.8);
+  }
+}
+
 .onDarkButton {
   background: transparent;
   color: var(--liac-white) !important;
@@ -68,8 +78,11 @@
   color: var(--liac-white) !important;
 }
 
+/* calc() subtracts the .liac-container padding (2 * 1.5rem) plus the carousel
+   viewport's own padding (2 * 0.125rem) so the card never overflows the visible
+   area — a plain vw value clips the right rounded corner on narrow screens. */
 .eventSlide {
-  width: min(1000px, 92vw);
+  width: min(1000px, calc(100vw - 3.25rem));
 }
 
 @media (prefers-reduced-motion: reduce) {

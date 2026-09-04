@@ -434,12 +434,8 @@ export class RestApiClient implements ApiClient {
     )
   }
 
-  // The backend only exposes `GET /projects/:id` behind staff auth, so the public detail page
-  // reads the (cached, full-text) listing and picks the project out of it — same approach the
-  // staff ProjectForm already uses to load one project for editing.
   async getProjectById(id: string): Promise<ResearchProject | null> {
-    const { items } = await this.getProjects({ pageSize: 100 })
-    return items.find((project) => project.id === id) ?? null
+    return this.getBySlugOrNull(`/projects/${id}`)
   }
 
   async createProject(payload: Omit<ResearchProject, 'id'>, token: string): Promise<ResearchProject> {
