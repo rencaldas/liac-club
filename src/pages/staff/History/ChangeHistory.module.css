@@ -1,10 +1,12 @@
 .filterForm {
   display: flex;
+  flex-wrap: wrap;
   align-items: end;
   gap: var(--liac-space-sm);
 }
 
 .filterForm label {
+  flex-basis: 100%;
   font-weight: 600;
   font-size: var(--liac-fs-small);
   display: block;
@@ -12,15 +14,17 @@
 }
 
 .filterForm input {
+  flex: 1 1 16rem;
+  min-width: 0;
   font-family: var(--liac-font-body);
   font-size: var(--liac-fs-body);
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--liac-border);
   border-radius: var(--liac-radius);
-  min-width: 16rem;
 }
 
 .filterForm button {
+  flex-shrink: 0;
   background: var(--liac-primary);
   color: var(--liac-white);
   border: none;
@@ -28,6 +32,16 @@
   padding: 0.6rem 1.25rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .filterForm input {
+    flex-basis: 100%;
+  }
+
+  .filterForm button {
+    flex: 1;
+  }
 }
 
 .filterForm button:hover {

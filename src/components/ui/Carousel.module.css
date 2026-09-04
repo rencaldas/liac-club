@@ -42,7 +42,10 @@
 
 .arrow {
   position: absolute;
-  top: 50%;
+  /* Defaults to vertical center of the whole slide; carousels whose cards stack an
+     image above text (e.g. the mobile event carousel) override this so the arrow
+     stays over the image instead of floating across the title below it. */
+  top: var(--liac-carousel-arrow-top, 50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;

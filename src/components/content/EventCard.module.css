@@ -27,11 +27,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
-}
-
-.clickable:hover .cover img {
-  transform: scale(1.05);
 }
 
 /* Feature variant: large, horizontal layout for the home carousel — 70% image, 30% text. */
@@ -55,11 +50,6 @@
   display: block;
   position: absolute;
   inset: 0;
-  transition: transform 0.4s ease;
-}
-
-.clickable:hover .featureCover img {
-  transform: scale(1.05);
 }
 
 .body {

@@ -84,20 +84,33 @@
   flex-wrap: wrap;
 }
 
-.heroLogoReveal {
+.heroIllustrationReveal {
   flex-shrink: 0;
 }
 
-.heroLogo {
+.heroIllustration {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Sits directly on the brand gradient — the artwork's white/pale-pink fills are drawn to
+     read against that saturated background, not boxed on a white card. */
+  animation: heroIllustrationFloat 6s ease-in-out infinite alternate;
 }
 
-.heroLogo img {
+.heroIllustration img {
   display: block;
-  width: 20rem;
+  width: clamp(16rem, 28vw, 30rem);
   height: auto;
+}
+
+@keyframes heroIllustrationFloat {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, -0.6rem, 0);
+  }
 }
 
 @media (max-width: 767px) {
@@ -106,13 +119,18 @@
     align-items: flex-start;
   }
 
-  .heroLogoReveal {
+  .heroIllustrationReveal {
     align-self: center;
+  }
+
+  .heroIllustration img {
+    width: clamp(14rem, 60vw, 20rem);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero::before {
+  .hero::before,
+  .heroIllustration {
     animation: none;
   }
 }

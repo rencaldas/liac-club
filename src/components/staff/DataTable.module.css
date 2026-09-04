@@ -84,3 +84,71 @@
   background: var(--liac-bg-alt);
   border-color: var(--liac-primary);
 }
+
+/* Below 640px a scrolling table is fiddly to operate with a thumb, so each row becomes its
+   own card instead: the header row is dropped and every cell prints its column name via
+   data-label (set in DataTable.tsx), turning the table into a stacked, label/value list. */
+@media (max-width: 640px) {
+  .wrapper {
+    overflow-x: visible;
+    border: none;
+    background: none;
+    box-shadow: none;
+  }
+
+  .table,
+  .table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    display: block;
+    margin-bottom: var(--liac-space-sm);
+    border: 1px solid var(--liac-border);
+    border-radius: var(--liac-radius-lg);
+    background: var(--liac-white);
+    box-shadow: var(--liac-shadow);
+    padding: 0.25rem var(--liac-space-sm);
+  }
+
+  .table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .table td {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--liac-border);
+    text-align: left;
+  }
+
+  .table tr td:last-child {
+    border-bottom: none;
+  }
+
+  .table td[data-label]::before {
+    content: attr(data-label);
+    color: var(--liac-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: var(--liac-fs-eyebrow);
+  }
+
+  .actionsCell {
+    padding-top: var(--liac-space-sm);
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}
