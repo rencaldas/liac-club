@@ -11,7 +11,7 @@ passa pela abstração `ApiClient`. A implementação injetada é `RestApiClient
 backend real (repositório separado, [`liac-backend`](../liac-backend), rodando como Supabase Edge
 Functions) — não há mais fixtures locais nem dados fictícios de seed; todo conteúdo é criado de
 verdade pela equipe via `/portal-equipe`. Veja `.specify/memory/constitution.md` para os princípios
-completos e `specs/002-liac-staff-area/` para o spec da área de equipe.
+completos e `specs/002-liac-staff-area/` para o spec da área de equipe. 
 
 ## Setup
 
